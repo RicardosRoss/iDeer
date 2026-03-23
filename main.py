@@ -33,6 +33,14 @@ def main():
     parser.add_argument("--save", action="store_true", help="Save results to history")
     parser.add_argument("--save_dir", type=str, default="./history", help="History save directory")
 
+    # Idea generation config
+    parser.add_argument("--generate_ideas", action="store_true", help="Generate research ideas from recommendations")
+    parser.add_argument("--researcher_profile", type=str, default="researcher_profile.md",
+                        help="Path to researcher profile for idea generation")
+    parser.add_argument("--idea_min_score", type=float, default=7, help="Min score for idea generation input")
+    parser.add_argument("--idea_max_items", type=int, default=15, help="Max items to feed into idea generator")
+    parser.add_argument("--idea_count", type=int, default=5, help="Number of ideas to generate")
+
     # Register each source's specific arguments
     for source_name, source_cls in SOURCE_REGISTRY.items():
         source_cls.add_arguments(parser)
@@ -43,6 +51,10 @@ def main():
     if args.provider.lower() != "ollama":
         assert args.base_url is not None, "base_url is required for OpenAI/SiliconFlow"
         assert args.api_key is not None, "api_key is required for OpenAI/SiliconFlow"
+    if args.generate_ideas and not args.save:
+        raise ValueError("--generate_ideas requires --save so ideas.json is available for /idea-from-daily")
+    if args.generate_ideas and not os.path.exists(args.researcher_profile):
+        raise FileNotFoundError(f"Researcher profile not found: {args.researcher_profile}")
 
     # Load description
     with open(args.description, "r", encoding="utf-8") as f:
@@ -85,7 +97,8 @@ def main():
         print(f"LLM test failed: {e}")
         raise RuntimeError("LLM not available, aborting.")
 
-    # Run each source
+    # Run each source: collect recommendations, then send emails
+    all_recs = {}
     for source_name in args.sources:
         print(f"\n{'='*60}")
         print(f"Running source: {source_name}")
@@ -95,7 +108,31 @@ def main():
         source_args = source_cls.extract_args(args)
 
         source = source_cls(source_args, llm_config, common_config)
-        source.send_email(email_config)
+        recs = source.send_email(email_config)
+        all_recs[source_name] = recs or []
+
+    # Generate research ideas if requested
+    if args.generate_ideas:
+        print(f"\n{'='*60}")
+        print("Generating research ideas...")
+        print(f"{'='*60}")
+
+        from idea_generator import IdeaGenerator
+        generator = IdeaGenerator(
+            all_recs=all_recs,
+            profile_path=args.researcher_profile,
+            llm_config=llm_config,
+            common_config=common_config,
+            min_score=args.idea_min_score,
+            max_items=args.idea_max_items,
+            idea_count=args.idea_count,
+        )
+        ideas = generator.generate()
+        if ideas:
+            generator.save(ideas)
+            generator.send_email(ideas, email_config)
+        else:
+            print("No ideas generated.")
 
     print(f"\nAll sources completed: {args.sources}")
 

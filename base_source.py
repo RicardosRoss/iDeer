@@ -175,9 +175,23 @@ class BaseSource(ABC):
                 f.write(f"- **Summary:** {r.get('summary', 'N/A')}\n")
                 f.write(f"- **URL:** {r.get('url', '')}\n\n")
 
+    def _parse_interest_fields(self) -> list[str]:
+        """Parse interest field names from description text."""
+        fields = []
+        for line in self.description.splitlines():
+            line = line.strip()
+            # Match lines like "1. Agent - ..." or "2. Safety"
+            if line and line[0].isdigit() and '. ' in line:
+                field = line.split('. ', 1)[1].split(' - ')[0].strip()
+                if field:
+                    fields.append(field)
+            if line.lower().startswith("i'm not interested") or line.lower().startswith("i am not interested"):
+                break
+        return fields
+
     def summarize(self, recommendations: list[dict]) -> str:
         overview = self.build_summary_overview(recommendations)
-        template = self.get_summary_prompt_template()
+        fields = self._parse_interest_fields()
 
         prompt_context = """
             你是一个有帮助的助手，帮助我追踪热门内容。
@@ -188,6 +202,44 @@ class BaseSource(ABC):
             以下是今天的热门内容摘要：
             {}
         """.format(overview)
+
+        if fields and len(fields) >= 2:
+            fields_sections = "\n".join([
+                f"""              <div class="summary-section">
+                <h2>{f} 方向</h2>
+                <ol class="summary-list">
+                  <li class="summary-item">
+                    <div class="summary-item__header"><span class="summary-item__title">标题/名称</span><span class="summary-pill">类型</span></div>
+                    <p class="summary-item__stats">⭐ XXX stars (+YYY today) 或 👍 ZZ upvotes 或 ❤️ NN likes</p>
+                    <p><strong>推荐理由：</strong>...</p>
+                    <p><strong>关键亮点：</strong>...</p>
+                  </li>
+                </ol>
+                <p><em>如果今天没有与此方向相关的内容，请写"今日暂无相关内容"。</em></p>
+              </div>""" for f in fields
+            ])
+            template = f"""
+            请直接输出一段 HTML 片段，严格遵循以下结构，不要包含 JSON、Markdown 或多余说明。
+            重要：请按我的 {len(fields)} 个兴趣方向（{', '.join(fields)}）分别总结，每个方向一个独立的 section，
+            列出该方向下最相关的 2-4 项内容。
+
+            <div class="summary-wrapper">
+              <div class="summary-section">
+                <h2>今日总览</h2>
+                <p>简要概括今天各方向的整体动态（2-3句话）...</p>
+              </div>
+{fields_sections}
+              <div class="summary-section">
+                <h2>补充观察</h2>
+                <p>跨方向的共同趋势或其他值得关注的内容...</p>
+              </div>
+            </div>
+
+            用中文撰写内容。每个方向 section 中的推荐项请包含推荐理由和关键亮点。
+            重要：每个推荐项必须包含真实的互动数据（如 GitHub 项目的 stars/today stars、论文的 upvotes、模型的 likes/downloads、推文的点赞/转发），从上面的摘要中提取，放在 <p class="summary-item__stats"> 标签中。禁止省略此数据行。
+            """
+        else:
+            template = self.get_summary_prompt_template()
 
         prompt = prompt_context + content_context + template
 
@@ -247,10 +299,11 @@ class BaseSource(ABC):
 
         return email_html
 
-    def send_email(self, email_config: EmailConfig, title: str | None = None):
-        title = title or self.default_title
-        recommendations = self.get_recommendations()
-        html = self.render_email(recommendations)
+    @staticmethod
+    def _send_email_html(html: str, email_config: EmailConfig, title: str, run_datetime=None):
+        """Send an HTML email. Decoupled from recommendation fetching for reuse."""
+        if run_datetime is None:
+            run_datetime = datetime.now(timezone.utc)
 
         def _format_addr(s):
             name, addr = parseaddr(s)
@@ -262,17 +315,29 @@ class BaseSource(ABC):
         receivers = [addr.strip() for addr in email_config.receiver.split(",")]
         msg["To"] = ",".join([_format_addr(f"You <{addr}>") for addr in receivers])
 
-        today = self.run_datetime.strftime("%Y/%m/%d")
+        today = run_datetime.strftime("%Y/%m/%d")
         msg["Subject"] = Header(f"{title} {today}", "utf-8").encode()
 
         try:
-            server = smtplib.SMTP(email_config.smtp_server, email_config.smtp_port)
-            server.starttls()
+            if email_config.smtp_port == 465:
+                server = smtplib.SMTP_SSL(email_config.smtp_server, email_config.smtp_port, timeout=20)
+            else:
+                server = smtplib.SMTP(email_config.smtp_server, email_config.smtp_port, timeout=20)
+                server.ehlo()
+                server.starttls()
+                server.ehlo()
         except Exception as e:
-            print(f"TLS failed: {e}, trying SSL...")
-            server = smtplib.SMTP_SSL(email_config.smtp_server, email_config.smtp_port)
+            print(f"Primary SMTP mode failed: {e}, trying SSL fallback...")
+            server = smtplib.SMTP_SSL(email_config.smtp_server, email_config.smtp_port, timeout=20)
 
         server.login(email_config.sender, email_config.sender_password)
         server.sendmail(email_config.sender, receivers, msg.as_string())
         server.quit()
-        print(f"[{self.name}] Email sent to {receivers}")
+        print(f"Email '{title}' sent to {receivers}")
+
+    def send_email(self, email_config: EmailConfig, title: str | None = None):
+        title = title or self.default_title
+        recommendations = self.get_recommendations()
+        html = self.render_email(recommendations)
+        self._send_email_html(html, email_config, title, self.run_datetime)
+        return recommendations

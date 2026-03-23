@@ -14,5 +14,7 @@ cd /var/www/daily-recommender
     --temperature 0.5 \
     --description description.txt \
     --save \
+    --generate_ideas \
+    --researcher_profile researcher_profile.md \
     --gh_languages all --gh_since daily --gh_max_repos 30 \
     --hf_content_type papers models --hf_max_papers 30 --hf_max_models 15
