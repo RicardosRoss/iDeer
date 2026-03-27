@@ -103,7 +103,6 @@ Notes:
 - `BASE_URL` must point to an OpenAI-compatible endpoint
 - `MODEL_NAME` is the exact model string
 - `API_KEY` is your provider credential
-- legacy `LLM_*` variables are still accepted as fallbacks
 
 ### 2. Email
 
@@ -244,13 +243,13 @@ If you only want to verify that the standard LLM trio works:
 
 ```bash
 .venv/bin/python - <<'PY'
-from main import load_dotenv, env_first
+from main import load_dotenv, env_str
 from llm.GPT import GPT
 
 load_dotenv()
-model = env_first(("MODEL_NAME", "LLM_MODEL"))
-base_url = env_first(("BASE_URL", "LLM_BASE_URL"))
-api_key = env_first(("API_KEY", "LLM_API_KEY"))
+model = env_str("MODEL_NAME")
+base_url = env_str("BASE_URL")
+api_key = env_str("API_KEY")
 
 client = GPT(model, base_url, api_key)
 print(client.inference("Reply with exactly OK.", temperature=0))

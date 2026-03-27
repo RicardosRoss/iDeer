@@ -54,7 +54,6 @@ This command completed successfully after the environment was created and depend
 
 - Full project runs primarily use the standard LLM trio in `.env`: `MODEL_NAME`, `BASE_URL`, and `API_KEY`.
 - `PROVIDER` defaults to `openai`-compatible usage.
-- Legacy `LLM_*` variables are still accepted as fallbacks for compatibility, but they are no longer the primary path.
 - Full project runs also require SMTP settings because the current main flow sends email directly.
 - Source fetching and LLM evaluation require network access to external services.
 - The current Twitter/X integration uses RapidAPI (`twitter-api45`) rather than direct X API or Nitter.
@@ -65,4 +64,4 @@ This command completed successfully after the environment was created and depend
 
 - `main_gpt.sh` is now repo-relative and reads runtime settings from `.env` instead of embedding credentials directly.
 - `main.py` now auto-loads `.env` from the project root. Twitter/X RapidAPI credentials can be supplied there via `X_RAPIDAPI_KEY` and `X_RAPIDAPI_HOST`.
-- `main.py` now prefers `MODEL_NAME`, `BASE_URL`, `API_KEY`, `PROVIDER`, and `TEMPERATURE`; legacy `LLM_*` variables remain supported as fallbacks.
+- `main.py` uses `MODEL_NAME`, `BASE_URL`, `API_KEY`, `PROVIDER`, and `TEMPERATURE` as the canonical public configuration interface.

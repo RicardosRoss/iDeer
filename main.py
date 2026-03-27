@@ -35,14 +35,6 @@ def env_str(name: str, default: str | None = None) -> str | None:
     return value
 
 
-def env_first(names: list[str] | tuple[str, ...], default: str | None = None) -> str | None:
-    for name in names:
-        value = env_str(name)
-        if value not in (None, ""):
-            return value
-    return default
-
-
 def env_int(name: str, default: int | None = None) -> int | None:
     value = os.getenv(name)
     if value in (None, ""):
@@ -59,11 +51,11 @@ def env_float(name: str, default: float | None = None) -> float | None:
 
 def main():
     load_dotenv()
-    provider_default = env_first(("PROVIDER", "LLM_PROVIDER"), "openai")
-    model_default = env_first(("MODEL_NAME", "LLM_MODEL"))
-    base_url_default = env_first(("BASE_URL", "LLM_BASE_URL"))
-    api_key_default = env_first(("API_KEY", "LLM_API_KEY"))
-    temperature_default = env_first(("TEMPERATURE", "LLM_TEMPERATURE"))
+    provider_default = env_str("PROVIDER", "openai")
+    model_default = env_str("MODEL_NAME")
+    base_url_default = env_str("BASE_URL")
+    api_key_default = env_str("API_KEY")
+    temperature_default = env_str("TEMPERATURE")
 
     parser = argparse.ArgumentParser(description="Unified Daily Recommender")
 
@@ -77,27 +69,27 @@ def main():
     parser.add_argument(
         "--provider", type=str,
         default=provider_default,
-        help="LLM provider (default: openai; also supports PROVIDER or LLM_PROVIDER in .env)",
+        help="LLM provider (default: openai; configurable via PROVIDER in .env)",
     )
     parser.add_argument(
         "--model", type=str,
         default=model_default,
         required=model_default is None,
-        help="Model name (prefer MODEL_NAME in .env; LLM_MODEL is also supported)",
+        help="Model name (configured via MODEL_NAME in .env)",
     )
     parser.add_argument(
         "--base_url", type=str, default=base_url_default,
-        help="API base URL (prefer BASE_URL in .env; LLM_BASE_URL is also supported)",
+        help="API base URL (configured via BASE_URL in .env)",
     )
     parser.add_argument(
         "--api_key", type=str, default=api_key_default,
-        help="API key (prefer API_KEY in .env; LLM_API_KEY is also supported)",
+        help="API key (configured via API_KEY in .env)",
     )
     parser.add_argument(
         "--temperature",
         type=float,
         default=float(temperature_default) if temperature_default not in (None, "") else 0.7,
-        help="Temperature (supports TEMPERATURE or LLM_TEMPERATURE in .env)",
+        help="Temperature (configured via TEMPERATURE in .env)",
     )
 
     # Email config

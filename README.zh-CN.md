@@ -102,7 +102,6 @@ TEMPERATURE=0.5
 - `BASE_URL` 必须是 OpenAI-compatible endpoint
 - `MODEL_NAME` 直接填写模型名
 - `API_KEY` 是服务商密钥
-- 老的 `LLM_*` 变量仍兼容，但只是 fallback
 
 ### 2. Email
 
@@ -243,13 +242,13 @@ history/
 
 ```bash
 .venv/bin/python - <<'PY'
-from main import load_dotenv, env_first
+from main import load_dotenv, env_str
 from llm.GPT import GPT
 
 load_dotenv()
-model = env_first(("MODEL_NAME", "LLM_MODEL"))
-base_url = env_first(("BASE_URL", "LLM_BASE_URL"))
-api_key = env_first(("API_KEY", "LLM_API_KEY"))
+model = env_str("MODEL_NAME")
+base_url = env_str("BASE_URL")
+api_key = env_str("API_KEY")
 
 client = GPT(model, base_url, api_key)
 print(client.inference("Reply with exactly OK.", temperature=0))

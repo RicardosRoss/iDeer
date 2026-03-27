@@ -55,7 +55,7 @@ Dependencies: tqdm, loguru, requests, beautifulsoup4, openai, ollama (optional)
 
 ### Configuration
 
-`main.py` and `main_gpt.sh` will auto-load `.env` from the project root. Put `MODEL_NAME`, `BASE_URL`, `API_KEY`, `SMTP_*`, and `X_RAPIDAPI_*` there if you don't want to pass them on the CLI. Legacy `LLM_*` variables are still accepted as fallbacks for compatibility. Edit `description.txt` with your interest areas.
+`main.py` and `main_gpt.sh` will auto-load `.env` from the project root. Put `MODEL_NAME`, `BASE_URL`, `API_KEY`, `SMTP_*`, and `X_RAPIDAPI_*` there if you don't want to pass them on the CLI. Edit `description.txt` with your interest areas.
 
 ### Run
 
