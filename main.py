@@ -105,7 +105,7 @@ def main():
 
     # Common config
     parser.add_argument(
-        "--description", type=str, default=os.getenv("DESCRIPTION_FILE", "description.txt"),
+        "--description", type=str, default=os.getenv("DESCRIPTION_FILE", "profiles/description.txt"),
         help="Interest description file path"
     )
     parser.add_argument(
@@ -116,7 +116,7 @@ def main():
 
     # Idea generation config
     parser.add_argument("--generate_ideas", action="store_true", help="Generate research ideas from recommendations")
-    parser.add_argument("--researcher_profile", type=str, default="researcher_profile.md",
+    parser.add_argument("--researcher_profile", type=str, default="profiles/researcher_profile.md",
                         help="Path to researcher profile for idea generation")
     parser.add_argument("--idea_min_score", type=float, default=7, help="Min score for idea generation input")
     parser.add_argument("--idea_max_items", type=int, default=15, help="Max items to feed into idea generator")

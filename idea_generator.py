@@ -107,7 +107,7 @@ def update_profile_publications(
     scholar_url: str,
     max_items: int = 20,
 ) -> list[dict[str, Any]]:
-    """Replace the Publications section in researcher_profile.md."""
+    """Replace the Publications section in the researcher profile markdown file."""
     publications = fetch_scholar_publications(scholar_url, max_items=max_items)
     with open(profile_path, "r", encoding="utf-8") as f:
         profile_text = f.read()
@@ -473,7 +473,7 @@ def _build_cli_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--update_profile_publications",
         type=str,
-        help="Path to researcher_profile.md to update",
+        help="Path to the researcher profile markdown file to update",
     )
     parser.add_argument(
         "--scholar_url",

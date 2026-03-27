@@ -35,13 +35,15 @@ This repository is useful in two modes:
 ```text
 daily-recommender/
 ├── main.py                  # CLI entry
-├── main_gpt.sh              # Repo-local launcher script
+├── main_gpt.sh              # Backward-compatible wrapper
+├── scripts/run_daily.sh     # Primary launcher script
 ├── config.py                # Shared config dataclasses
 ├── base_source.py           # Shared source pipeline
 ├── report_generator.py      # Cross-source narrative report
 ├── idea_generator.py        # Research idea generation
-├── description.txt          # Simple interest profile
-├── researcher_profile.md    # Richer profile for reports / ideas
+├── profiles/                # Input profiles and static account lists
+├── docs/                    # Technical notes
+├── state/                   # Local runtime watchlists / discovery state
 ├── sources/                 # GitHub / HuggingFace / Twitter sources
 ├── fetchers/                # Raw data fetch clients
 ├── email_utils/             # HTML templates
@@ -78,8 +80,10 @@ TEMPERATURE=0.5
 ### 3. Run the default pipeline
 
 ```bash
-bash main_gpt.sh
+bash scripts/run_daily.sh
 ```
+
+`bash main_gpt.sh` still works as a compatibility wrapper.
 
 ## Configuration Guide
 
@@ -128,7 +132,7 @@ X currently uses RapidAPI `twitter-api45`:
 ```env
 X_RAPIDAPI_KEY=your_rapidapi_key
 X_RAPIDAPI_HOST=twitter-api45.p.rapidapi.com
-X_ACCOUNTS_FILE=x_accounts.txt
+X_ACCOUNTS_FILE=profiles/x_accounts.txt
 ```
 
 To enable profile-driven account discovery:
@@ -137,7 +141,7 @@ To enable profile-driven account discovery:
 X_DISCOVER_ACCOUNTS=1
 X_PROFILE_FILE=
 X_PROFILE_URLS=
-X_DISCOVERY_PERSIST_FILE=x_accounts.discovered.txt
+X_DISCOVERY_PERSIST_FILE=state/x_accounts.discovered.txt
 ```
 
 ### 4. Optional Defaults
@@ -145,7 +149,7 @@ X_DISCOVERY_PERSIST_FILE=x_accounts.discovered.txt
 ```env
 DAILY_SOURCES="github huggingface"
 NUM_WORKERS=8
-DESCRIPTION_FILE=description.txt
+DESCRIPTION_FILE=profiles/description.txt
 
 GH_LANGUAGES="all"
 GH_SINCE=daily
@@ -191,7 +195,7 @@ GENERATE_IDEAS=0
   --sources github huggingface twitter \
   --save \
   --generate_ideas \
-  --researcher_profile researcher_profile.md
+  --researcher_profile profiles/researcher_profile.md
 ```
 
 ## Outputs
@@ -221,19 +225,19 @@ Report directory:
 
 ## Profile Files
 
-### `description.txt`
+### `profiles/description.txt`
 
 A light interest profile used by source-level filtering and summarization.
 
-### `researcher_profile.md`
+### `profiles/researcher_profile.md`
 
 A richer profile better suited for `--generate_report` and `--generate_ideas`.
 
-### `x_accounts.txt`
+### `profiles/x_accounts.txt`
 
 Static monitoring account pool.
 
-### `x_accounts.discovered.txt`
+### `state/x_accounts.discovered.txt`
 
 Persisted discovered account pool from profile-driven discovery. It is ignored by git by default.
 

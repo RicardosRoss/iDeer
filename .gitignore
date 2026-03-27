@@ -19,10 +19,7 @@ env/
 
 # History/cache data
 history/
-x_accounts.discovered.txt
-x_accounts.discovered.txt.json
-x_accounts.discovered.core.txt
-x_accounts.discovered.extended.txt
+state/
 
 # Logs
 *.log

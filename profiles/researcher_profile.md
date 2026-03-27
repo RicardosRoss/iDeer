@@ -5,7 +5,7 @@
 - **Name**: Li Yu
 - **Primary focus**: Agent, Safety, Trustworthy AI
 - **Scholar profile**: https://scholar.google.com/citations?user=i0paeq4AAAAJ&hl=zh-TW&oi=ao
-- **Profile maintenance**: run `python idea_generator.py --update_profile_publications researcher_profile.md --scholar_url "<google-scholar-url>"`
+- **Profile maintenance**: run `python idea_generator.py --update_profile_publications profiles/researcher_profile.md --scholar_url "<google-scholar-url>"`
 
 ## Research Directions
 

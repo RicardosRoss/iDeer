@@ -53,7 +53,7 @@ class IdeaGeneratorTest(unittest.TestCase):
         )
         self.generator = IdeaGenerator(
             all_recs=self.all_recs,
-            profile_path=str(ROOT / "researcher_profile.md"),
+            profile_path=str(ROOT / "profiles" / "researcher_profile.md"),
             llm_config=self.llm_config,
             common_config=self.common_config,
             min_score=7,

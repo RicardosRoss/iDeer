@@ -34,13 +34,15 @@
 ```text
 daily-recommender/
 ├── main.py                  # CLI entry
-├── main_gpt.sh              # Repo-local launcher script
+├── main_gpt.sh              # 兼容旧命令的 wrapper
+├── scripts/run_daily.sh     # 主启动脚本
 ├── config.py                # Shared config dataclasses
 ├── base_source.py           # Shared source pipeline
 ├── report_generator.py      # Cross-source narrative report
 ├── idea_generator.py        # Research idea generation
-├── description.txt          # Simple interest profile
-├── researcher_profile.md    # Richer profile for reports / ideas
+├── profiles/                # 输入画像与静态账号池
+├── docs/                    # 技术文档
+├── state/                   # 本地运行状态与 discovery 落盘
 ├── sources/                 # GitHub / HuggingFace / Twitter sources
 ├── fetchers/                # Raw data fetch clients
 ├── email_utils/             # HTML templates
@@ -77,8 +79,10 @@ TEMPERATURE=0.5
 ### 3. 跑默认流水线
 
 ```bash
-bash main_gpt.sh
+bash scripts/run_daily.sh
 ```
+
+`bash main_gpt.sh` 仍然可用，它现在只是一个兼容层。
 
 ## Configuration Guide
 
@@ -127,7 +131,7 @@ X 当前通过 RapidAPI `twitter-api45` 获取数据：
 ```env
 X_RAPIDAPI_KEY=your_rapidapi_key
 X_RAPIDAPI_HOST=twitter-api45.p.rapidapi.com
-X_ACCOUNTS_FILE=x_accounts.txt
+X_ACCOUNTS_FILE=profiles/x_accounts.txt
 ```
 
 如果想让系统根据 profile 自动发现监控账号，还可以打开：
@@ -136,7 +140,7 @@ X_ACCOUNTS_FILE=x_accounts.txt
 X_DISCOVER_ACCOUNTS=1
 X_PROFILE_FILE=
 X_PROFILE_URLS=
-X_DISCOVERY_PERSIST_FILE=x_accounts.discovered.txt
+X_DISCOVERY_PERSIST_FILE=state/x_accounts.discovered.txt
 ```
 
 ### 4. Optional Defaults
@@ -144,7 +148,7 @@ X_DISCOVERY_PERSIST_FILE=x_accounts.discovered.txt
 ```env
 DAILY_SOURCES="github huggingface"
 NUM_WORKERS=8
-DESCRIPTION_FILE=description.txt
+DESCRIPTION_FILE=profiles/description.txt
 
 GH_LANGUAGES="all"
 GH_SINCE=daily
@@ -190,7 +194,7 @@ GENERATE_IDEAS=0
   --sources github huggingface twitter \
   --save \
   --generate_ideas \
-  --researcher_profile researcher_profile.md
+  --researcher_profile profiles/researcher_profile.md
 ```
 
 ## Outputs
@@ -220,19 +224,19 @@ history/
 
 ## Profile Files
 
-### `description.txt`
+### `profiles/description.txt`
 
 轻量兴趣描述，适合 source 级筛选和摘要。
 
-### `researcher_profile.md`
+### `profiles/researcher_profile.md`
 
 更适合 `--generate_report` 和 `--generate_ideas` 的 richer profile。
 
-### `x_accounts.txt`
+### `profiles/x_accounts.txt`
 
 静态监控账号池。
 
-### `x_accounts.discovered.txt`
+### `state/x_accounts.discovered.txt`
 
 动态发现后落盘的扩展账号池。默认已加入 `.gitignore`，不会提交。
 

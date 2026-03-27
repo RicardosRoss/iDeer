@@ -92,7 +92,7 @@ class TwitterSource(BaseSource):
         self.merge_static_accounts = source_args.get("merge_static_accounts", False)
         self.use_persisted_accounts = source_args.get("use_persisted_accounts", False)
         self.skip_discovery_if_persisted = source_args.get("skip_discovery_if_persisted", True)
-        self.discovery_persist_file = source_args.get("discovery_persist_file") or "x_accounts.discovered.txt"
+        self.discovery_persist_file = source_args.get("discovery_persist_file") or "state/x_accounts.discovered.txt"
         self.profile_file = source_args.get("profile_file")
         self.profile_urls = source_args.get("profile_urls", [])
         self.discovery_rounds = max(1, int(source_args.get("discovery_rounds", 3)))
@@ -140,7 +140,7 @@ class TwitterSource(BaseSource):
         if not self.api_key:
             raise ValueError("Twitter/X source requires --x_rapidapi_key (or --x_api_key).")
 
-        accounts_file = source_args.get("accounts_file", "x_accounts.txt")
+        accounts_file = source_args.get("accounts_file", "profiles/x_accounts.txt")
         static_accounts = load_accounts(accounts_file)
         persisted_accounts = load_accounts(self.discovery_persist_file) if os.path.exists(self.discovery_persist_file) else []
 
@@ -200,7 +200,7 @@ class TwitterSource(BaseSource):
     @staticmethod
     def add_arguments(parser: argparse.ArgumentParser):
         parser.add_argument(
-            "--x_accounts_file", type=str, default=os.getenv("X_ACCOUNTS_FILE") or "x_accounts.txt",
+            "--x_accounts_file", type=str, default=os.getenv("X_ACCOUNTS_FILE") or "profiles/x_accounts.txt",
             help="[Twitter] Path to accounts list file",
         )
         parser.add_argument(
@@ -223,7 +223,7 @@ class TwitterSource(BaseSource):
         )
         parser.add_argument(
             "--x_merge_static_accounts", action="store_true", default=_env_bool("X_MERGE_STATIC_ACCOUNTS", False),
-            help="[Twitter] Merge discovered accounts with x_accounts.txt instead of replacing it",
+            help="[Twitter] Merge discovered accounts with the static accounts file instead of replacing it",
         )
         parser.add_argument(
             "--x_use_persisted_accounts", action="store_true", default=_env_bool("X_USE_PERSISTED_ACCOUNTS", False),
@@ -246,12 +246,12 @@ class TwitterSource(BaseSource):
         parser.add_argument(
             "--x_discovery_persist_file",
             type=str,
-            default=os.getenv("X_DISCOVERY_PERSIST_FILE") or "x_accounts.discovered.txt",
+            default=os.getenv("X_DISCOVERY_PERSIST_FILE") or "state/x_accounts.discovered.txt",
             help="[Twitter] File used to persist the discovered account pool for future monitoring",
         )
         parser.add_argument(
             "--x_profile_file", type=str, default=os.getenv("X_PROFILE_FILE") or None,
-            help="[Twitter] Optional profile file used for account discovery; defaults to description.txt content",
+            help="[Twitter] Optional profile file used for account discovery; defaults to the main description file",
         )
         parser.add_argument(
             "--x_profile_urls", nargs="+", default=_env_list("X_PROFILE_URLS"),

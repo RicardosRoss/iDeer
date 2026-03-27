@@ -58,10 +58,10 @@ This command completed successfully after the environment was created and depend
 - Source fetching and LLM evaluation require network access to external services.
 - The current Twitter/X integration uses RapidAPI (`twitter-api45`) rather than direct X API or Nitter.
 - Twitter/X also supports profile-driven account discovery via `--x_discover_accounts`; discovery inputs can be configured with `X_PROFILE_FILE`, `X_PROFILE_URLS`, and `X_DISCOVERY_*` in `.env`.
-- Discovered account pools can be persisted to `x_accounts.discovered.txt` (or `X_DISCOVERY_PERSIST_FILE`) and later reused with `X_USE_PERSISTED_ACCOUNTS=1`.
+- Discovered account pools can be persisted to `state/x_accounts.discovered.txt` (or `X_DISCOVERY_PERSIST_FILE`) and later reused with `X_USE_PERSISTED_ACCOUNTS=1`.
 
 ## Notes
 
-- `main_gpt.sh` is now repo-relative and reads runtime settings from `.env` instead of embedding credentials directly.
+- `scripts/run_daily.sh` is the primary launcher and reads runtime settings from `.env`; the root `main_gpt.sh` file is a thin compatibility wrapper.
 - `main.py` now auto-loads `.env` from the project root. Twitter/X RapidAPI credentials can be supplied there via `X_RAPIDAPI_KEY` and `X_RAPIDAPI_HOST`.
 - `main.py` uses `MODEL_NAME`, `BASE_URL`, `API_KEY`, `PROVIDER`, and `TEMPERATURE` as the canonical public configuration interface.

@@ -13,10 +13,17 @@ daily-recommender/
   main.py                          # Unified CLI entry point
   config.py                        # Config dataclasses (LLMConfig, EmailConfig, CommonConfig)
   base_source.py                   # BaseSource abstract base class
-  description.txt                  # User interest description
+  main_gpt.sh                      # Compatibility wrapper
   requirements.txt
-  main_gpt.sh                      # Launch script
-  x_accounts.txt                   # X accounts to monitor
+  scripts/run_daily.sh             # Launch script
+  profiles/
+    description.txt                # User interest description
+    researcher_profile.md          # Richer profile for ideas / reports
+    x_accounts.txt                 # Static X accounts to monitor
+  docs/
+    TECHNICAL.md
+  state/
+    x_accounts.discovered.txt      # Persisted discovery watchlist
   sources/
     __init__.py                    # SOURCE_REGISTRY
     github_source.py               # GitHubSource(BaseSource)
@@ -55,12 +62,12 @@ Dependencies: tqdm, loguru, requests, beautifulsoup4, openai, ollama (optional)
 
 ### Configuration
 
-`main.py` and `main_gpt.sh` will auto-load `.env` from the project root. Put `MODEL_NAME`, `BASE_URL`, `API_KEY`, `SMTP_*`, and `X_RAPIDAPI_*` there if you don't want to pass them on the CLI. Edit `description.txt` with your interest areas.
+`main.py` and `scripts/run_daily.sh` will auto-load `.env` from the project root. Put `MODEL_NAME`, `BASE_URL`, `API_KEY`, `SMTP_*`, and `X_RAPIDAPI_*` there if you don't want to pass them on the CLI. Edit `profiles/description.txt` with your interest areas.
 
 ### Run
 
 ```bash
-bash main_gpt.sh                              # Run the sources configured in .env / script defaults
+bash scripts/run_daily.sh                     # Run the sources configured in .env / script defaults
 python main.py --sources github [args...]      # GitHub only
 python main.py --sources huggingface [args...] # HuggingFace only
 python main.py --sources twitter [args...]     # Twitter/X only
@@ -69,7 +76,7 @@ python main.py --sources twitter [args...]     # Twitter/X only
 ### Cron Job
 
 ```bash
-0 8 * * * /var/www/daily-recommender/main_gpt.sh >> /var/log/daily-recommender.log 2>&1
+0 8 * * * /var/www/daily-recommender/scripts/run_daily.sh >> /var/log/daily-recommender.log 2>&1
 ```
 
 ## 3. Plugin Architecture: BaseSource
@@ -160,9 +167,9 @@ python main.py --sources twitter [args...]     # Twitter/X only
   - Account search: `search.php?search_type=People`
   - Topic search: `search.php?search_type=Top`
   - Timeline fetch: `timeline.php?screenname=<handle>`
-- **Current integration**: This repo uses account timelines from `x_accounts.txt` and fetches recent posts via `timeline.php`
+- **Current integration**: This repo uses account timelines from `profiles/x_accounts.txt` and fetches recent posts via `timeline.php`
 - **Optional account discovery**: You can enable profile-driven account discovery before tweet fetching. The source will:
-  - read a profile from `--x_profile_file`, `--x_profile_urls`, or fall back to `description.txt`
+  - read a profile from `--x_profile_file`, `--x_profile_urls`, or fall back to `profiles/description.txt`
   - ask the LLM to propose person queries, organization queries, and topic queries
   - search X iteratively via `People` and `Top`, then run one or more coverage-expansion passes to fill missing role buckets
   - classify candidates into `include/watch/exclude`
@@ -170,7 +177,7 @@ python main.py --sources twitter [args...]     # Twitter/X only
     - `core_selected_accounts`: the smaller must-watch list
     - `extended_selected_accounts`: the broader watchlist used for richer monitoring coverage
   - save `discovered_accounts.json`, `discovered_accounts.txt`, `discovered_accounts.core.txt`, and `discovered_accounts.extended.txt` under `history/twitter/<date>/`
-  - persist the broader watchlist to `x_accounts.discovered.txt` (or a custom `--x_discovery_persist_file`) and also persist companion `*.core.txt` / `*.extended.txt` files so later runs can monitor the same pool without rediscovery
+  - persist the broader watchlist to `state/x_accounts.discovered.txt` (or a custom `--x_discovery_persist_file`) and also persist companion `*.core.txt` / `*.extended.txt` files so later runs can monitor the same pool without rediscovery
 - **Source-specific args**: `--x_accounts_file`, `--x_rapidapi_key`, `--x_rapidapi_host`, `--x_since_hours`, `--x_max_tweets_per_user`, `--x_max_tweets`
 - **Filtering**: Retweets are filtered reliably; reply filtering is best-effort because the endpoint does not provide a dedicated reply flag on every item shape
 - **Theme**: Blue (#1d9bf0)
@@ -224,7 +231,7 @@ Then users can use `--sources xxx`.
 | --sender | Sender email | - |
 | --receiver | Receiver(s), comma-sep | - |
 | --sender_password | Email auth code | - |
-| --description | Interest file | description.txt |
+| --description | Interest file | profiles/description.txt |
 | --num_workers | Parallel workers | 4 |
 | --save | Save history | False |
 
@@ -248,15 +255,15 @@ Then users can use `--sources xxx`.
 
 | Parameter | Description | Default |
 |-----------|-------------|---------|
-| --x_accounts_file | Accounts list file | x_accounts.txt |
+| --x_accounts_file | Accounts list file | profiles/x_accounts.txt |
 | --x_rapidapi_key | RapidAPI key for twitter-api45 | required for Twitter |
 | --x_rapidapi_host | RapidAPI host | twitter-api45.p.rapidapi.com |
 | --x_discover_accounts | Enable profile-driven account discovery | False |
-| --x_merge_static_accounts | Merge discovered accounts with x_accounts.txt | False |
+| --x_merge_static_accounts | Merge discovered accounts with the static accounts file | False |
 | --x_use_persisted_accounts | Reuse a persisted discovered account pool | False |
 | --x_skip_discovery_if_persisted | Skip fresh discovery when persisted pool exists | True |
-| --x_discovery_persist_file | Persisted discovered account pool file | x_accounts.discovered.txt |
-| --x_profile_file | Optional profile file for discovery | description.txt content |
+| --x_discovery_persist_file | Persisted discovered account pool file | state/x_accounts.discovered.txt |
+| --x_profile_file | Optional profile file for discovery | profiles/description.txt content |
 | --x_profile_urls | Optional homepage / Scholar URLs for discovery | None |
 | --x_discovery_rounds | Discovery rounds | 2 |
 | --x_discovery_max_candidates | Max intermediate candidates | 20 |
@@ -278,5 +285,5 @@ Then users can use `--sources xxx`.
 | Code reuse | llm/, email duplicated | Shared llm/, base_source.py, email_utils/ |
 | Running | Execute 2 scripts separately | Single command with --sources |
 | Extensibility | Copy entire project for new source | Implement BaseSource + register |
-| Config | Separate main_gpt.sh each | Unified config, source args with prefix |
+| Config | Separate launcher each | Unified config, source args with prefix |
 | Cache | Separate *_history/ dirs | Unified history/{source}/{date}/ |
