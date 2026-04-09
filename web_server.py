@@ -9,6 +9,7 @@ import asyncio
 import json
 import locale
 import mimetypes
+import os
 import re
 import sys
 import tempfile
