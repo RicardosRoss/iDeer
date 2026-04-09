@@ -104,23 +104,57 @@ def fetch_scholar_publications(
 
 def update_profile_publications(
     profile_path: str,
-    scholar_url: str,
+    scholar_url: str | list[str],
     max_items: int = 20,
 ) -> list[dict[str, Any]]:
-    """Replace the Publications section in the researcher profile markdown file."""
-    publications = fetch_scholar_publications(scholar_url, max_items=max_items)
+    """Replace the Publications section in the researcher profile markdown file.
+
+    ``scholar_url`` can be a single URL string or a list of URLs.  When
+    multiple URLs are provided, publications from all profiles are merged
+    (duplicates removed by title) and sorted by citation count.
+    """
+    urls = scholar_url if isinstance(scholar_url, list) else [scholar_url]
+    urls = [u.strip() for u in urls if u and u.strip()]
+
+    all_publications: list[dict[str, Any]] = []
+    seen_titles: set[str] = set()
+    for url in urls:
+        try:
+            pubs = fetch_scholar_publications(url, max_items=max_items)
+        except Exception as e:
+            print(f"[update_profile_publications] Failed for {url}: {e}")
+            continue
+        for pub in pubs:
+            key = pub.get("title", "").strip().lower()
+            if key and key not in seen_titles:
+                seen_titles.add(key)
+                all_publications.append(pub)
+
+    # Sort merged list by citation count descending
+    def _cite_key(p: dict) -> int:
+        try:
+            return int(p.get("citations", "0"))
+        except (TypeError, ValueError):
+            return 0
+
+    all_publications.sort(key=_cite_key, reverse=True)
+    all_publications = all_publications[:max_items]
+
     with open(profile_path, "r", encoding="utf-8") as f:
         profile_text = f.read()
 
     section_lines = [
         PUBLICATIONS_SECTION_HEADER,
         "",
-        f"- **Google Scholar**: {scholar_url}",
+    ]
+    for url in urls:
+        section_lines.append(f"- **Google Scholar**: {url}")
+    section_lines.extend([
         f"- **Last Updated**: {datetime.now(timezone.utc).strftime('%Y-%m-%d')}",
         "",
-    ]
-    if publications:
-        for publication in publications:
+    ])
+    if all_publications:
+        for publication in all_publications:
             meta = " · ".join(
                 part
                 for part in (
@@ -140,7 +174,7 @@ def update_profile_publications(
             if meta:
                 section_lines.append(f"  - {meta}")
     else:
-        section_lines.append("- No publications found from the provided Scholar profile.")
+        section_lines.append("- No publications found from the provided Scholar profile(s).")
 
     section_text = "\n".join(section_lines).strip() + "\n"
     pattern = rf"{re.escape(PUBLICATIONS_SECTION_HEADER)}.*?(?=\n## |\Z)"
@@ -151,7 +185,7 @@ def update_profile_publications(
     with open(profile_path, "w", encoding="utf-8") as f:
         f.write(updated_profile)
 
-    return publications
+    return all_publications
 
 
 class IdeaGenerator:
@@ -478,7 +512,8 @@ def _build_cli_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--scholar_url",
         type=str,
-        help="Google Scholar profile URL used to refresh the Publications section",
+        nargs="+",
+        help="Google Scholar profile URL(s) used to refresh the Publications section",
     )
     parser.add_argument(
         "--max_publications",

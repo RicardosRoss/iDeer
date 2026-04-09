@@ -192,7 +192,7 @@
           今日趋势速递
         </span>
         <p class="mt-5 font-display text-[12px] font-semibold uppercase tracking-[0.28em] text-slate-500">
-          GitHub · HuggingFace · X · arXiv
+          GitHub · HuggingFace · X · arXiv · Semantic Scholar
         </p>
         <h2 class="hero-title mt-3 max-w-xl font-display text-[2.55rem] font-extrabold leading-[1.02] text-ink md:text-[4.35rem]">
           今天什么值得看？
@@ -277,11 +277,11 @@
                   <div>
                     <div class="mb-2 flex items-center justify-between gap-3">
                       <label for="custom-scholar" class="block text-sm font-semibold text-slate-700">Google Scholar 链接</label>
-                      <span class="rounded-full bg-slate-100 px-2 py-1 text-[11px] font-semibold text-slate-500">可选</span>
+                      <span class="rounded-full bg-slate-100 px-2 py-1 text-[11px] font-semibold text-slate-500">可选 · 支持多个</span>
                     </div>
-                    <input id="custom-scholar" type="url" placeholder="https://scholar.google.com/citations?user=..."
-                           class="h-14 w-full rounded-2xl border border-slate-200 bg-white px-4 text-sm outline-none transition focus:border-sea focus:ring-4 focus:ring-emerald-100">
-                    <p class="mt-2 text-xs leading-6 text-slate-600">仅本次生效。若同时勾选 X / Twitter，会辅助一次性账号 discovery。</p>
+                    <textarea id="custom-scholar" rows="3" placeholder="https://scholar.google.com/citations?user=AAA&#10;https://scholar.google.com/citations?user=BBB"
+                              class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm leading-7 outline-none transition focus:border-sea focus:ring-4 focus:ring-emerald-100"></textarea>
+                    <p class="mt-2 text-xs leading-6 text-slate-600">一行一个链接，仅本次生效。若同时勾选 X / Twitter，会辅助一次性账号 discovery。</p>
                   </div>
 
                   <div id="custom-twitter-input-panel" class="hidden">
@@ -359,6 +359,15 @@
             </div>
             <h4 class="mt-4 text-[17px] font-bold tracking-[-0.02em] text-ink">arXiv</h4>
             <p class="mt-2 text-[15px] leading-7">按你的兴趣筛选当天值得看的论文。</p>
+          </button>
+
+          <button type="button" class="source-pill rounded-2xl border border-slate-200 bg-white px-4 py-5 text-left shadow-soft" data-source-toggle="semanticscholar" onclick="toggleSource('semanticscholar')">
+            <div class="flex items-center justify-between">
+              <span class="inline-flex h-11 w-11 items-center justify-center rounded-2xl text-xs font-extrabold tracking-[0.2em] text-white" style="background-color:#6c3ec1">SS</span>
+              <span class="rounded-full bg-slate-100 px-2 py-1 text-[11px] font-semibold text-slate-500">可选</span>
+            </div>
+            <h4 class="mt-4 text-[17px] font-bold tracking-[-0.02em] text-ink">Semantic Scholar</h4>
+            <p class="mt-2 text-[15px] leading-7">跨期刊学术论文，WoS 替代方案。</p>
           </button>
         </div>
       </section>
@@ -549,7 +558,7 @@
       const description = state.mode === 'custom'
         ? document.getElementById('custom-interest').value.trim()
         : '';
-      const scholarUrl = state.mode === 'custom'
+      const scholarUrls = state.mode === 'custom'
         ? document.getElementById('custom-scholar').value.trim()
         : '';
       const xAccountsInput = state.mode === 'custom' && state.selectedSources.has('twitter')
@@ -561,7 +570,7 @@
         save: true,
         receiver: email,
         description,
-        scholar_url: scholarUrl,
+        scholar_urls: scholarUrls,
         x_accounts_input: xAccountsInput,
         delivery_mode: state.deliveryMode
       };
@@ -582,8 +591,9 @@
         showToast('请输入接收邮箱。', 'warning');
         return;
       }
-      if (request.scholar_url && !/^https?:\/\//i.test(request.scholar_url)) {
-        showToast('Google Scholar 链接需要以 http:// 或 https:// 开头。', 'warning');
+      const scholarLines = (request.scholar_urls || '').split(/[\n,]+/).map(s => s.trim()).filter(Boolean);
+      if (scholarLines.some(u => !/^https?:\/\//i.test(u))) {
+        showToast('每个 Google Scholar 链接需要以 http:// 或 https:// 开头。', 'warning');
         return;
       }
 
@@ -675,7 +685,7 @@
       const lower = message.toLowerCase();
       let width = parseFloat(progressBar.style.width || '10');
 
-      if (lower.includes('scholar') || lower.includes('profile')) width = Math.max(width, 16);
+      if (lower.includes('scholar') || lower.includes('profile') || lower.includes('画像')) width = Math.max(width, 16);
       else if (lower.includes('running source') || lower.includes('github')) width = Math.max(width, 30);
       else if (lower.includes('huggingface')) width = Math.max(width, 45);
       else if (lower.includes('twitter')) width = Math.max(width, 58);
@@ -708,7 +718,7 @@
         groups[file.source].push(file);
       });
 
-      const groupOrder = ['reports', 'github', 'huggingface', 'twitter', 'arxiv', 'ideas'];
+      const groupOrder = ['reports', 'github', 'huggingface', 'twitter', 'arxiv', 'semanticscholar', 'ideas'];
       const sortedEntries = Object.entries(groups).sort((a, b) => {
         const ai = groupOrder.indexOf(a[0]);
         const bi = groupOrder.indexOf(b[0]);
@@ -840,6 +850,7 @@
         huggingface: 'HuggingFace',
         twitter: 'X / Twitter',
         arxiv: 'arXiv',
+        semanticscholar: 'Semantic Scholar',
         ideas: 'Research Ideas'
       };
       return map[source] || source;

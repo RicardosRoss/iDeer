@@ -12,11 +12,24 @@ if [ -f .env ]; then
 fi
 
 PYTHON_BIN="${PYTHON_BIN:-$REPO_ROOT/.venv/bin/python}"
-SOURCES=(${DAILY_SOURCES:-github huggingface})
+SOURCES=(${DAILY_SOURCES:-arxiv semanticscholar huggingface})
+ARXIV_CATEGORIES=(${ARXIV_CATEGORIES:-cs.AI cs.CL cs.LG})
 GH_LANGUAGES=(${GH_LANGUAGES:-all})
-HF_CONTENT_TYPES=(${HF_CONTENT_TYPES:-papers models})
+HF_CONTENT_TYPES=(${HF_CONTENT_TYPES:-papers})
 IDEA_ARGS=()
 REPORT_ARGS=()
+SS_QUERY_ARGS=()
+SS_FIELD_ARGS=()
+
+if [ -n "${SS_QUERIES:-}" ]; then
+  IFS='|' read -r -a SS_QUERY_VALUES <<< "${SS_QUERIES}"
+  SS_QUERY_ARGS=(--ss_queries "${SS_QUERY_VALUES[@]}")
+fi
+
+if [ -n "${SS_FIELDS_OF_STUDY:-Computer Science}" ]; then
+  IFS='|' read -r -a SS_FIELD_VALUES <<< "${SS_FIELDS_OF_STUDY:-Computer Science}"
+  SS_FIELD_ARGS=(--ss_fields_of_study "${SS_FIELD_VALUES[@]}")
+fi
 
 if [ "${GENERATE_IDEAS:-0}" = "1" ]; then
   IDEA_ARGS+=(
@@ -54,6 +67,15 @@ fi
   --num_workers "${NUM_WORKERS:-8}" \
   --temperature "${TEMPERATURE:-0.5}" \
   --save \
+  --arxiv_categories "${ARXIV_CATEGORIES[@]}" \
+  --arxiv_max_entries "${ARXIV_MAX_ENTRIES:-100}" \
+  --arxiv_max_papers "${ARXIV_MAX_PAPERS:-60}" \
+  --ss_max_results "${SS_MAX_RESULTS:-60}" \
+  --ss_max_papers "${SS_MAX_PAPERS:-30}" \
+  --ss_year "${SS_YEAR:-}" \
+  --ss_api_key "${SS_API_KEY:-}" \
+  "${SS_QUERY_ARGS[@]}" \
+  "${SS_FIELD_ARGS[@]}" \
   --gh_languages "${GH_LANGUAGES[@]}" \
   --gh_since "${GH_SINCE:-daily}" \
   --gh_max_repos "${GH_MAX_REPOS:-30}" \

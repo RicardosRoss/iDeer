@@ -76,7 +76,7 @@ python main.py --sources twitter [args...]     # Twitter/X only
 ### Cron Job
 
 ```bash
-0 8 * * * /var/www/daily-recommender/scripts/run_daily.sh >> /var/log/daily-recommender.log 2>&1
+0 13 * * * /var/www/daily-recommender/scripts/run_daily.sh >> /var/log/daily-recommender.log 2>&1
 ```
 
 ## 3. Plugin Architecture: BaseSource

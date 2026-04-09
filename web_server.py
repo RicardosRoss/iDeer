@@ -68,6 +68,16 @@ DEFAULT_CONFIG = {
     "arxiv_categories": "cs.AI",
     "arxiv_max_entries": 100,
     "arxiv_max_papers": 60,
+    "ss_max_results": 60,
+    "ss_max_papers": 30,
+    "ss_year": "",
+    "ss_api_key": "",
+    "schedule_enabled": False,
+    "schedule_frequency": "daily",
+    "schedule_time": "08:00",
+    "schedule_sources": [],
+    "schedule_generate_report": False,
+    "schedule_generate_ideas": False,
 }
 
 app = FastAPI(title="Daily Recommender API", version="1.0.0")
@@ -177,13 +187,17 @@ def load_config_data() -> dict:
             if content:
                 config.update(json.loads(content))
 
+    # File-backed values are used as fallback only when the JSON config
+    # does not already contain a non-empty value for the key.  Previously
+    # they unconditionally overwrote the JSON config, which caused the
+    # saved description to be ignored if the file still held old content.
     file_backed_values = {
         "description": _read_text_if_exists(DESCRIPTION_FILE),
         "researcher_profile": _read_text_if_exists(RESEARCHER_PROFILE_FILE),
         "x_accounts": _read_text_if_exists(TWITTER_ACCOUNTS_FILE),
     }
     for key, value in file_backed_values.items():
-        if value:
+        if value and not config.get(key):
             config[key] = value
 
     if not config.get("hf_content_types"):
@@ -377,6 +391,16 @@ class Config(BaseModel):
     arxiv_categories: str = "cs.AI"
     arxiv_max_entries: int = 100
     arxiv_max_papers: int = 60
+    ss_max_results: int = 60
+    ss_max_papers: int = 30
+    ss_year: str = ""
+    ss_api_key: str = ""
+    schedule_enabled: bool = False
+    schedule_frequency: str = "daily"
+    schedule_time: str = "08:00"
+    schedule_sources: list[str] = []
+    schedule_generate_report: bool = False
+    schedule_generate_ideas: bool = False
 
 
 class RunRequest(BaseModel):
@@ -387,7 +411,7 @@ class RunRequest(BaseModel):
     receiver: str = ""
     description: str = ""
     researcher_profile: str = ""
-    scholar_url: str = ""
+    scholar_urls: str = ""
     x_accounts_input: str = ""
     delivery_mode: Literal["source_emails", "combined_report", "both"] = "source_emails"
 
@@ -450,6 +474,10 @@ X_ACCOUNTS_FILE=profiles/x_accounts.txt
 ARXIV_CATEGORIES={config.arxiv_categories}
 ARXIV_MAX_ENTRIES={config.arxiv_max_entries}
 ARXIV_MAX_PAPERS={config.arxiv_max_papers}
+SS_MAX_RESULTS={config.ss_max_results}
+SS_MAX_PAPERS={config.ss_max_papers}
+SS_YEAR={config.ss_year}
+SS_API_KEY={config.ss_api_key}
 """
         (PROJECT_ROOT / ".env").write_text(env_content, encoding="utf-8")
 
@@ -482,7 +510,6 @@ async def run_daily_recommender(req: RunRequest):
 
     try:
         override_description = _normalize_multiline_text(req.description)
-        scholar_url = req.scholar_url.strip()
         receiver = req.receiver.strip() or str(config.get("receiver", "")).strip()
         custom_x_accounts, invalid_x_accounts = _parse_x_accounts_input(req.x_accounts_input)
 
@@ -490,7 +517,11 @@ async def run_daily_recommender(req: RunRequest):
         report_profile_path: Path | None = None
         description_path: Path | None = None
         researcher_profile_path: Path | None = None
-        profile_urls: list[str] = []
+        profile_urls: list[str] = [
+            url.strip()
+            for url in re.split(r"[\n,]+", req.scholar_urls)
+            if url.strip()
+        ]
 
         if invalid_x_accounts:
             preview = "、".join(invalid_x_accounts[:3])
@@ -498,9 +529,8 @@ async def run_daily_recommender(req: RunRequest):
                 f"以下 X 信息源无法识别：{preview}。仅支持 用户名、@用户名 或 https://x.com/username 链接。"
             )
 
-        if scholar_url:
-            profile_urls.append(scholar_url)
-            yield {"type": "log", "message": "正在读取 Google Scholar / 主页信息..."}
+        if profile_urls:
+            yield {"type": "log", "message": f"正在读取 {len(profile_urls)} 个 Google Scholar / 主页信息..."}
             profile_text, _ = await asyncio.to_thread(build_profile_text_from_urls, profile_urls)
             profile_text = _normalize_multiline_text(profile_text)
             if profile_text:
@@ -512,7 +542,7 @@ async def run_daily_recommender(req: RunRequest):
                     ]
                     if part
                 ).strip()
-                yield {"type": "log", "message": "已附加 Scholar 画像信息到本次请求。"}
+                yield {"type": "log", "message": f"已附加 {len(profile_urls)} 个 Scholar 画像信息到本次请求。"}
             else:
                 yield {"type": "log", "message": "Scholar 页面未返回可用文本，将继续使用输入兴趣。"}
 
@@ -648,6 +678,20 @@ async def run_daily_recommender(req: RunRequest):
                 "--arxiv_max_papers",
                 str(config.get("arxiv_max_papers", 60)),
             ])
+
+        if "semanticscholar" in req.sources:
+            cmd.extend([
+                "--ss_max_results",
+                str(config.get("ss_max_results", 60)),
+                "--ss_max_papers",
+                str(config.get("ss_max_papers", 30)),
+            ])
+            ss_year = config.get("ss_year", "")
+            if ss_year:
+                cmd.extend(["--ss_year", ss_year])
+            ss_api_key = config.get("ss_api_key", "")
+            if ss_api_key:
+                cmd.extend(["--ss_api_key", ss_api_key])
 
         process = await asyncio.create_subprocess_exec(
             *cmd,
@@ -840,6 +884,102 @@ def desktop_client_asset(asset_path: str):
 @app.get("/web-ui.html")
 def legacy_admin_web_ui():
     return FileResponse(ADMIN_UI_FILE)
+
+
+# ============== Scheduler ==============
+
+_scheduler_task: asyncio.Task | None = None
+_last_scheduled_run: str = ""
+
+
+def _should_run_today(frequency: str) -> bool:
+    """Check if the scheduler should run today based on frequency."""
+    now = datetime.now()
+    weekday = now.weekday()  # 0=Mon, 6=Sun
+    if frequency == "daily":
+        return True
+    if frequency == "weekdays":
+        return weekday < 5  # Mon-Fri
+    if frequency == "weekly":
+        return weekday == 0  # Monday
+    if frequency == "monthly":
+        return now.day == 1
+    return False
+
+
+async def _scheduler_loop():
+    """Background loop that checks schedule config and triggers runs."""
+    global _last_scheduled_run
+    while True:
+        try:
+            await asyncio.sleep(30)  # check every 30s
+            config = load_config_data()
+            if not config.get("schedule_enabled"):
+                continue
+
+            frequency = config.get("schedule_frequency", "daily")
+            schedule_time = config.get("schedule_time", "08:00")
+            sources = config.get("schedule_sources", [])
+            if not sources:
+                continue
+
+            now = datetime.now()
+            current_time = now.strftime("%H:%M")
+            today_key = f"{now.strftime('%Y-%m-%d')}_{schedule_time}"
+
+            if today_key == _last_scheduled_run:
+                continue
+            if current_time != schedule_time:
+                continue
+            if not _should_run_today(frequency):
+                continue
+
+            _last_scheduled_run = today_key
+            print(f"[Scheduler] Triggering scheduled run: {frequency} @ {schedule_time}, sources={sources}")
+
+            req = RunRequest(
+                sources=sources,
+                generate_report=config.get("schedule_generate_report", False),
+                generate_ideas=config.get("schedule_generate_ideas", False),
+                save=True,
+                delivery_mode="source_emails",
+            )
+            async for msg in run_daily_recommender(req):
+                if msg.get("type") == "log":
+                    print(f"[Scheduler] {msg.get('message', '')}")
+                elif msg.get("type") == "complete":
+                    status = "success" if msg.get("success") else "failed"
+                    print(f"[Scheduler] Run completed: {status}")
+                elif msg.get("type") == "error":
+                    print(f"[Scheduler] Error: {msg.get('message', '')}")
+
+        except asyncio.CancelledError:
+            break
+        except Exception as e:
+            print(f"[Scheduler] Error in scheduler loop: {e}")
+            await asyncio.sleep(60)
+
+
+@app.on_event("startup")
+async def _start_scheduler():
+    global _scheduler_task
+    _scheduler_task = asyncio.create_task(_scheduler_loop())
+    print("[Scheduler] Background scheduler started.")
+
+
+@app.get("/api/schedule/status")
+def get_schedule_status():
+    """Return current schedule config and last run info."""
+    config = load_config_data()
+    return {
+        "enabled": config.get("schedule_enabled", False),
+        "frequency": config.get("schedule_frequency", "daily"),
+        "time": config.get("schedule_time", "08:00"),
+        "sources": config.get("schedule_sources", []),
+        "generate_report": config.get("schedule_generate_report", False),
+        "generate_ideas": config.get("schedule_generate_ideas", False),
+        "last_run": _last_scheduled_run,
+    }
 
 
 # ============== Main ==============
