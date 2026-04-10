@@ -156,6 +156,83 @@ def save_ideas(ideas: list[dict], date: str | None = None,
     return out_dir
 
 
+def cache_clean(targets: list[str], before: str | None = None, dry_run: bool = False):
+    """Clear caches and/or history data.
+
+    targets: list of what to clean — all, fetch, eval, history, ideas, reports
+    before:  only delete date-dirs older than this (YYYY-MM-DD), None = delete all
+    """
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    target_set = set(targets)
+    clean_all = "all" in target_set
+
+    dirs_to_clean = []
+
+    if clean_all or "fetch" in target_set:
+        dirs_to_clean.append(("fetch cache", os.path.join(base_dir, "state", "fetch_cache")))
+    if clean_all or "eval" in target_set:
+        dirs_to_clean.append(("eval cache", os.path.join(base_dir, "state", "eval_cache")))
+    if clean_all or "history" in target_set:
+        for source in ["arxiv", "huggingface", "github", "semanticscholar", "twitter"]:
+            dirs_to_clean.append((f"history/{source}", os.path.join(base_dir, "history", source)))
+    if clean_all or "ideas" in target_set:
+        dirs_to_clean.append(("history/ideas", os.path.join(base_dir, "history", "ideas")))
+    if clean_all or "reports" in target_set:
+        dirs_to_clean.append(("history/reports", os.path.join(base_dir, "history", "reports")))
+
+    import shutil
+    total_removed = 0
+
+    for label, dir_path in dirs_to_clean:
+        if not os.path.exists(dir_path):
+            continue
+
+        if before is None:
+            # Remove entire directory
+            size = _dir_size(dir_path)
+            if dry_run:
+                print(f"[dry-run] Would delete {label} ({_fmt_size(size)}): {dir_path}")
+            else:
+                shutil.rmtree(dir_path)
+                print(f"Deleted {label} ({_fmt_size(size)})")
+            total_removed += size
+        else:
+            # Only remove date subdirs older than `before`
+            for entry in sorted(os.listdir(dir_path)):
+                entry_path = os.path.join(dir_path, entry)
+                if not os.path.isdir(entry_path):
+                    continue
+                # Compare lexicographically (works for YYYY-MM-DD)
+                if entry < before:
+                    size = _dir_size(entry_path)
+                    if dry_run:
+                        print(f"[dry-run] Would delete {label}/{entry} ({_fmt_size(size)})")
+                    else:
+                        shutil.rmtree(entry_path)
+                        print(f"Deleted {label}/{entry} ({_fmt_size(size)})")
+                    total_removed += size
+
+    action = "Would free" if dry_run else "Freed"
+    print(f"\n{action} {_fmt_size(total_removed)} total.")
+
+
+def _dir_size(path: str) -> int:
+    total = 0
+    for dirpath, _, filenames in os.walk(path):
+        for f in filenames:
+            total += os.path.getsize(os.path.join(dirpath, f))
+    return total
+
+
+def _fmt_size(nbytes: int) -> str:
+    if nbytes < 1024:
+        return f"{nbytes} B"
+    elif nbytes < 1024 * 1024:
+        return f"{nbytes / 1024:.1f} KB"
+    else:
+        return f"{nbytes / 1024 / 1024:.1f} MB"
+
+
 # ---------------------------------------------------------------------------
 # CLI interface for agent to call
 # ---------------------------------------------------------------------------
@@ -188,6 +265,15 @@ def main():
     p_email = sub.add_parser("send-email", help="Send HTML email (HTML from stdin)")
     p_email.add_argument("--subject", type=str, default="iDeer Daily")
 
+    # --- cache-clean: clear cache and/or history ---
+    p_clean = sub.add_parser("cache-clean", help="Clear caches and/or history")
+    p_clean.add_argument("target", nargs="*", default=["all"],
+                         help="What to clean: all, fetch, eval, history, ideas, reports (default: all)")
+    p_clean.add_argument("--before", type=str, default=None,
+                         help="Only delete data older than this date (YYYY-MM-DD)")
+    p_clean.add_argument("--dry-run", action="store_true",
+                         help="Show what would be deleted without deleting")
+
     args = parser.parse_args()
 
     if args.command == "fetch":
@@ -210,6 +296,9 @@ def main():
     elif args.command == "send-email":
         html = sys.stdin.read()
         send_email_html(html, args.subject)
+
+    elif args.command == "cache-clean":
+        cache_clean(args.target, before=args.before, dry_run=args.dry_run)
 
     else:
         parser.print_help()

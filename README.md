@@ -186,6 +186,30 @@ bash scripts/run_daily.sh
 
 这个 skill 不是重新实现推荐逻辑，而是明确告诉 Codex 什么时候跑 `main.py`，什么时候跑 `scripts/run_daily.sh`，如何验证产物，以及什么时候可以安全发邮件
 
+## 缓存管理
+
+运行产生的缓存和历史数据存放在 `state/`（抓取/评分缓存）和 `history/`（产出文件）两个目录下。
+
+```bash
+# 查看缓存占用
+python agent_bridge.py cache-clean --dry-run
+
+# 清除所有缓存和历史
+python agent_bridge.py cache-clean
+
+# 只清除抓取缓存（保留评分和历史）
+python agent_bridge.py cache-clean fetch
+
+# 只清除 7 天前的旧数据
+python agent_bridge.py cache-clean --before 2026-04-03
+
+# 也可以通过 main.py 清除
+python main.py --cache_clean              # 清除全部
+python main.py --cache_clean fetch eval   # 只清除缓存，保留历史
+```
+
+可选目标：`all`（默认）、`fetch`、`eval`、`history`、`ideas`、`reports`
+
 ## FAQ
 
 **Q：支持哪些 LLM？**
