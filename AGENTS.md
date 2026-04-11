@@ -62,6 +62,6 @@ This command completed successfully after the environment was created and depend
 
 ## Notes
 
-- `scripts/run_daily.sh` is the primary launcher and reads runtime settings from `.env`; the root `main_gpt.sh` file is a thin compatibility wrapper.
+- `scripts/run_daily.sh` is the primary launcher and reads runtime settings from `.env`.
 - `main.py` now auto-loads `.env` from the project root. Twitter/X RapidAPI credentials can be supplied there via `X_RAPIDAPI_KEY` and `X_RAPIDAPI_HOST`.
 - `main.py` uses `MODEL_NAME`, `BASE_URL`, `API_KEY`, `PROVIDER`, and `TEMPERATURE` as the canonical public configuration interface.

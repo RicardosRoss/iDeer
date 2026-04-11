@@ -18,23 +18,7 @@ from email.mime.text import MIMEText
 from email.utils import parseaddr, formataddr
 from pathlib import Path
 
-
-def load_dotenv(path: str = ".env") -> None:
-    if not os.path.exists(path):
-        return
-    with open(path, "r", encoding="utf-8") as f:
-        for raw_line in f:
-            line = raw_line.strip()
-            if not line or line.startswith("#") or "=" not in line:
-                continue
-            key, value = line.split("=", 1)
-            key = key.strip()
-            value = value.strip()
-            if key.startswith("export "):
-                key = key[len("export "):].strip()
-            if value and value[0] == value[-1] and value[0] in ("'", '"'):
-                value = value[1:-1]
-            os.environ.setdefault(key, value)
+from config import load_dotenv
 
 
 def send_email_html(html: str, subject: str) -> bool:

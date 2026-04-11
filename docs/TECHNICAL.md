@@ -13,7 +13,6 @@ daily-recommender/
   main.py                          # Unified CLI entry point
   config.py                        # Config dataclasses (LLMConfig, EmailConfig, CommonConfig)
   base_source.py                   # BaseSource abstract base class
-  main_gpt.sh                      # Compatibility wrapper
   requirements.txt
   scripts/run_daily.sh             # Launch script
   profiles/
