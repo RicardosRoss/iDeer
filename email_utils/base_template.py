@@ -4,8 +4,6 @@ framework = """
 <!DOCTYPE HTML>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <style>
     .star-wrapper {
       font-size: 1.3em;
