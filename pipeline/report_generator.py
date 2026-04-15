@@ -321,6 +321,46 @@ Requirements:
             cleaned = cleaned[first_brace:last_brace + 1]
         return cleaned.strip()
 
+    def _save_raw_response(self, raw: str, attempt: int) -> str | None:
+        if not self.common_config.save:
+            return None
+
+        os.makedirs(self.save_dir, exist_ok=True)
+        path = os.path.join(self.save_dir, f"report_raw_attempt{attempt}.txt")
+        with open(path, "w", encoding="utf-8") as f:
+            f.write(str(raw or ""))
+        print(f"[ReportGenerator] Saved raw response to {path}")
+        return path
+
+    @staticmethod
+    def _build_json_repair_prompt(raw: str) -> str:
+        return f"""You previously returned malformed JSON for a daily report.
+
+Repair the JSON syntax and return exactly one valid JSON object.
+
+Rules:
+- Return JSON only. No markdown fences. No commentary.
+- Preserve the existing content as much as possible.
+- Do not invent new facts, claims, URLs, or sections.
+- Fix escaping, commas, brackets, and quotes inside string values.
+- If a fragment is truncated or cannot be repaired safely, keep only the content that already exists and make the JSON valid.
+
+Malformed JSON:
+{raw}
+"""
+
+    def _parse_report_payload(self, raw: str) -> dict[str, Any]:
+        cleaned = self._clean_llm_json(raw)
+        try:
+            data = json.loads(cleaned)
+        except json.JSONDecodeError as e:
+            raise ValueError(f"Failed to parse report JSON: {e}") from e
+
+        if not isinstance(data, dict):
+            raise ValueError("LLM response is not a JSON object.")
+
+        return data
+
     @staticmethod
     def _normalize_signal(signal: dict[str, Any]) -> dict[str, str]:
         return {
@@ -473,18 +513,31 @@ Requirements:
         )
         prompt = self._build_prompt(filtered)
         raw = self.model.inference(prompt, temperature=self.llm_config.temperature)
-        cleaned = self._clean_llm_json(raw)
-
         try:
-            data = json.loads(cleaned)
-        except json.JSONDecodeError as e:
-            print(f"[ReportGenerator] Failed to parse report JSON: {e}")
+            data = self._parse_report_payload(raw)
+        except ValueError as first_error:
+            cleaned = self._clean_llm_json(raw)
+            print(f"[ReportGenerator] {first_error}")
             print(f"[ReportGenerator] Raw response (first 600 chars): {cleaned[:600]}")
-            return None
+            raw_path_1 = self._save_raw_response(raw, attempt=1)
 
-        if not isinstance(data, dict):
-            print("[ReportGenerator] LLM response is not a JSON object.")
-            return None
+            repair_prompt = self._build_json_repair_prompt(raw)
+            repaired_raw = self.model.inference(repair_prompt, temperature=self.llm_config.temperature)
+            try:
+                data = self._parse_report_payload(repaired_raw)
+            except ValueError as second_error:
+                repaired_cleaned = self._clean_llm_json(repaired_raw)
+                print(f"[ReportGenerator] Repair attempt failed: {second_error}")
+                print(f"[ReportGenerator] Repaired raw response (first 600 chars): {repaired_cleaned[:600]}")
+                raw_path_2 = self._save_raw_response(repaired_raw, attempt=2)
+                saved_paths = [path for path in (raw_path_1, raw_path_2) if path]
+                saved_paths_text = ", ".join(saved_paths) if saved_paths else "save disabled"
+                raise ValueError(
+                    "Failed to parse report JSON after one repair attempt. "
+                    f"Initial error: {first_error}. "
+                    f"Repair error: {second_error}. "
+                    f"Saved raw responses: {saved_paths_text}"
+                ) from second_error
 
         report = self._normalize_report(data, filtered)
         report["input_items"] = filtered
