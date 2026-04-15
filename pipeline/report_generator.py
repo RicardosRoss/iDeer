@@ -326,6 +326,17 @@ Requirements:
         compact = re.sub(r"\s+", " ", str(text or "").strip())
         return compact[:limit].rstrip(" /-_")
 
+    def _save_raw_response(self, raw: str, attempt: int) -> str | None:
+        if not self.common_config.save:
+            return None
+
+        os.makedirs(self.save_dir, exist_ok=True)
+        path = os.path.join(self.save_dir, f"report_raw_attempt{attempt}.txt")
+        with open(path, "w", encoding="utf-8") as f:
+            f.write(str(raw or ""))
+        print(f"[ReportGenerator] Saved raw response to {path}")
+        return path
+
     def _parse_json_object(self, raw: str) -> dict[str, Any] | None:
         cleaned = self._clean_llm_json(raw)
         if not cleaned:
@@ -350,14 +361,15 @@ Invalid JSON:
 {invalid_json}
 """
 
-    def _repair_report_json(self, invalid_json: str) -> dict[str, Any] | None:
+    def _repair_report_json(self, invalid_json: str) -> tuple[dict[str, Any] | None, str | None]:
         print("[ReportGenerator] Attempting JSON repair pass.")
         repair_prompt = self._build_repair_prompt(invalid_json)
         repaired_raw = self.model.inference(repair_prompt, temperature=0.0)
         repaired = self._parse_json_object(repaired_raw)
         if repaired is None:
             print("[ReportGenerator] JSON repair pass failed.")
-        return repaired
+            return None, self._save_raw_response(repaired_raw, attempt=2)
+        return repaired, None
 
     @staticmethod
     def _normalize_signal(signal: dict[str, Any]) -> dict[str, str]:
@@ -619,6 +631,7 @@ Invalid JSON:
         raw = self.model.inference(prompt, temperature=self.llm_config.temperature)
         cleaned = self._clean_llm_json(raw)
         data = self._parse_json_object(cleaned)
+        raw_paths: list[str] = []
 
         if data is None:
             try:
@@ -628,10 +641,21 @@ Invalid JSON:
             else:
                 print("[ReportGenerator] LLM response is not a JSON object.")
             print(f"[ReportGenerator] Raw response (first 600 chars): {cleaned[:600]}")
-            data = self._repair_report_json(cleaned)
+            raw_path_1 = self._save_raw_response(raw, attempt=1)
+            if raw_path_1:
+                raw_paths.append(raw_path_1)
+            data, raw_path_2 = self._repair_report_json(cleaned)
+            if raw_path_2:
+                raw_paths.append(raw_path_2)
 
         if data is None:
-            print("[ReportGenerator] Falling back to deterministic report rendering.")
+            if raw_paths:
+                print(
+                    "[ReportGenerator] Falling back to deterministic report rendering. "
+                    f"Saved raw responses: {', '.join(raw_paths)}"
+                )
+            else:
+                print("[ReportGenerator] Falling back to deterministic report rendering.")
             report = self._build_fallback_report(
                 filtered,
                 reason="llm_report_json_invalid",

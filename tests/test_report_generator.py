@@ -70,6 +70,52 @@ def sample_recommendations():
     }
 
 
+VALID_REPORT_JSON = """{
+  "report_title": "Coding Agent Engineering Inflection Point",
+  "subtitle": "Reliability and memory are becoming first-class product concerns.",
+  "opening": "Today's signals point to a shift from agent demos to dependable engineering systems.",
+  "themes": [
+    {
+      "title": "Reliability becomes the bottleneck",
+      "narrative": "Both the repo and the paper emphasize hardening the operational layer around coding agents.",
+      "signals": [
+        {
+          "source": "github",
+          "title": "agentscope-ai/ReMe",
+          "why_it_matters": "Shows momentum for memory-centric agent infrastructure.",
+          "url": "https://github.com/agentscope-ai/ReMe"
+        }
+      ]
+    }
+  ],
+  "interpretation": {
+    "thesis": "The market is moving from model novelty toward infrastructure quality.",
+    "implications": "Teams that solve reliability and memory will have the advantage."
+  },
+  "predictions": [
+    {
+      "prediction": "Tooling will expose more stateful debugging surfaces for agents.",
+      "time_horizon": "1-3 months",
+      "confidence": "medium",
+      "rationale": "The strongest signals are around persistence and recovery."
+    }
+  ],
+  "ideas": [
+    {
+      "title": "Agent failure replay dashboard",
+      "detail": "Capture malformed generations and replay them for operator review.",
+      "why_now": "Teams need better observability into failure modes."
+    }
+  ],
+  "watchlist": [
+    {
+      "item": "Structured report generation support",
+      "reason": "It can reduce brittle parsing in CI."
+    }
+  ]
+}"""
+
+
 class ReportGeneratorTest(unittest.TestCase):
     def setUp(self):
         self.llm_config = LLMConfig(
@@ -98,7 +144,27 @@ class ReportGeneratorTest(unittest.TestCase):
             idea_count=2,
         )
 
-    def test_generate_returns_fallback_report_when_llm_json_is_invalid(self):
+    def test_generate_saves_raw_response_and_repairs_invalid_json(self):
+        self.generator.model = QueueModel(
+            [
+                '{"report_title":"Bad JSON","opening":"This quote breaks " json"}',
+                VALID_REPORT_JSON,
+            ]
+        )
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            self.generator.save_dir = tmpdir
+            self.generator.email_cache_path = str(Path(tmpdir) / "report.html")
+
+            report = self.generator.generate()
+
+            self.assertEqual(report["report_title"], "Coding Agent Engineering Inflection Point")
+            self.assertNotIn("generation_mode", report["metadata"])
+            self.assertTrue((Path(tmpdir) / "report_raw_attempt1.txt").exists())
+            self.assertFalse((Path(tmpdir) / "report_raw_attempt2.txt").exists())
+            self.assertGreaterEqual(len(self.generator.model.prompts), 2)
+
+    def test_generate_returns_fallback_report_and_saves_both_raw_attempts(self):
         self.generator.model = QueueModel(
             [
                 '{"report_title":"Bad JSON","opening":"This quote breaks " json"}',
@@ -106,13 +172,19 @@ class ReportGeneratorTest(unittest.TestCase):
             ]
         )
 
-        report = self.generator.generate()
+        with tempfile.TemporaryDirectory() as tmpdir:
+            self.generator.save_dir = tmpdir
+            self.generator.email_cache_path = str(Path(tmpdir) / "report.html")
 
-        self.assertIsNotNone(report)
-        self.assertEqual(report["metadata"]["generation_mode"], "fallback")
-        self.assertEqual(report["metadata"]["fallback_reason"], "llm_report_json_invalid")
-        self.assertGreaterEqual(len(report["themes"]), 1)
-        self.assertGreaterEqual(len(self.generator.model.prompts), 2)
+            report = self.generator.generate()
+
+            self.assertIsNotNone(report)
+            self.assertEqual(report["metadata"]["generation_mode"], "fallback")
+            self.assertEqual(report["metadata"]["fallback_reason"], "llm_report_json_invalid")
+            self.assertGreaterEqual(len(report["themes"]), 1)
+            self.assertTrue((Path(tmpdir) / "report_raw_attempt1.txt").exists())
+            self.assertTrue((Path(tmpdir) / "report_raw_attempt2.txt").exists())
+            self.assertGreaterEqual(len(self.generator.model.prompts), 2)
 
     def test_render_email_and_save_work_for_fallback_report(self):
         fallback_report = self.generator._build_fallback_report(
