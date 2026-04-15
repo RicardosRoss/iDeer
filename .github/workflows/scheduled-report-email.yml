@@ -108,11 +108,35 @@ jobs:
           set -o pipefail
           bash scripts/run_daily.sh 2>&1 | tee report-run.log
 
+      - name: Summarize report diagnostics
+        if: always()
+        run: |
+          REPORT_HTML="$(find history/reports -type f -name 'report.html' 2>/dev/null | sort | tail -n 1 || true)"
+          REPORT_RAW="$(find history/reports -type f -name 'report_raw_attempt*.txt' 2>/dev/null | sort || true)"
+
+          if [ -n "$REPORT_HTML" ]; then
+            echo "Latest report: $REPORT_HTML"
+          else
+            echo "No report.html found under history/reports."
+          fi
+
+          if [ -n "$REPORT_RAW" ]; then
+            echo "Captured raw report responses:"
+            printf '%s\n' "$REPORT_RAW"
+            echo "::warning::Malformed report JSON responses were captured above and will be included in the uploaded artifacts."
+          fi
+
       - name: Verify report output exists
         run: |
           REPORT_HTML="$(find history/reports -type f -name 'report.html' 2>/dev/null | sort | tail -n 1 || true)"
+          REPORT_RAW="$(find history/reports -type f -name 'report_raw_attempt*.txt' 2>/dev/null | sort || true)"
           if [ -z "$REPORT_HTML" ]; then
-            echo "::error::No report.html was generated."
+            if [ -n "$REPORT_RAW" ]; then
+              echo "::error::No report.html was generated. Raw report responses were captured and are included in the uploaded artifacts:"
+              printf '%s\n' "$REPORT_RAW"
+            else
+              echo "::error::No report.html was generated."
+            fi
             exit 1
           fi
           echo "Latest report: $REPORT_HTML"
