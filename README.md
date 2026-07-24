@@ -4,10 +4,11 @@
 
 > 「这倒是提醒我了」
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: AGPL-3.0](https://img.shields.io/badge/License-AGPL--3.0-blue.svg)](./LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)
 [![Claude Code Skill](https://img.shields.io/badge/Claude%20Code-Skill-purple.svg)](https://claude.ai/code)
 [![Codex Skill](https://img.shields.io/badge/Codex-Skill-0A7A5E.svg)](./skills/ideer-daily-paper/SKILL.md)
+[![InternShannon Skill](https://img.shields.io/badge/%E4%B9%A6%E5%AE%89%20InternShannon-Skill-111827.svg)](./skills/ideer-daily-paper-chatbot/SKILL.md)
 [![AgentSkills Standard](https://img.shields.io/badge/AgentSkills-Standard-brightgreen.svg)](https://github.com/anthropics/agent-skills)
 
 [English](./README.en.md) · [技术文档](./docs/TECHNICAL.md) · [桌面 Demo](./docs/DESKTOP_DEMO.md)
@@ -138,7 +139,7 @@ python main.py --sources arxiv semanticscholar huggingface --save --skip_source_
 - 只发送一封**跨源报告邮件**
 - 不发送每个 source 的单独邮件
 - 把 `history/reports/` 作为 artifact 保留下来，方便下载查看
-- 默认源是 `github + arxiv + semanticscholar + huggingface`
+- 默认源是 `github + arxiv + semanticscholar + huggingface + rss`
 - 默认定时是 `UTC 00:00`，对应**北京时间 08:00**
 
 #### 必填 Secrets
@@ -161,7 +162,7 @@ python main.py --sources arxiv semanticscholar huggingface --save --skip_source_
 |------|------|------|
 | `IDEER_PROVIDER` | LLM provider | 默认 `openai` |
 | `IDEER_TEMPERATURE` | 采样温度 | 默认 `0.5` |
-| `IDEER_DAILY_SOURCES` | 选择要跑哪些源 | 默认 `github arxiv semanticscholar huggingface` |
+| `IDEER_DAILY_SOURCES` | 选择要跑哪些源 | 默认 `github arxiv semanticscholar huggingface rss` |
 | `IDEER_REPORT_TITLE` | 邮件标题 | 默认 `Daily Personal Briefing` |
 | `IDEER_RESEARCHER_PROFILE_TEXT` | 更完整的研究者画像 | 会用于报告生成 |
 | `IDEER_NUM_WORKERS` | 并发 worker 数 | 默认 `6`，GitHub Actions 上不建议盲目调太高 |
@@ -172,6 +173,7 @@ python main.py --sources arxiv semanticscholar huggingface --save --skip_source_
 |------|------|------|
 | `IDEER_ARXIV_CATEGORIES` | 你启用了 arXiv 时 | 例如 `cs.AI cs.CL cs.LG` |
 | `IDEER_ARXIV_MAX_ENTRIES` | 你启用了 arXiv 时 | 原始抓取数量上限 |
+| `IDEER_RSS_URLS` | 你启用了 RSS 时 | 默认 `https://imjuya.github.io/juya-ai-daily/rss.xml` |
 | `IDEER_ARXIV_MAX_PAPERS` | 你启用了 arXiv 时 | 最终推荐论文数量上限 |
 | `IDEER_GH_LANGUAGES` | 你启用了 GitHub 时 | 例如 `python typescript` 或 `all` |
 | `IDEER_GH_SINCE` | 你启用了 GitHub 时 | `daily` / `weekly` / `monthly` |
@@ -217,6 +219,98 @@ python main.py --sources arxiv semanticscholar huggingface --save --skip_source_
 - 接受 GitHub Hosted Runner 的运行时长和并发限制
 - 主要需求是“抓取 + 生成跨源报告 + 发邮件”，不是长期在线 Web 服务
 
+### 方式四：书安 InternShannon / A3S Agent Skill
+
+如果你想把 iDeer 嵌到书安（InternShannon）里，让书安 Agent 代读论文、自己总结和打分，而不是调用 iDeer 内部 LLM API，用这个 chatbot-first skill：
+
+- Skill 目录：[`skills/ideer-daily-paper-chatbot/`](./skills/ideer-daily-paper-chatbot/)
+- 入口文件：[`skills/ideer-daily-paper-chatbot/SKILL.md`](./skills/ideer-daily-paper-chatbot/SKILL.md)
+- 安装脚本：[`skills/ideer-daily-paper-chatbot/scripts/install_internshannon_skill.py`](./skills/ideer-daily-paper-chatbot/scripts/install_internshannon_skill.py)
+- 首次配置脚本：[`skills/ideer-daily-paper-chatbot/scripts/setup_chatbot_config.py`](./skills/ideer-daily-paper-chatbot/scripts/setup_chatbot_config.py)
+
+#### 人类用户安装
+
+```bash
+git clone https://github.com/LiYu0524/iDeer.git
+cd iDeer
+
+# iDeer 需要 Python 3.10+
+python3 -m venv .venv
+.venv/bin/python -m pip install -r requirements.txt
+
+# 安装到书安 / A3S
+python3 skills/ideer-daily-paper-chatbot/scripts/install_internshannon_skill.py \
+  --resign \
+  --restart \
+  --verify
+```
+
+然后在书安里对 Agent 说：
+
+```text
+Use ideer-daily-paper-chatbot. Run a chatbot-first dry run for today's paper digest from arxiv and huggingface, summarize and score the items yourself, save artifacts under history/, and do not send email.
+```
+
+如果是第一次安装、还没有 `.env`，书安 Agent 会先进入配置向导。它会询问收件邮箱、研究方向、信息源和推送时间；Scholar/个人主页 URL、SMTP 发件配置和 ideas 生成可以跳过。默认信息源是 `arxiv + semanticscholar + huggingface + rss`，其中 RSS 默认订阅 `https://imjuya.github.io/juya-ai-daily/rss.xml`。默认推送偏好是 `Asia/Shanghai 13:00 daily`，但首次只保存偏好，不启用定时任务，也不自动发邮件。
+
+Agent 收集完答案后会调用：
+
+```bash
+python3 skills/ideer-daily-paper-chatbot/scripts/setup_chatbot_config.py
+```
+
+调用时通过 stdin 传入 JSON（字段示例见 skill 文档）。该脚本会写入 `.env`、`profiles/description.txt`、可选 `profiles/researcher_profile.md`、`state/ideer_chatbot_setup.json`、`.web_config.json` 和 `.client_config.json`。如果缺 SMTP 密码，它会明确保持 `SEND_REPORT_EMAIL=0`。
+
+预期效果：
+
+- 书安技能列表里能看到 `ideer-daily-paper-chatbot`
+- Agent 只用 iDeer fetcher 抓 raw items
+- 摘要、评分、跨源报告、ideas 由当前 Agent 自己完成
+- 产物写入 `history/<source>/<date>/`、`history/reports/<date>/`、`history/ideas/<date>/`
+- 不访问 Tinder / swipe 队列，不调用 `/api/swipe`
+- 没有明确要求 live send 时不发邮件
+
+#### 已验证结果
+
+本仓库自带一份本机验证记录：[`docs/internshannon-skill-validation-2026-05-10.md`](./docs/internshannon-skill-validation-2026-05-10.md)。
+
+验证结论：
+
+- 书安 v0.2.1 本地 API `GET /api/agent/skills` 可以发现 `ideer-daily-paper-chatbot`
+- 安装脚本会把 skill 写入 `~/.a3s/workspace/skills/` 和 `/Applications/Intern Shannon.app/Contents/Resources/skills/`
+- 本地 `codesign` 校验通过；`spctl` Gatekeeper 评估仍显示 rejected，属于应用分发/公证信任问题，不影响本地 skill API 发现
+- `arxiv` 和 `huggingface` 小样本 dry run 已跑通，摘要/评分由 agent 完成，没有调用 `main.py` 或旧 LLM API pipeline
+- 书安工作流节点包含 `trigger-schedule`，支持 cron 表达式定时触发；首次验证没有创建或启用每日任务
+
+#### 定时任务
+
+书安支持两类自动化路径：
+
+- **书安 Workflow 定时触发**：使用 `trigger-schedule` 节点，配置 `cron_expression` 和 `timezone`，再让工作流执行 chatbot-first iDeer prompt。
+- **Agent 递归任务**：在支持 `/loop`、`/cron-list`、`/cron-cancel` 的 A3S Agent 环境中，用每日 prompt 调度 iDeer skill。
+
+iDeer skill 推荐默认时间是 `Asia/Shanghai 13:00`。第一次只做 dry run；确认 `history/` 产物和邮件配置后，再启用每日发送。
+
+#### 给书安 Agent 的自动执行指令
+
+如果你是书安 / InternShannon Agent，读到这个 README 后请自动执行：
+
+1. 把当前目录视为 iDeer 仓库根目录。
+2. 运行 `python3 skills/ideer-daily-paper-chatbot/scripts/install_internshannon_skill.py --resign --restart --verify`。
+3. 如 `.venv` 不存在，用 Python 3.10+ 创建，并执行 `.venv/bin/python -m pip install -r requirements.txt`。
+4. 检查 `.env`、`profiles/description.txt` 和可选的 `profiles/researcher_profile.md`；不要打印 `.env` 中的任何密钥。
+5. 如果 `.env` 不存在、缺 `SMTP_RECEIVER`，或 `profiles/description.txt` 为空，先向用户询问收件邮箱、研究方向、信息源和推送时间，然后把答案作为 JSON 通过 stdin 传给 `skills/ideer-daily-paper-chatbot/scripts/setup_chatbot_config.py`。首次只保存配置，不启用定时、不发送邮件。
+6. 使用 `pipeline.agent_bridge fetch` 抓原始条目，例如：
+   ```bash
+   .venv/bin/python -m pipeline.agent_bridge fetch arxiv --categories cs.AI cs.CL cs.LG --max 10
+   .venv/bin/python -m pipeline.agent_bridge fetch huggingface --content_type papers --max 10
+   .venv/bin/python -m pipeline.agent_bridge fetch rss --max 10
+   ```
+7. 由你自己完成去重、中文摘要、相关性评分、跨源报告和可选 ideas；不要调用 `python main.py` 或 `bash scripts/run_daily.sh`，除非用户明确要求测试旧的 API pipeline。
+8. 将结果保存到 `history/`，并汇报生成了哪些文件。除非用户明确要求发送且 SMTP 配置完整，否则不要发邮件。
+
+如果用户要求“每天自动跑”，请把上面的 chatbot-first workflow 作为书安内置自动化/定时任务的 prompt，时间默认用 Asia/Shanghai 13:00。
+
 ### CLI 命令一览
 
 ```
@@ -224,6 +318,7 @@ ideer init                                     # 初始化工作目录
 ideer run --sources arxiv huggingface          # 运行推荐管线
 ideer run --sources arxiv --ideas --report     # 带 ideas + 跨源报告
 ideer fetch arxiv --categories cs.AI --max 10  # 单独抓取，输出 JSON
+ideer fetch rss --max 10                       # 抓取默认 RSS 订阅
 ideer clean --dry-run                          # 预览缓存占用
 ideer clean --before 2026-04-01               # 清理旧数据
 ideer serve                                    # 启动 Web UI
@@ -240,8 +335,9 @@ SMTP_PORT=465
 SMTP_SENDER=xxx
 SMTP_RECEIVER=xxx
 SMTP_PASSWORD=xxx
-DAILY_SOURCES="arxiv semanticscholar huggingface"
+DAILY_SOURCES="arxiv semanticscholar huggingface rss"
 HF_CONTENT_TYPES="papers"
+RSS_URLS="https://imjuya.github.io/juya-ai-daily/rss.xml"
 GENERATE_REPORT=1
 SEND_REPORT_EMAIL=1
 GENERATE_IDEAS=1
@@ -251,7 +347,7 @@ RESEARCHER_PROFILE=profiles/researcher_profile.md
 bash scripts/run_daily.sh
 ```
 
-默认模式已经是论文阅读优先：`arxiv + semanticscholar + huggingface`，并且会同时生成论文摘要、跨源 report 和 research ideas。
+默认模式已经是论文阅读优先并带 AI 日报补充：`arxiv + semanticscholar + huggingface + rss`，其中 RSS 默认订阅 Juya AI Daily，并且会同时生成论文摘要、跨源 report 和 research ideas。
 
 **两种定时方式：**
 
@@ -506,18 +602,30 @@ A：当前实现是指令式模式，只处理 `/help`、`/status`、`/run`、`/
 - **🖥️ 桌面客户端** — 本地 GUI 体验（见 [Desktop Demo](./docs/DESKTOP_DEMO.md)）
 - **🔌 Claude Code Skill** — 支持作为 Claude Code 技能集成
 - **🤖 Codex Daily Paper Skill** — 内置 [`skills/ideer-daily-paper/SKILL.md`](./skills/ideer-daily-paper/SKILL.md)，让 Codex 按统一流程完成每日论文阅读、自动整理、邮件发送和自动化调度
+- **🛡️ 书安 InternShannon Skill** — 内置 [`skills/ideer-daily-paper-chatbot/SKILL.md`](./skills/ideer-daily-paper-chatbot/SKILL.md)，让书安 Agent 代读 raw items，自己生成摘要、评分、报告和 ideas
+- **📚 Zotero 自动同步** — Swipe 右划自动存入 Zotero；每日推荐高分论文一键同步；资料库批量导出。需要 Zotero 7 + `zotero_save.py`
 
-## 用 Codex 做每日论文自动化
+## 用 Agent 做每日论文自动化
 
-如果你希望把 iDeer 变成 Codex 的每日自动化任务，推荐把仓库里的 [`skills/ideer-daily-paper/SKILL.md`](./skills/ideer-daily-paper/SKILL.md) 作为操作规范。
+如果你希望把 iDeer 变成 Agent 的每日自动化任务，有两种模式：
 
-典型流程是：
+- **API pipeline 模式**：用 [`skills/ideer-daily-paper/SKILL.md`](./skills/ideer-daily-paper/SKILL.md)，按 iDeer 原生 `main.py` / `scripts/run_daily.sh` 路径执行，需要配置 LLM API。
+- **Chatbot-first 模式**：用 [`skills/ideer-daily-paper-chatbot/SKILL.md`](./skills/ideer-daily-paper-chatbot/SKILL.md)，只用 iDeer fetcher 抓 raw items，摘要/评分/report/ideas 由当前 Agent 自己完成，更适合书安、Codex、Gemini、ChatGPT 这类已经有模型能力的 Agent。
+
+API pipeline 的典型流程是：
 
 1. 先按 skill 的要求补齐 `.env`、`profiles/description.txt` 和可选的 `profiles/researcher_profile.md`
 2. 先做一次 dry run，确认 `history/` 里已经产出日报、report 或 ideas
 3. 再让 Codex automation 每天北京时间 13:00 定时调用 `bash scripts/run_daily.sh`
 
-这个 skill 不是重新实现推荐逻辑，而是明确告诉 Codex 什么时候跑 `main.py`，什么时候跑 `scripts/run_daily.sh`，如何验证产物，以及什么时候可以安全发邮件
+Chatbot-first 的典型流程是：
+
+1. 先安装 `ideer-daily-paper-chatbot` 到书安 / A3S，或让 Codex 直接读取该 skill
+2. 让 Agent 抓 `arxiv semanticscholar huggingface rss` 的 raw items
+3. 让 Agent 自己完成总结、打分、报告和 ideas
+4. 将产物保存到 `history/`，只有在用户明确要求且 SMTP 完整时才发送邮件
+
+这两个 skill 都不是重新实现抓取逻辑，而是明确告诉 Agent 哪条路径可用、哪些路径要避开、如何验证产物，以及什么时候可以安全发邮件。
 
 ## 缓存管理
 
@@ -589,12 +697,24 @@ iDeer 的灵感和实现受益于以下优秀的开源项目：
 
 ---
 
+## 商业授权
+
+本仓库默认采用 [GNU Affero General Public License v3.0](./LICENSE) 开源。
+
+如果你的使用方式无法满足 AGPL-3.0 的开源义务，或者你需要闭源部署、内部二次分发、商业合作等单独授权，请联系：
+
+- `liyu@pjlab.org.cn`
+
+详细说明见 [COMMERCIAL_LICENSE.md](./COMMERCIAL_LICENSE.md)。
+
+---
+
 <div align="center">
 
 **如果这只鹿帮你省了时间，给它一颗 ⭐**
 
 [![Star History Chart](https://api.star-history.com/svg?repos=LiYu0524/iDeer&type=Date)](https://star-history.com/#LiYu0524/iDeer&Date)
 
-MIT License · Made by [@LiYu0524](https://github.com/LiYu0524)
+AGPL-3.0 · Commercial licensing available · Made by [@LiYu0524](https://github.com/LiYu0524)
 
 </div>

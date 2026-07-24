@@ -9,6 +9,9 @@ import {
   openRunSocket,
   saveConfig,
   testOpenAICompatibleApi,
+  getStoredUser,
+  loginWithEmail,
+  saveUserDescription,
 } from "./api";
 import {
   ControlCenter,
@@ -66,6 +69,7 @@ import iconGitHub from "./assets/icon_github.svg";
 import iconGitHubWhite from "./assets/icon_github.white.svg";
 import iconHF from "./assets/icon_hf.svg";
 import iconIDeer from "./assets/icon_ideer.svg";
+import iconRSS from "./assets/icon_rss.svg";
 import iconX from "./assets/icon_x.svg";
 import iconXBlack from "./assets/icon_x.black.svg";
 import "./desktop.css";
@@ -100,10 +104,11 @@ const DEFAULT_CONFIG: ConfigData = {
   description: "", researcher_profile: "", x_rapidapi_key: "",
   x_rapidapi_host: "twitter-api45.p.rapidapi.com", x_accounts: "",
   arxiv_categories: "cs.AI", arxiv_max_entries: 100, arxiv_max_papers: 60,
+  rss_urls: "https://imjuya.github.io/juya-ai-daily/rss.xml", rss_max_items: 30,
 };
 
 const DEFAULT_RUN_FORM: RunRequest = {
-  sources: ["github", "huggingface", "arxiv"], generate_report: true, generate_ideas: false,
+  sources: ["github", "huggingface", "arxiv", "rss"], generate_report: true, generate_ideas: false,
   save: true, receiver: "", description: "", researcher_profile: "", scholar_url: "",
   x_accounts_input: "", delivery_mode: "combined_report",
 };
@@ -135,6 +140,7 @@ const SOURCES = [
   { key: "huggingface", label: "HuggingFace", description: "论文与模型动态", iconLight: iconHF, iconDark: iconHF, iconActive: iconHF },
   { key: "twitter", label: "X", description: "账号时间线和圈层信号", iconLight: iconXBlack, iconDark: iconX, iconActive: iconX },
   { key: "arxiv", label: "arXiv", description: "新论文抓取与筛选", iconLight: iconArxiv, iconDark: iconArxiv, iconActive: iconArxiv },
+  { key: "rss", label: "RSS", description: "Juya AI Daily 等订阅", iconLight: iconRSS, iconDark: iconRSS, iconActive: iconRSS },
   { key: "pubmed", label: "PubMed", description: "生物医学文献", iconLight: iconPubMed, iconDark: iconPubMed, iconActive: iconPubMed },
   { key: "semanticscholar", label: "Semantic Scholar", description: "跨学科 2 亿+ 论文", iconLight: iconSS, iconDark: iconSS, iconActive: iconSS },
 ] satisfies Array<{ key: SourceName; label: string; description: string; iconLight: string; iconDark: string; iconActive: string }>;
@@ -187,6 +193,11 @@ export default function AppShell() {
   const copy = COPY[language];
   const [activeView, setActiveView] = useState<ViewName>("home");
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [loggedInUser, setLoggedInUser] = useState<{ userId: string; email: string } | null>(() => desktopWindow ? { userId: "", email: "local" } : getStoredUser());
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginError, setLoginError] = useState("");
+  const [needsSetup, setNeedsSetup] = useState(false);
+  const [setupDescription, setSetupDescription] = useState("");
   const [controlPanel, setControlPanel] = useState<ControlPanel>("none");
   const [settingsTab, setSettingsTab] = useState<SettingsTab>("profile");
   const [userProfile, setUserProfile] = useState<UserProfile>(() => normalizeUserProfile(readJsonPreference("ideer.user", DEFAULT_PROFILE)));
@@ -635,7 +646,7 @@ export default function AppShell() {
     [copy],
   );
   const avatarMap = useMemo(() => Object.fromEntries(AVATARS.map((item) => [item.key, item.src])) as Record<AvatarId, string>, []);
-  const sidebarName = userProfile.name || copy.user.fallbackName;
+  const sidebarName = userProfile.name || loggedInUser?.email || copy.user.fallbackName;
   const interestSummary = useMemo(() => {
     const tags = parseInterestSummary(config.description || userProfile.focus);
     const preview = tags.positive.slice(0, 2).join(" · ") || userProfile.focus || copy.user.fallbackFocus;
@@ -690,6 +701,77 @@ export default function AppShell() {
           onChangeTheme={setThemePreference}
           onTestSmtpConnection={handleTestSmtpConnection}
         />
+      </div>
+    );
+  }
+
+  // --- Login gate (web only, desktop skips) ---
+  if (!loggedInUser && !desktopWindow) {
+    const handleLogin = async () => {
+      setLoginError("");
+      try {
+        const result = await loginWithEmail(loginEmail);
+        setLoggedInUser({ userId: result.user_id, email: result.email });
+        if (result.needs_setup) setNeedsSetup(true);
+      } catch (e) {
+        setLoginError(e instanceof Error ? e.message : "Login failed");
+      }
+    };
+    return (
+      <div className="login-gate">
+        <div className="login-card">
+          <h1>🦌 iDeer</h1>
+          <p>{copy.homeSlogan}</p>
+          <input
+            type="email"
+            className="login-email-input"
+            placeholder="your@email.com"
+            value={loginEmail}
+            onChange={(e) => setLoginEmail(e.target.value)}
+            onKeyDown={(e) => { if (e.key === "Enter") void handleLogin(); }}
+            autoFocus
+          />
+          <button className="login-btn" onClick={() => void handleLogin()} disabled={!loginEmail.includes("@")}>
+            {language === "zh" ? "开始使用" : "Get started"}
+          </button>
+          {loginError && <p className="login-error">{loginError}</p>}
+        </div>
+      </div>
+    );
+  }
+
+  // --- Interest setup (first login) ---
+  if (needsSetup) {
+    const handleSetup = async () => {
+      if (!setupDescription.trim()) return;
+      try {
+        await saveUserDescription(setupDescription.trim());
+        setNeedsSetup(false);
+      } catch { /* ignore */ }
+    };
+    return (
+      <div className="login-gate">
+        <div className="login-card" style={{ maxWidth: 480 }}>
+          <h1>🦌 {language === "zh" ? "设置你的研究兴趣" : "Set your research interests"}</h1>
+          <p style={{ fontSize: 14, lineHeight: 1.6, textAlign: "left", color: "#6b7280" }}>
+            {language === "zh"
+              ? "告诉 iDeer 你关注什么方向，推荐会更精准。例如：\n\n1. Agent Safety — LLM agent 安全\n2. NLP — 自然语言处理\n3. Trustworthy AI — 可信 AI"
+              : "Tell iDeer what you research. For example:\n\n1. Agent Safety\n2. NLP\n3. Trustworthy AI"}
+          </p>
+          <textarea
+            className="login-email-input"
+            style={{ minHeight: 120, resize: "vertical", fontFamily: "inherit" }}
+            placeholder={language === "zh" ? "描述你的研究方向..." : "Describe your research interests..."}
+            value={setupDescription}
+            onChange={(e) => setSetupDescription(e.target.value)}
+          />
+          <button className="login-btn" onClick={() => void handleSetup()} disabled={!setupDescription.trim()}>
+            {language === "zh" ? "保存并开始" : "Save & start"}
+          </button>
+          <button className="login-btn" style={{ background: "transparent", color: "#6b7280", marginTop: 8 }} onClick={() => setNeedsSetup(false)}>
+            {language === "zh" ? "跳过，稍后设置" : "Skip for now"}
+          </button>
+        </div>
       </div>
     );
   }

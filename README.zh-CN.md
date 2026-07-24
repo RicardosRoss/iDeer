@@ -4,7 +4,7 @@
 
 **一只替你刷技术情报的赛博鹿**
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: AGPL-3.0](https://img.shields.io/badge/License-AGPL--3.0-blue.svg)](./LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)
 [![Claude Code Skill](https://img.shields.io/badge/Claude%20Code-Skill-purple.svg)](https://claude.ai/code)
 [![Codex Skill](https://img.shields.io/badge/Codex-Skill-0A7A5E.svg)](./skills/ideer-daily-paper/SKILL.md)
@@ -120,8 +120,9 @@ SMTP_PORT=465
 SMTP_SENDER=xxx
 SMTP_RECEIVER=xxx
 SMTP_PASSWORD=xxx
-DAILY_SOURCES="arxiv semanticscholar huggingface"
+DAILY_SOURCES="arxiv semanticscholar huggingface rss"
 HF_CONTENT_TYPES="papers"
+RSS_URLS="https://imjuya.github.io/juya-ai-daily/rss.xml"
 GENERATE_REPORT=1
 SEND_REPORT_EMAIL=1
 GENERATE_IDEAS=1
@@ -131,7 +132,7 @@ RESEARCHER_PROFILE=profiles/researcher_profile.md
 bash scripts/run_daily.sh
 ```
 
-默认模式已经是论文阅读优先：`arxiv + semanticscholar + huggingface`，并且会同时生成论文摘要、跨源 report 和 research ideas。
+默认模式已经是论文阅读优先并带 AI 日报补充：`arxiv + semanticscholar + huggingface + rss`，其中 RSS 默认订阅 Juya AI Daily，并且会同时生成论文摘要、跨源 report 和 research ideas。
 
 **两种定时方式：**
 
@@ -203,12 +204,24 @@ A：重写 `build_eval_prompt()` 和 `parse_eval_response()`，鹿随你调教�
 
 ---
 
+## 商业授权
+
+本仓库默认采用 [GNU Affero General Public License v3.0](./LICENSE) 开源。
+
+如果你的使用方式无法满足 AGPL-3.0 的开源义务，或者你需要闭源部署、内部二次分发、商业合作等单独授权，请联系：
+
+- `liyu@pjlab.org.cn`
+
+详细说明见 [COMMERCIAL_LICENSE.md](./COMMERCIAL_LICENSE.md)。
+
+---
+
 <div align="center">
 
 **如果这只鹿帮你省了时间，给它一颗 ⭐**
 
 [![Star History Chart](https://api.star-history.com/svg?repos=LiYu0524/iDeer&type=Date)](https://star-history.com/#LiYu0524/iDeer&Date)
 
-MIT License · Made by [@LiYu0524](https://github.com/LiYu0524)
+AGPL-3.0 · Commercial licensing available · Made by [@LiYu0524](https://github.com/LiYu0524)
 
 </div>

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faXmark, faUndo, faArrowUpRightFromSquare, faCheck } from "@fortawesome/free-solid-svg-icons";
-import { getSwipeQueue, sendSwipeFeedback, applySwipeFeedback, syncSwipeToZotero } from "./api";
+import { getSwipeQueue, sendSwipeFeedback, applySwipeFeedback, buildUrl } from "./api";
 import type { SwipeItem, SwipeStats } from "./types";
 import type { AppCopy } from "./copy";
 import iconArxiv from "./assets/icon_arxiv.svg";
@@ -47,7 +47,7 @@ export function SwipeView(props: {
   onOpenUrl: (url: string) => void;
 }) {
   const { copy } = props;
-  const [selectedSources, setSelectedSources] = useState<Set<string>>(new Set(ALL_SOURCES));
+  const [selectedSources, setSelectedSources] = useState<Set<string>>(new Set(["arxiv"]));
   const [queue, setQueue] = useState<SwipeItem[]>([]);
   const [index, setIndex] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -57,10 +57,9 @@ export function SwipeView(props: {
   const [exiting, setExiting] = useState<"left" | "right" | null>(null);
   const [applying, setApplying] = useState(false);
   const [applied, setApplied] = useState(false);
-  const [syncing, setSyncing] = useState(false);
-  const [syncResult, setSyncResult] = useState("");
   const [teaserUrl, setTeaserUrl] = useState<string | null>(null);
   const [teaserLoading, setTeaserLoading] = useState(false);
+  const teaserCache = useRef<Map<string, string | null>>(new Map());
   const dragging = useRef(false);
   const animating = useRef(false);
   const startX = useRef(0);
@@ -98,21 +97,60 @@ export function SwipeView(props: {
 
   const current = index < queue.length ? queue[index] : null;
 
-  // 每次切换论文时拉取首图
-  useEffect(() => {
-    if (!current) { setTeaserUrl(null); setTeaserLoading(false); return; }
-    setTeaserUrl(null);
-    setTeaserLoading(true);
-    fetch(`/api/paper-teaser?url=${encodeURIComponent(current.url)}`)
+  // Prefetch teaser images for upcoming cards
+  const prefetchTeaser = useCallback((item: SwipeItem) => {
+    const cache = teaserCache.current;
+    if (cache.has(item.url)) return;
+    cache.set(item.url, null); // mark as in-flight
+    fetch(buildUrl(`/api/paper-teaser?url=${encodeURIComponent(item.url)}`))
       .then(r => r.json())
       .then((d: { image_url: string | null }) => {
         if (d.image_url) {
-          setTeaserUrl(`/api/proxy-image?url=${encodeURIComponent(d.image_url)}`);
+          const proxyUrl = buildUrl(`/api/proxy-image?url=${encodeURIComponent(d.image_url)}`);
+          cache.set(item.url, proxyUrl);
+          // Preload the actual image bytes into browser cache
+          const img = new Image();
+          img.src = proxyUrl;
+        } else {
+          cache.set(item.url, null);
         }
       })
-      .catch(() => {})
-      .finally(() => setTeaserLoading(false));
-  }, [current?.url]);
+      .catch(() => cache.set(item.url, null));
+  }, []);
+
+  // On index change: set current teaser + prefetch next 3
+  useEffect(() => {
+    if (!current) { setTeaserUrl(null); setTeaserLoading(false); return; }
+
+    const cached = teaserCache.current.get(current.url);
+    if (cached !== undefined) {
+      // Already fetched (or fetched as null)
+      setTeaserUrl(cached);
+      setTeaserLoading(false);
+    } else {
+      // Not prefetched yet — fetch now
+      setTeaserUrl(null);
+      setTeaserLoading(true);
+      fetch(buildUrl(`/api/paper-teaser?url=${encodeURIComponent(current.url)}`))
+        .then(r => r.json())
+        .then((d: { image_url: string | null }) => {
+          if (d.image_url) {
+            const proxyUrl = buildUrl(`/api/proxy-image?url=${encodeURIComponent(d.image_url)}`);
+            teaserCache.current.set(current.url, proxyUrl);
+            setTeaserUrl(proxyUrl);
+          } else {
+            teaserCache.current.set(current.url, null);
+          }
+        })
+        .catch(() => teaserCache.current.set(current.url, null))
+        .finally(() => setTeaserLoading(false));
+    }
+
+    // Prefetch next 3 cards
+    for (let i = index + 1; i <= Math.min(index + 3, queue.length - 1); i++) {
+      prefetchTeaser(queue[i]);
+    }
+  }, [index, current?.url, queue, prefetchTeaser]);
 
   const handleSwipe = useCallback(async (action: "like" | "dislike", fromGesture = false) => {
     if (!current || animating.current) return;
@@ -194,19 +232,6 @@ export function SwipeView(props: {
     setApplying(false);
   };
 
-  const handleSyncZotero = async () => {
-    setSyncing(true);
-    setSyncResult("");
-    try {
-      const res = await syncSwipeToZotero();
-      setSyncResult(`${res.synced} synced`);
-      setTimeout(() => setSyncResult(""), 4000);
-    } catch {
-      setSyncResult("failed");
-      setTimeout(() => setSyncResult(""), 3000);
-    }
-    setSyncing(false);
-  };
 
   const isDraggingByPointer = dragging.current;
   const cardStyle = exiting
@@ -215,8 +240,8 @@ export function SwipeView(props: {
       ? { transform: `translateX(${dragX}px) rotate(${dragX * 0.04}deg)`, transition: isDraggingByPointer ? "none" : "transform 0.2s ease" }
       : { transform: "translateX(0) rotate(0)", transition: "transform 0.2s ease" };
 
-  const overlayOpacity = Math.min(Math.abs(dragX) / 150, 0.4);
-  const overlayColor = dragX > 0 ? `rgba(34,197,94,${overlayOpacity})` : dragX < 0 ? `rgba(239,68,68,${overlayOpacity})` : "transparent";
+  const stampOpacity = exiting ? 1 : Math.min(Math.abs(dragX) / 120, 1);
+  const stampDirection = exiting === "right" ? "accept" : exiting === "left" ? "reject" : dragX > 30 ? "accept" : dragX < -30 ? "reject" : null;
   const sourceColor = SOURCE_COLORS[current?._source_type ?? ""] || "#666";
 
   if (loading) {
@@ -269,8 +294,16 @@ export function SwipeView(props: {
       <div className="swipe-card swipe-card-fullpage" ref={cardRef} style={cardStyle}
         onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp}
       >
-        {/* Overlay tint */}
-        <div className="swipe-card-overlay" style={{ background: overlayColor }} />
+        {/* Swipe stamp overlay */}
+        {stampDirection && (
+          <div className={`swipe-stamp ${stampDirection}`} style={{ opacity: stampOpacity }}>
+            <span className="swipe-stamp-label">{stampDirection === "accept" ? "ACCEPT" : "REJECT"}</span>
+          </div>
+        )}
+        {/* Border glow */}
+        {stampDirection && (
+          <div className={`swipe-card-border-glow ${stampDirection}`} style={{ opacity: stampOpacity }} />
+        )}
 
         {/* 顶部图片区 */}
         <div className={teaserUrl ? "swipe-teaser-area" : "swipe-teaser-area compact"} style={{ background: teaserLoading ? "#f3f4f6" : (teaserUrl ? "#fff" : sourceColor + "18") }}>
@@ -303,7 +336,7 @@ export function SwipeView(props: {
         </div>
 
         {/* 下半内容区 */}
-        <div className="swipe-card-body" onPointerDown={(e) => e.stopPropagation()}>
+        <div className="swipe-card-body">
           <h2 className="swipe-card-title">{current.title}</h2>
           <p className="swipe-card-onesent">{oneSentence}</p>
           <button className="swipe-open-link" onClick={(e) => { e.stopPropagation(); props.onOpenUrl(current.url); }}>
@@ -329,9 +362,6 @@ export function SwipeView(props: {
           <>
             <button className="swipe-apply-inline" onClick={() => void handleApply()} disabled={applying}>
               {applied ? <FontAwesomeIcon icon={faCheck} /> : (copy.swipe?.applyFeedback ?? "Apply")}
-            </button>
-            <button className="swipe-apply-inline zotero" onClick={() => void handleSyncZotero()} disabled={syncing}>
-              {syncResult || (syncing ? "Syncing..." : "Zotero")}
             </button>
           </>
         )}
