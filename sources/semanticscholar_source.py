@@ -54,26 +54,42 @@ class SemanticScholarSource(BaseSource):
                 self._save_fetch_cache(cache_key, self.raw_papers)
 
     def _derive_queries_from_description(self) -> list[str]:
-        """Extract up to 3 search queries from the user description."""
+        """Extract search queries from the user's research description."""
+        import re
         desc = self.description.strip()
         if not desc:
             return ["artificial intelligence"]
 
-        lines = [line.strip().lstrip("0123456789.-) ") for line in desc.split("\n") if line.strip()]
         queries = []
-        for line in lines:
-            # Skip negative preference lines
-            lower = line.lower()
-            if any(neg in lower for neg in ("not interested", "不感兴趣", "don't", "exclude")):
+        in_interest_section = False
+
+        for line in desc.split("\n"):
+            line = line.strip()
+            if not line:
                 continue
-            # Clean up common prefixes
-            for prefix in ("i'm interested in", "interested in", "关注", "研究"):
-                if lower.startswith(prefix):
-                    line = line[len(prefix):].strip(" :：-")
-            if line and len(line) > 2:
-                queries.append(line[:120])
-            if len(queries) >= 3:
-                break
+            lower = line.lower()
+
+            # "not interested" signals the end of the interest section
+            if any(neg in lower for neg in ("not interested", "不感兴趣", "don't", "exclude")):
+                in_interest_section = False
+                continue
+
+            # Lines containing "interest" signal the start of the interest section
+            if re.search(r'\binterest', lower) or "关注" in lower or "研究" in lower:
+                in_interest_section = True
+                continue  # header line itself is not a topic
+
+            # Within the interest section, extract from numbered items
+            if in_interest_section:
+                m = re.match(r'^\d+[\.\)\-:、]\s*(.*)', line)
+                if m:
+                    content = m.group(1)
+                    for sep in ("—", "–", " - ", ":"):
+                        if sep in content:
+                            content = content.split(sep, 1)[0].strip()
+                            break
+                    if content and len(content) > 1:
+                        queries.append(content[:120])
 
         return queries or ["artificial intelligence"]
 
