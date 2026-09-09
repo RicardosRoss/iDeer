@@ -96,6 +96,8 @@ fi
   --gh_languages "${GH_LANGUAGES[@]}" \
   --gh_since "${GH_SINCE:-daily}" \
   --gh_max_repos "${GH_MAX_REPOS:-30}" \
+  --gh_seen_window "${GH_SEEN_WINDOW:-14}" \
+  --gh_min_new_items "${GH_MIN_NEW_ITEMS:-8}" \
   --hf_content_type "${HF_CONTENT_TYPES[@]}" \
   --hf_max_papers "${HF_MAX_PAPERS:-30}" \
   --hf_max_models "${HF_MAX_MODELS:-15}" \

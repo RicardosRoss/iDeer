@@ -1,10 +1,13 @@
 import argparse
 import json
+import os
 import time
+from datetime import datetime
 
 from sources.base import BaseSource
-from core.config import LLMConfig, CommonConfig
-from fetchers.github_fetcher import get_trending_repos
+from core.config import LLMConfig, CommonConfig, PROJECT_ROOT
+from core.seen_store import SeenRepoStore
+from fetchers.github_fetcher import get_trending_repos, search_rising_repos
 from email_utils.base_template import get_stars
 from email_utils.github_template import get_repo_block_html
 
@@ -20,6 +23,12 @@ class GitHubSource(BaseSource):
             self.languages = ["all"]
         self.since = source_args.get("since", "daily")
         self.max_repos = source_args.get("max_repos", 30)
+        self.seen_window_days = source_args.get("seen_window_days", 14)
+        self.min_new_items = source_args.get("min_new_items", 8)
+        seen_path = os.path.join(
+            str(PROJECT_ROOT), common_config.state_dir, "github_seen_repos.json"
+        )
+        self.seen_store = SeenRepoStore(seen_path, window_days=self.seen_window_days)
 
         self.repos = {}
         for lang in self.languages:
@@ -53,6 +62,14 @@ class GitHubSource(BaseSource):
             "--gh_max_repos", type=int, default=30,
             help="[GitHub] Max repos to recommend",
         )
+        parser.add_argument(
+            "--gh_seen_window", type=int, default=14,
+            help="[GitHub] Days to suppress a repo after it was shown (star surge can re-show it)",
+        )
+        parser.add_argument(
+            "--gh_min_new_items", type=int, default=8,
+            help="[GitHub] Top up from rising-repo search when fewer new repos remain after dedup",
+        )
 
     @staticmethod
     def extract_args(args) -> dict:
@@ -60,6 +77,8 @@ class GitHubSource(BaseSource):
             "languages": args.gh_languages,
             "since": args.gh_since,
             "max_repos": args.gh_max_repos,
+            "seen_window_days": args.gh_seen_window,
+            "min_new_items": args.gh_min_new_items,
         }
 
     def get_max_items(self) -> int:
@@ -72,8 +91,30 @@ class GitHubSource(BaseSource):
                 repo_name = repo["repo_name"]
                 if repo_name not in all_repos:
                     all_repos[repo_name] = repo
-        print(f"[{self.name}] {len(all_repos)} unique repos after dedup")
-        return list(all_repos.values())
+        trending = list(all_repos.values())
+        print(f"[{self.name}] {len(trending)} unique repos after dedup")
+
+        today = datetime.strptime(self.run_date, "%Y-%m-%d").date()
+        new_repos, regrowth_repos, skipped = self.seen_store.classify(trending, today)
+
+        # Top up from the rising-repo search pool when trending yields too
+        # few fresh entries, so slow trending days don't produce a thin digest.
+        if len(new_repos) + len(regrowth_repos) < self.min_new_items:
+            supplement = search_rising_repos()
+            supp_new, supp_regrowth, _ = self.seen_store.classify(supplement, today)
+            already_picked = {r["repo_name"] for r in new_repos + regrowth_repos}
+            supp_new = [r for r in supp_new if r["repo_name"] not in already_picked]
+            supp_regrowth = [r for r in supp_regrowth if r["repo_name"] not in already_picked]
+            new_repos += supp_new
+            regrowth_repos += supp_regrowth
+            print(f"[{self.name}] supplemented {len(supp_new)} rising repos from search")
+
+        self.seen_store.record(new_repos + regrowth_repos, today)
+        print(
+            f"[{self.name}] {len(new_repos)} new + {len(regrowth_repos)} regrowth, "
+            f"{skipped} skipped (seen within {self.seen_window_days}d)"
+        )
+        return new_repos + regrowth_repos
 
     def get_item_cache_id(self, item: dict) -> str:
         return "repo_" + item.get("repo_name", "unknown").replace("/", "_")
@@ -98,6 +139,11 @@ class GitHubSource(BaseSource):
             item.get("stars", 0),
             item.get("stars_today", 0),
         )
+        if item.get("star_growth_pct"):
+            prompt += (
+                f"\n注意：该项目之前推送过，自上次推送以来总Star增长了约 "
+                f"{item['star_growth_pct']}%，请在总结中提及这一显著增长。\n"
+            )
         prompt += """
             请评估这个项目：
             1. 用中文简要总结这个项目的主要功能和价值。
@@ -136,6 +182,8 @@ class GitHubSource(BaseSource):
             "stars_today": item.get("stars_today", 0),
             "forks": item.get("forks", 0),
             "url": item["repo_url"],
+            "star_growth_pct": item.get("star_growth_pct"),
+            "is_supplement": bool(item.get("is_supplement")),
         }
 
     def render_item_html(self, item: dict) -> str:
@@ -151,6 +199,7 @@ class GitHubSource(BaseSource):
             item.get("stars_today", 0),
             item.get("forks", 0),
             item.get("language", ""),
+            star_growth_pct=item.get("star_growth_pct"),
         )
 
     def get_theme_color(self) -> str:
@@ -162,7 +211,12 @@ class GitHubSource(BaseSource):
     def build_summary_overview(self, recommendations: list[dict]) -> str:
         overview = ""
         for i, r in enumerate(recommendations):
-            overview += f"{i + 1}. {r['repo_name']} ({r.get('language', '')}) - ⭐ {r.get('stars', 0)} stars (+{r.get('stars_today', 0)} today) - {r['summary']}\n"
+            growth = f" - 📈 较上次推送 +{r['star_growth_pct']}%" if r.get("star_growth_pct") else ""
+            overview += (
+                f"{i + 1}. {r['repo_name']} ({r.get('language', '')}) - "
+                f"⭐ {r.get('stars', 0)} stars (+{r.get('stars_today', 0)} today)"
+                f"{growth} - {r['summary']}\n"
+            )
         return overview
 
     def get_summary_prompt_template(self) -> str:

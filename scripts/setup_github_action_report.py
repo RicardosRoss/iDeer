@@ -114,6 +114,8 @@ def main() -> int:
         "GH_LANGUAGES": read_env("IDEER_GH_LANGUAGES", "all"),
         "GH_SINCE": read_env("IDEER_GH_SINCE", "daily"),
         "GH_MAX_REPOS": read_env("IDEER_GH_MAX_REPOS", "30"),
+        "GH_SEEN_WINDOW": read_env("IDEER_GH_SEEN_WINDOW", "14"),
+        "GH_MIN_NEW_ITEMS": read_env("IDEER_GH_MIN_NEW_ITEMS", "8"),
         "HF_CONTENT_TYPES": read_env("IDEER_HF_CONTENT_TYPES", "papers"),
         "HF_MAX_PAPERS": read_env("IDEER_HF_MAX_PAPERS", "30"),
         "HF_MAX_MODELS": read_env("IDEER_HF_MAX_MODELS", "15"),
