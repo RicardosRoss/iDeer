@@ -20,7 +20,10 @@ node_modules/
 
 # History/cache data
 history/
-state/
+# state/ contents are caches, except the cross-day GitHub seen list that
+# scheduled runs commit back so the next run can resume it
+state/*
+!state/github_seen_repos.json
 users/
 chatbot_test_outputs/
 

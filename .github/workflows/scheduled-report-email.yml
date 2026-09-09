@@ -24,7 +24,7 @@ on:
         default: true
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: scheduled-report-email
@@ -61,6 +61,8 @@ jobs:
       IDEER_GH_LANGUAGES: ${{ secrets.IDEER_GH_LANGUAGES }}
       IDEER_GH_SINCE: ${{ secrets.IDEER_GH_SINCE }}
       IDEER_GH_MAX_REPOS: ${{ secrets.IDEER_GH_MAX_REPOS }}
+      IDEER_GH_SEEN_WINDOW: ${{ secrets.IDEER_GH_SEEN_WINDOW }}
+      IDEER_GH_MIN_NEW_ITEMS: ${{ secrets.IDEER_GH_MIN_NEW_ITEMS }}
       IDEER_HF_CONTENT_TYPES: ${{ secrets.IDEER_HF_CONTENT_TYPES }}
       IDEER_HF_MAX_PAPERS: ${{ secrets.IDEER_HF_MAX_PAPERS }}
       IDEER_HF_MAX_MODELS: ${{ secrets.IDEER_HF_MAX_MODELS }}
@@ -160,3 +162,18 @@ jobs:
             history/twitter/**
             history/pubmed/**
             history/rss/**
+
+      # Runners are ephemeral: commit the cross-day GitHub dedup state back so
+      # the next scheduled run resumes it instead of repeating the same repos.
+      - name: Persist GitHub seen-repos state
+        if: always()
+        run: |
+          if [ -n "$(git status --porcelain -- state/github_seen_repos.json)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add state/github_seen_repos.json
+            git commit -m "chore(state): update github seen repos [skip ci]"
+            git push
+          else
+            echo "No seen-repos state change to persist."
+          fi

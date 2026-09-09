@@ -28,8 +28,15 @@ def get_language_badge(language: str) -> str:
 
 
 def get_repo_block_html(title: str, rate: str, repo_name: str, summary: str, repo_url: str,
-                        stars: int = 0, stars_today: int = 0, forks: int = 0, language: str = ""):
+                        stars: int = 0, stars_today: int = 0, forks: int = 0, language: str = "",
+                        star_growth_pct=None):
     lang_badge = get_language_badge(language)
+    growth_badge = ""
+    if star_growth_pct:
+        growth_badge = (
+            f'<span class="lang-badge" style="background-color: #1a7f37; color: white;">'
+            f'📈 +{star_growth_pct}% since last shown</span>'
+        )
 
     if stars >= 1000:
         stars_str = f"{stars/1000:.1f}k"
@@ -40,7 +47,7 @@ def get_repo_block_html(title: str, rate: str, repo_name: str, summary: str, rep
     <table border="0" cellpadding="0" cellspacing="0" width="100%" style="font-family: Arial, sans-serif; border: 1px solid #d0d7de; border-radius: 8px; padding: 16px; background-color: #f6f8fa;">
     <tr>
         <td style="font-size: 20px; font-weight: bold; color: #24292f;">
-            {title} {lang_badge}
+            {title} {lang_badge} {growth_badge}
         </td>
     </tr>
     <tr>
@@ -67,5 +74,6 @@ def get_repo_block_html(title: str, rate: str, repo_name: str, summary: str, rep
 """
     return block_template.format(
         title=title, rate=rate, repo_name=repo_name, summary=summary, repo_url=repo_url,
-        stars_str=stars_str, stars_today=stars_today, forks=forks, lang_badge=lang_badge
+        stars_str=stars_str, stars_today=stars_today, forks=forks, lang_badge=lang_badge,
+        growth_badge=growth_badge
     )

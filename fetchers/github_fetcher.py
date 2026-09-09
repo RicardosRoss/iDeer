@@ -141,7 +141,55 @@ def get_trending_repos(language: str = None, since: str = "daily", max_results: 
     return repos
 
 
-def get_trending_developers(language: str = None, since: str = "daily", max_results: int = 25) -> list:
+def search_rising_repos(created_within_days: int = 14, min_stars: int = 100, max_results: int = 30) -> list:
+    """
+    Search recently created repos with fast star growth via the GitHub search API.
+
+    Complements the trending page: a repo can only be "newly created" once, so
+    this pool is naturally free of day-over-day repeats.
+
+    Returns repos in the same shape as get_trending_repos, with an extra
+    ``is_supplement`` flag.
+    """
+    from datetime import date, timedelta
+
+    created_after = (date.today() - timedelta(days=created_within_days)).isoformat()
+    url = "https://api.github.com/search/repositories"
+    params = {
+        "q": f"created:>={created_after} stars:>{min_stars}",
+        "sort": "stars",
+        "order": "desc",
+        "per_page": max_results,
+    }
+    headers = {
+        "Accept": "application/vnd.github+json",
+        "User-Agent": "ideer-daily-briefing",
+    }
+
+    try:
+        response = requests.get(url, params=params, headers=headers, timeout=30)
+        response.raise_for_status()
+    except Exception as e:
+        print(f"Failed to search rising repos: {e}")
+        return []
+
+    repos = []
+    for item in response.json().get("items", []):
+        owner_login = (item.get("owner") or {}).get("login", "")
+        repos.append({
+            "repo_name": item["full_name"],
+            "owner": owner_login,
+            "name": item.get("name", ""),
+            "description": item.get("description") or "",
+            "language": item.get("language") or "",
+            "stars": item.get("stargazers_count", 0),
+            "stars_today": 0,
+            "forks": item.get("forks_count", 0),
+            "repo_url": item["html_url"],
+            "built_by": [],
+            "is_supplement": True,
+        })
+    return repos
     """
     Fetch GitHub Trending developers.
 
