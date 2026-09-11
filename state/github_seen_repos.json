@@ -44,8 +44,8 @@
     "stars": 53433
   },
   "vastsa/PI-Desktop": {
-    "date_shown": "2026-09-09",
-    "stars": 1494
+    "date_shown": "2026-09-11",
+    "stars": 2318
   },
   "affaan-m/ECC": {
     "date_shown": "2026-09-09",
@@ -170,5 +170,41 @@
   "yczz/oc-english": {
     "date_shown": "2026-09-10",
     "stars": 832
+  },
+  "bilawalsidhu/gods-eye-view": {
+    "date_shown": "2026-09-11",
+    "stars": 24394
+  },
+  "alsk1992/CloddsBot": {
+    "date_shown": "2026-09-11",
+    "stars": 1678
+  },
+  "AlexsJones/llmfit": {
+    "date_shown": "2026-09-11",
+    "stars": 35751
+  },
+  "armory3d/armorpaint": {
+    "date_shown": "2026-09-11",
+    "stars": 4429
+  },
+  "diegosouzapw/OmniRoute": {
+    "date_shown": "2026-09-11",
+    "stars": 64258
+  },
+  "JustVugg/colibri": {
+    "date_shown": "2026-09-11",
+    "stars": 27477
+  },
+  "THU-MAIC/OpenMAIC": {
+    "date_shown": "2026-09-11",
+    "stars": 35345
+  },
+  "nashsu/llm_wiki": {
+    "date_shown": "2026-09-11",
+    "stars": 18136
+  },
+  "vercel-labs/skills": {
+    "date_shown": "2026-09-11",
+    "stars": 31162
   }
 }
