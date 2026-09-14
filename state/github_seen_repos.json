@@ -212,8 +212,8 @@
     "stars": 2917
   },
   "melgarafael/DeskcommCRM": {
-    "date_shown": "2026-09-12",
-    "stars": 1364
+    "date_shown": "2026-09-14",
+    "stars": 2215
   },
   "Sonarr/Sonarr": {
     "date_shown": "2026-09-12",
@@ -232,8 +232,8 @@
     "stars": 2635
   },
   "alphaXiv/OpenResearch": {
-    "date_shown": "2026-09-12",
-    "stars": 1294
+    "date_shown": "2026-09-14",
+    "stars": 2100
   },
   "github/spec-kit": {
     "date_shown": "2026-09-12",
@@ -270,5 +270,41 @@
   "vxcontrol/pentagi": {
     "date_shown": "2026-09-13",
     "stars": 23460
+  },
+  "ever-co/ever-gauzy": {
+    "date_shown": "2026-09-14",
+    "stars": 5133
+  },
+  "tech-leads-club/agent-skills": {
+    "date_shown": "2026-09-14",
+    "stars": 5679
+  },
+  "calesthio/OpenMontage": {
+    "date_shown": "2026-09-14",
+    "stars": 58484
+  },
+  "debpalash/VoiceStudio": {
+    "date_shown": "2026-09-14",
+    "stars": 26949
+  },
+  "alibaba/open-code-review": {
+    "date_shown": "2026-09-14",
+    "stars": 23572
+  },
+  "tonhowtf/omniget": {
+    "date_shown": "2026-09-14",
+    "stars": 11709
+  },
+  "jiji262/douyin-downloader": {
+    "date_shown": "2026-09-14",
+    "stars": 11391
+  },
+  "Swordfish90/cool-retro-term": {
+    "date_shown": "2026-09-14",
+    "stars": 26235
+  },
+  "huggingface/transformers": {
+    "date_shown": "2026-09-14",
+    "stars": 165548
   }
 }
