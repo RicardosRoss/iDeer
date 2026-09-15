@@ -306,5 +306,45 @@
   "huggingface/transformers": {
     "date_shown": "2026-09-14",
     "stars": 165548
+  },
+  "666ghj/MiroFish": {
+    "date_shown": "2026-09-15",
+    "stars": 73194
+  },
+  "Panniantong/Agent-Reach": {
+    "date_shown": "2026-09-15",
+    "stars": 81324
+  },
+  "rlaope/oh-my-hermes": {
+    "date_shown": "2026-09-15",
+    "stars": 2072
+  },
+  "localsend/localsend": {
+    "date_shown": "2026-09-15",
+    "stars": 91357
+  },
+  "dani-garcia/vaultwarden": {
+    "date_shown": "2026-09-15",
+    "stars": 67535
+  },
+  "ruvnet/RuView": {
+    "date_shown": "2026-09-15",
+    "stars": 93867
+  },
+  "OpenBMB/VoxCPM": {
+    "date_shown": "2026-09-15",
+    "stars": 37382
+  },
+  "Crosstalk-Solutions/project-nomad": {
+    "date_shown": "2026-09-15",
+    "stars": 36922
+  },
+  "reconurge/flowsint": {
+    "date_shown": "2026-09-15",
+    "stars": 8360
+  },
+  "peetzweg/opendisplay": {
+    "date_shown": "2026-09-15",
+    "stars": 3610
   }
 }
