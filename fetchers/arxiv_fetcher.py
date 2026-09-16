@@ -96,16 +96,16 @@ def fetch_papers_for_categories(
 ) -> dict[str, list[dict]]:
     papers_by_category: dict[str, list[dict]] = {}
     failed: list[str] = []
-    for cat in categories:
+    for index, cat in enumerate(categories):
         try:
             papers = get_arxiv_new_papers(cat, max_entries)
         except Exception as e:
             failed.append(cat)
             print(f"[arxiv] category {cat} failed, skipping: {e}")
-            continue
-        papers_by_category[cat] = papers
-        print(f"[arxiv] {len(papers)} papers fetched for {cat}")
-        if len(categories) > 1:
+        else:
+            papers_by_category[cat] = papers
+            print(f"[arxiv] {len(papers)} papers fetched for {cat}")
+        if index < len(categories) - 1:
             time.sleep(random.randint(*sleep_range))
     if failed:
         summary = f"failed categories: {', '.join(failed)}"

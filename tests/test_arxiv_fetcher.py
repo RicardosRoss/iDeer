@@ -117,11 +117,26 @@ class FetchPapersForCategoriesTest(unittest.TestCase):
             return [{"title": f"paper in {category}", "arxiv_id": "2609.1"}]
 
         with patch("fetchers.arxiv_fetcher.get_arxiv_new_papers", side_effect=fake_fetch), \
-                patch("time.sleep"):
+                patch("time.sleep") as mock_sleep:
             result = fetch_papers_for_categories(["cs.SE", "cs.MA"])
 
         self.assertEqual(list(result.keys()), ["cs.MA"])
         self.assertEqual(result["cs.MA"][0]["title"], "paper in cs.MA")
+        # the inter-category delay still applies after a failed category,
+        # but not after the final one
+        self.assertEqual(mock_sleep.call_count, 1)
+
+    def test_single_category_does_not_sleep(self):
+        from fetchers.arxiv_fetcher import fetch_papers_for_categories
+
+        with patch(
+            "fetchers.arxiv_fetcher.get_arxiv_new_papers",
+            return_value=[{"title": "paper", "arxiv_id": "2609.1"}],
+        ), patch("time.sleep") as mock_sleep:
+            result = fetch_papers_for_categories(["cs.MA"])
+
+        self.assertEqual(len(result["cs.MA"]), 1)
+        mock_sleep.assert_not_called()
 
     def test_all_categories_failed_raises(self):
         from fetchers.arxiv_fetcher import fetch_papers_for_categories
