@@ -232,8 +232,8 @@
     "stars": 2635
   },
   "alphaXiv/OpenResearch": {
-    "date_shown": "2026-09-14",
-    "stars": 2100
+    "date_shown": "2026-09-16",
+    "stars": 3399
   },
   "github/spec-kit": {
     "date_shown": "2026-09-12",
@@ -346,5 +346,33 @@
   "peetzweg/opendisplay": {
     "date_shown": "2026-09-15",
     "stars": 3610
+  },
+  "Homebrew/BrewUI": {
+    "date_shown": "2026-09-16",
+    "stars": 1394
+  },
+  "NationalSecurityAgency/ghidra": {
+    "date_shown": "2026-09-16",
+    "stars": 76744
+  },
+  "danny-avila/LibreChat": {
+    "date_shown": "2026-09-16",
+    "stars": 43862
+  },
+  "pacifio/atlas": {
+    "date_shown": "2026-09-16",
+    "stars": 4645
+  },
+  "MG1937/ASC": {
+    "date_shown": "2026-09-16",
+    "stars": 1200
+  },
+  "addyosmani/agent-skills": {
+    "date_shown": "2026-09-16",
+    "stars": 94831
+  },
+  "earendil-works/pi": {
+    "date_shown": "2026-09-16",
+    "stars": 105757
   }
 }
