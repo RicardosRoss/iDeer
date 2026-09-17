@@ -256,8 +256,8 @@
     "stars": 137642
   },
   "SnailSploit/Claude-Red": {
-    "date_shown": "2026-09-13",
-    "stars": 3609
+    "date_shown": "2026-09-17",
+    "stars": 5786
   },
   "multimodal-art-projection/YuE": {
     "date_shown": "2026-09-13",
@@ -374,5 +374,49 @@
   "earendil-works/pi": {
     "date_shown": "2026-09-16",
     "stars": 105757
+  },
+  "cloudflare/security-audit-skill": {
+    "date_shown": "2026-09-17",
+    "stars": 7377
+  },
+  "abue-ammar/tinycast": {
+    "date_shown": "2026-09-17",
+    "stars": 5626
+  },
+  "jamiepine/voicebox": {
+    "date_shown": "2026-09-17",
+    "stars": 54415
+  },
+  "Lakr233/vphone-cli": {
+    "date_shown": "2026-09-17",
+    "stars": 13368
+  },
+  "anthropics/knowledge-work-plugins": {
+    "date_shown": "2026-09-17",
+    "stars": 24307
+  },
+  "ankitects/anki": {
+    "date_shown": "2026-09-17",
+    "stars": 30888
+  },
+  "anthropics/claude-code": {
+    "date_shown": "2026-09-17",
+    "stars": 145539
+  },
+  "roboflow/supervision": {
+    "date_shown": "2026-09-17",
+    "stars": 50612
+  },
+  "supabase/supabase": {
+    "date_shown": "2026-09-17",
+    "stars": 109759
+  },
+  "Tencent/WeKnora": {
+    "date_shown": "2026-09-17",
+    "stars": 25375
+  },
+  "cline/cline": {
+    "date_shown": "2026-09-17",
+    "stars": 68393
   }
 }
