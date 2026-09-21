@@ -440,16 +440,16 @@
     "stars": 205019
   },
   "eternity4719/HowToLiveBetter": {
-    "date_shown": "2026-09-18",
-    "stars": 3558
+    "date_shown": "2026-09-21",
+    "stars": 8846
   },
   "sdli1995/dlssg_for_sm86": {
     "date_shown": "2026-09-18",
     "stars": 3309
   },
   "browser-use/jev-ultrafast": {
-    "date_shown": "2026-09-18",
-    "stars": 2262
+    "date_shown": "2026-09-21",
+    "stars": 12096
   },
   "yang0/handraw-style": {
     "date_shown": "2026-09-18",
@@ -594,5 +594,85 @@
   "yynxxxxx/Codex-X": {
     "date_shown": "2026-09-20",
     "stars": 3409
+  },
+  "BuilderIO/agent-native": {
+    "date_shown": "2026-09-21",
+    "stars": 5246
+  },
+  "anthropics/financial-services": {
+    "date_shown": "2026-09-21",
+    "stars": 35393
+  },
+  "paperless-ngx/paperless-ngx": {
+    "date_shown": "2026-09-21",
+    "stars": 45593
+  },
+  "mihail911/modern-software-dev-assignments": {
+    "date_shown": "2026-09-21",
+    "stars": 4574
+  },
+  "vercel-labs/json-render": {
+    "date_shown": "2026-09-21",
+    "stars": 17357
+  },
+  "tamaratran/fast-jev-compaction": {
+    "date_shown": "2026-09-21",
+    "stars": 5232
+  },
+  "NandhaKishorM/laya": {
+    "date_shown": "2026-09-21",
+    "stars": 4389
+  },
+  "robbietilton/Compositor": {
+    "date_shown": "2026-09-21",
+    "stars": 3713
+  },
+  "TheoLeeCJ/SemIf": {
+    "date_shown": "2026-09-21",
+    "stars": 2471
+  },
+  "mcncarl/jianying-headless": {
+    "date_shown": "2026-09-21",
+    "stars": 2024
+  },
+  "mizorewww/laya-mlx": {
+    "date_shown": "2026-09-21",
+    "stars": 1766
+  },
+  "yi1108/printfilm": {
+    "date_shown": "2026-09-21",
+    "stars": 1676
+  },
+  "jarrodwatts/jev-trader": {
+    "date_shown": "2026-09-21",
+    "stars": 1544
+  },
+  "TianyuCodings/NanoJev": {
+    "date_shown": "2026-09-21",
+    "stars": 1439
+  },
+  "bespokelabsai/nimble": {
+    "date_shown": "2026-09-21",
+    "stars": 1128
+  },
+  "zai-org/ZCode": {
+    "date_shown": "2026-09-21",
+    "stars": 1128
+  },
+  "vinnylarouge/jevlike": {
+    "date_shown": "2026-09-21",
+    "stars": 1088
+  },
+  "jaredpalmer/kev": {
+    "date_shown": "2026-09-21",
+    "stars": 1069
+  },
+  "zhengkid/Dream-RSI": {
+    "date_shown": "2026-09-21",
+    "stars": 980
+  },
+  "agentverse-os/AgentVerse-OS": {
+    "date_shown": "2026-09-21",
+    "stars": 962
   }
 }
