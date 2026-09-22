@@ -620,8 +620,8 @@
     "stars": 5232
   },
   "NandhaKishorM/laya": {
-    "date_shown": "2026-09-21",
-    "stars": 4389
+    "date_shown": "2026-09-22",
+    "stars": 10716
   },
   "robbietilton/Compositor": {
     "date_shown": "2026-09-21",
@@ -636,8 +636,8 @@
     "stars": 2024
   },
   "mizorewww/laya-mlx": {
-    "date_shown": "2026-09-21",
-    "stars": 1766
+    "date_shown": "2026-09-22",
+    "stars": 3960
   },
   "yi1108/printfilm": {
     "date_shown": "2026-09-21",
@@ -656,16 +656,16 @@
     "stars": 1128
   },
   "zai-org/ZCode": {
-    "date_shown": "2026-09-21",
-    "stars": 1128
+    "date_shown": "2026-09-22",
+    "stars": 5704
   },
   "vinnylarouge/jevlike": {
     "date_shown": "2026-09-21",
     "stars": 1088
   },
   "jaredpalmer/kev": {
-    "date_shown": "2026-09-21",
-    "stars": 1069
+    "date_shown": "2026-09-22",
+    "stars": 2521
   },
   "zhengkid/Dream-RSI": {
     "date_shown": "2026-09-21",
@@ -674,5 +674,37 @@
   "agentverse-os/AgentVerse-OS": {
     "date_shown": "2026-09-21",
     "stars": 962
+  },
+  "akitaonrails/ai-memory": {
+    "date_shown": "2026-09-22",
+    "stars": 7721
+  },
+  "mvt-project/mvt": {
+    "date_shown": "2026-09-22",
+    "stars": 13619
+  },
+  "zhouxiaoka/autoclip": {
+    "date_shown": "2026-09-22",
+    "stars": 8292
+  },
+  "Mak5er/AirCard": {
+    "date_shown": "2026-09-22",
+    "stars": 1468
+  },
+  "jev-chat/jev-chat-jarvis": {
+    "date_shown": "2026-09-22",
+    "stars": 1247
+  },
+  "QwenLM/Qwen-Image-2.1": {
+    "date_shown": "2026-09-22",
+    "stars": 1018
+  },
+  "yibie/awesome-jev": {
+    "date_shown": "2026-09-22",
+    "stars": 997
+  },
+  "ArasTey/lunel": {
+    "date_shown": "2026-09-22",
+    "stars": 887
   }
 }
