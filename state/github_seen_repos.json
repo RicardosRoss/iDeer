@@ -448,8 +448,8 @@
     "stars": 3309
   },
   "browser-use/jev-ultrafast": {
-    "date_shown": "2026-09-21",
-    "stars": 12096
+    "date_shown": "2026-09-23",
+    "stars": 18147
   },
   "yang0/handraw-style": {
     "date_shown": "2026-09-18",
@@ -620,16 +620,16 @@
     "stars": 5232
   },
   "NandhaKishorM/laya": {
-    "date_shown": "2026-09-22",
-    "stars": 10716
+    "date_shown": "2026-09-23",
+    "stars": 16825
   },
   "robbietilton/Compositor": {
     "date_shown": "2026-09-21",
     "stars": 3713
   },
   "TheoLeeCJ/SemIf": {
-    "date_shown": "2026-09-21",
-    "stars": 2471
+    "date_shown": "2026-09-23",
+    "stars": 3861
   },
   "mcncarl/jianying-headless": {
     "date_shown": "2026-09-21",
@@ -664,8 +664,8 @@
     "stars": 1088
   },
   "jaredpalmer/kev": {
-    "date_shown": "2026-09-22",
-    "stars": 2521
+    "date_shown": "2026-09-23",
+    "stars": 4354
   },
   "zhengkid/Dream-RSI": {
     "date_shown": "2026-09-21",
@@ -688,12 +688,12 @@
     "stars": 8292
   },
   "Mak5er/AirCard": {
-    "date_shown": "2026-09-22",
-    "stars": 1468
+    "date_shown": "2026-09-23",
+    "stars": 2826
   },
   "jev-chat/jev-chat-jarvis": {
-    "date_shown": "2026-09-22",
-    "stars": 1247
+    "date_shown": "2026-09-23",
+    "stars": 3939
   },
   "QwenLM/Qwen-Image-2.1": {
     "date_shown": "2026-09-22",
@@ -706,5 +706,49 @@
   "ArasTey/lunel": {
     "date_shown": "2026-09-22",
     "stars": 887
+  },
+  "agent-substrate/substrate": {
+    "date_shown": "2026-09-23",
+    "stars": 2997
+  },
+  "dream-num/univer": {
+    "date_shown": "2026-09-23",
+    "stars": 15491
+  },
+  "davila7/claude-code-templates": {
+    "date_shown": "2026-09-23",
+    "stars": 31146
+  },
+  "google/ax": {
+    "date_shown": "2026-09-23",
+    "stars": 7676
+  },
+  "superdesigndev/treg": {
+    "date_shown": "2026-09-23",
+    "stars": 2248
+  },
+  "browser-use/video-use": {
+    "date_shown": "2026-09-23",
+    "stars": 25873
+  },
+  "mizorewww/laya-coreml": {
+    "date_shown": "2026-09-23",
+    "stars": 1295
+  },
+  "unreallabsai/unreal-agent": {
+    "date_shown": "2026-09-23",
+    "stars": 1001
+  },
+  "newliver666/apk-reverse": {
+    "date_shown": "2026-09-23",
+    "stars": 992
+  },
+  "CopilotKit/openmuse": {
+    "date_shown": "2026-09-23",
+    "stars": 922
+  },
+  "youngyangyang04/llm-master": {
+    "date_shown": "2026-09-23",
+    "stars": 907
   }
 }
