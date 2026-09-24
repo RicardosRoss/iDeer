@@ -8,8 +8,8 @@
     "stars": 2753
   },
   "obra/superpowers": {
-    "date_shown": "2026-09-09",
-    "stars": 283801
+    "date_shown": "2026-09-24",
+    "stars": 290698
   },
   "pascalorg/editor": {
     "date_shown": "2026-09-09",
@@ -636,8 +636,8 @@
     "stars": 2024
   },
   "mizorewww/laya-mlx": {
-    "date_shown": "2026-09-22",
-    "stars": 3960
+    "date_shown": "2026-09-24",
+    "stars": 5970
   },
   "yi1108/printfilm": {
     "date_shown": "2026-09-21",
@@ -700,8 +700,8 @@
     "stars": 1018
   },
   "yibie/awesome-jev": {
-    "date_shown": "2026-09-22",
-    "stars": 997
+    "date_shown": "2026-09-24",
+    "stars": 1497
   },
   "ArasTey/lunel": {
     "date_shown": "2026-09-22",
@@ -736,19 +736,55 @@
     "stars": 1295
   },
   "unreallabsai/unreal-agent": {
-    "date_shown": "2026-09-23",
-    "stars": 1001
+    "date_shown": "2026-09-24",
+    "stars": 1727
   },
   "newliver666/apk-reverse": {
     "date_shown": "2026-09-23",
     "stars": 992
   },
   "CopilotKit/openmuse": {
-    "date_shown": "2026-09-23",
-    "stars": 922
+    "date_shown": "2026-09-24",
+    "stars": 1809
   },
   "youngyangyang04/llm-master": {
     "date_shown": "2026-09-23",
     "stars": 907
+  },
+  "strands-agents/harness-sdk": {
+    "date_shown": "2026-09-24",
+    "stars": 7858
+  },
+  "HKUDS/CLI-Anything": {
+    "date_shown": "2026-09-24",
+    "stars": 49947
+  },
+  "pbakaus/impeccable": {
+    "date_shown": "2026-09-24",
+    "stars": 70356
+  },
+  "DeusData/codebase-memory-mcp": {
+    "date_shown": "2026-09-24",
+    "stars": 44581
+  },
+  "harry7557558/spirula-studio": {
+    "date_shown": "2026-09-24",
+    "stars": 751
+  },
+  "TNT-Likely/PanWatch": {
+    "date_shown": "2026-09-24",
+    "stars": 1529
+  },
+  "TheoLeeCJ/SemIf-OpenJev": {
+    "date_shown": "2026-09-24",
+    "stars": 4105
+  },
+  "hydra-db/open-glean": {
+    "date_shown": "2026-09-24",
+    "stars": 1506
+  },
+  "NxcoreAI/NxMem": {
+    "date_shown": "2026-09-24",
+    "stars": 944
   }
 }
