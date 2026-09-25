@@ -40,8 +40,8 @@
     "stars": 29759
   },
   "rohitg00/ai-engineering-from-scratch": {
-    "date_shown": "2026-09-09",
-    "stars": 53433
+    "date_shown": "2026-09-25",
+    "stars": 56610
   },
   "vastsa/PI-Desktop": {
     "date_shown": "2026-09-11",
@@ -644,16 +644,16 @@
     "stars": 1676
   },
   "jarrodwatts/jev-trader": {
-    "date_shown": "2026-09-21",
-    "stars": 1544
+    "date_shown": "2026-09-25",
+    "stars": 2363
   },
   "TianyuCodings/NanoJev": {
-    "date_shown": "2026-09-21",
-    "stars": 1439
+    "date_shown": "2026-09-25",
+    "stars": 2206
   },
   "bespokelabsai/nimble": {
-    "date_shown": "2026-09-21",
-    "stars": 1128
+    "date_shown": "2026-09-25",
+    "stars": 1736
   },
   "zai-org/ZCode": {
     "date_shown": "2026-09-22",
@@ -664,8 +664,8 @@
     "stars": 1088
   },
   "jaredpalmer/kev": {
-    "date_shown": "2026-09-23",
-    "stars": 4354
+    "date_shown": "2026-09-25",
+    "stars": 6764
   },
   "zhengkid/Dream-RSI": {
     "date_shown": "2026-09-21",
@@ -692,8 +692,8 @@
     "stars": 2826
   },
   "jev-chat/jev-chat-jarvis": {
-    "date_shown": "2026-09-23",
-    "stars": 3939
+    "date_shown": "2026-09-25",
+    "stars": 6118
   },
   "QwenLM/Qwen-Image-2.1": {
     "date_shown": "2026-09-22",
@@ -786,5 +786,41 @@
   "NxcoreAI/NxMem": {
     "date_shown": "2026-09-24",
     "stars": 944
+  },
+  "vectorize-io/hindsight": {
+    "date_shown": "2026-09-25",
+    "stars": 27826
+  },
+  "NVIDIA/Model-Optimizer": {
+    "date_shown": "2026-09-25",
+    "stars": 4094
+  },
+  "FxEmbed/FxEmbed": {
+    "date_shown": "2026-09-25",
+    "stars": 5374
+  },
+  "julyx10/lap": {
+    "date_shown": "2026-09-25",
+    "stars": 2887
+  },
+  "leejet/stable-diffusion.cpp": {
+    "date_shown": "2026-09-25",
+    "stars": 7256
+  },
+  "driceroland/Search": {
+    "date_shown": "2026-09-25",
+    "stars": 1258
+  },
+  "anmolkapil/plexo": {
+    "date_shown": "2026-09-25",
+    "stars": 1020
+  },
+  "deepopen-com/deepopen": {
+    "date_shown": "2026-09-25",
+    "stars": 1006
+  },
+  "theoephraim/awesome-cloudflare-selfhosted": {
+    "date_shown": "2026-09-25",
+    "stars": 960
   }
 }
