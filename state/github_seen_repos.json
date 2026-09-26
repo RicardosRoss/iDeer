@@ -720,8 +720,8 @@
     "stars": 31146
   },
   "google/ax": {
-    "date_shown": "2026-09-23",
-    "stars": 7676
+    "date_shown": "2026-09-26",
+    "stars": 11526
   },
   "superdesigndev/treg": {
     "date_shown": "2026-09-23",
@@ -822,5 +822,41 @@
   "theoephraim/awesome-cloudflare-selfhosted": {
     "date_shown": "2026-09-25",
     "stars": 960
+  },
+  "paperclipai/paperclip": {
+    "date_shown": "2026-09-26",
+    "stars": 85044
+  },
+  "anthropics/claude-plugins-official": {
+    "date_shown": "2026-09-26",
+    "stars": 36950
+  },
+  "mattpocock/skills": {
+    "date_shown": "2026-09-26",
+    "stars": 269754
+  },
+  "anthropics/skills": {
+    "date_shown": "2026-09-26",
+    "stars": 178336
+  },
+  "androoAGI/starnet": {
+    "date_shown": "2026-09-26",
+    "stars": 494
+  },
+  "derv82/wifit3": {
+    "date_shown": "2026-09-26",
+    "stars": 945
+  },
+  "kelseyhightower/kubernetes-the-hard-way": {
+    "date_shown": "2026-09-26",
+    "stars": 50130
+  },
+  "shy3130/tick-stock-panel": {
+    "date_shown": "2026-09-26",
+    "stars": 5140
+  },
+  "openbao/openbao": {
+    "date_shown": "2026-09-26",
+    "stars": 7741
   }
 }
