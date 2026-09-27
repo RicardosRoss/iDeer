@@ -858,5 +858,41 @@
   "openbao/openbao": {
     "date_shown": "2026-09-26",
     "stars": 7741
+  },
+  "tensorflow/tensorflow": {
+    "date_shown": "2026-09-27",
+    "stars": 200467
+  },
+  "block/buzz": {
+    "date_shown": "2026-09-27",
+    "stars": 34839
+  },
+  "microsoft/vscode": {
+    "date_shown": "2026-09-27",
+    "stars": 193079
+  },
+  "zhaoxuya520/reverse-skill": {
+    "date_shown": "2026-09-27",
+    "stars": 38034
+  },
+  "llvm/llvm-project": {
+    "date_shown": "2026-09-27",
+    "stars": 40755
+  },
+  "anthropics/claude-code-action": {
+    "date_shown": "2026-09-27",
+    "stars": 9103
+  },
+  "actions/runner-images": {
+    "date_shown": "2026-09-27",
+    "stars": 13307
+  },
+  "mobile-next/mobile-mcp": {
+    "date_shown": "2026-09-27",
+    "stars": 7377
+  },
+  "vercel/next.js": {
+    "date_shown": "2026-09-27",
+    "stars": 142652
   }
 }
