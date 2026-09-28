@@ -284,8 +284,8 @@
     "stars": 58484
   },
   "debpalash/VoiceStudio": {
-    "date_shown": "2026-09-14",
-    "stars": 26949
+    "date_shown": "2026-09-28",
+    "stars": 40306
   },
   "alibaba/open-code-review": {
     "date_shown": "2026-09-19",
@@ -620,12 +620,12 @@
     "stars": 5232
   },
   "NandhaKishorM/laya": {
-    "date_shown": "2026-09-23",
-    "stars": 16825
+    "date_shown": "2026-09-28",
+    "stars": 26780
   },
   "robbietilton/Compositor": {
-    "date_shown": "2026-09-21",
-    "stars": 3713
+    "date_shown": "2026-09-28",
+    "stars": 5878
   },
   "TheoLeeCJ/SemIf": {
     "date_shown": "2026-09-23",
@@ -688,16 +688,16 @@
     "stars": 8292
   },
   "Mak5er/AirCard": {
-    "date_shown": "2026-09-23",
-    "stars": 2826
+    "date_shown": "2026-09-28",
+    "stars": 4569
   },
   "jev-chat/jev-chat-jarvis": {
     "date_shown": "2026-09-25",
     "stars": 6118
   },
   "QwenLM/Qwen-Image-2.1": {
-    "date_shown": "2026-09-22",
-    "stars": 1018
+    "date_shown": "2026-09-28",
+    "stars": 1568
   },
   "yibie/awesome-jev": {
     "date_shown": "2026-09-24",
@@ -740,8 +740,8 @@
     "stars": 1727
   },
   "newliver666/apk-reverse": {
-    "date_shown": "2026-09-23",
-    "stars": 992
+    "date_shown": "2026-09-28",
+    "stars": 2750
   },
   "CopilotKit/openmuse": {
     "date_shown": "2026-09-24",
@@ -808,8 +808,8 @@
     "stars": 7256
   },
   "driceroland/Search": {
-    "date_shown": "2026-09-25",
-    "stars": 1258
+    "date_shown": "2026-09-28",
+    "stars": 2193
   },
   "anmolkapil/plexo": {
     "date_shown": "2026-09-25",
@@ -894,5 +894,49 @@
   "vercel/next.js": {
     "date_shown": "2026-09-27",
     "stars": 142652
+  },
+  "InfinityLoop1308/PipePipe": {
+    "date_shown": "2026-09-28",
+    "stars": 6602
+  },
+  "vercel-labs/scriptc": {
+    "date_shown": "2026-09-28",
+    "stars": 5425
+  },
+  "mvschwarz/openrig": {
+    "date_shown": "2026-09-28",
+    "stars": 1026
+  },
+  "willfaust/Madeira": {
+    "date_shown": "2026-09-28",
+    "stars": 831
+  },
+  "cdyforever/how-to-live-better": {
+    "date_shown": "2026-09-28",
+    "stars": 2412
+  },
+  "Contrastive-LM/CLM": {
+    "date_shown": "2026-09-28",
+    "stars": 1932
+  },
+  "tobi/disktree": {
+    "date_shown": "2026-09-28",
+    "stars": 1619
+  },
+  "pallavi-shekhar/ai-engineering-interview-questions-company-wise": {
+    "date_shown": "2026-09-28",
+    "stars": 1484
+  },
+  "yetone/magpie": {
+    "date_shown": "2026-09-28",
+    "stars": 1269
+  },
+  "JohnHeibel/PDoomVideo": {
+    "date_shown": "2026-09-28",
+    "stars": 1262
+  },
+  "Mak5er/AirCard-iOS": {
+    "date_shown": "2026-09-28",
+    "stars": 1238
   }
 }
