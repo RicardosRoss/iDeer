@@ -788,8 +788,8 @@
     "stars": 944
   },
   "vectorize-io/hindsight": {
-    "date_shown": "2026-09-25",
-    "stars": 27826
+    "date_shown": "2026-09-30",
+    "stars": 42941
   },
   "NVIDIA/Model-Optimizer": {
     "date_shown": "2026-09-25",
@@ -816,8 +816,8 @@
     "stars": 1020
   },
   "deepopen-com/deepopen": {
-    "date_shown": "2026-09-25",
-    "stars": 1006
+    "date_shown": "2026-09-30",
+    "stars": 1623
   },
   "theoephraim/awesome-cloudflare-selfhosted": {
     "date_shown": "2026-09-25",
@@ -928,8 +928,8 @@
     "stars": 1484
   },
   "yetone/magpie": {
-    "date_shown": "2026-09-28",
-    "stars": 1269
+    "date_shown": "2026-09-30",
+    "stars": 2888
   },
   "JohnHeibel/PDoomVideo": {
     "date_shown": "2026-09-28",
@@ -958,5 +958,37 @@
   "dzhng/jevgrep": {
     "date_shown": "2026-09-29",
     "stars": 1470
+  },
+  "NVIDIA/OpenShell": {
+    "date_shown": "2026-09-30",
+    "stars": 10714
+  },
+  "t8y2/dbx": {
+    "date_shown": "2026-09-30",
+    "stars": 22176
+  },
+  "oblien/openship": {
+    "date_shown": "2026-09-30",
+    "stars": 13883
+  },
+  "averygan/reclip": {
+    "date_shown": "2026-09-30",
+    "stars": 10189
+  },
+  "VectifyAI/PageIndex": {
+    "date_shown": "2026-09-30",
+    "stars": 37457
+  },
+  "rakyll/hey": {
+    "date_shown": "2026-09-30",
+    "stars": 20502
+  },
+  "KKKKhazix/AIHOT": {
+    "date_shown": "2026-09-30",
+    "stars": 3307
+  },
+  "Niko1221/Strata": {
+    "date_shown": "2026-09-30",
+    "stars": 1826
   }
 }
