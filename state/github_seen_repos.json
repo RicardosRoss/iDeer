@@ -904,8 +904,8 @@
     "stars": 5425
   },
   "mvschwarz/openrig": {
-    "date_shown": "2026-09-29",
-    "stars": 1795
+    "date_shown": "2026-10-01",
+    "stars": 3061
   },
   "willfaust/Madeira": {
     "date_shown": "2026-09-28",
@@ -990,5 +990,41 @@
   "Niko1221/Strata": {
     "date_shown": "2026-09-30",
     "stars": 1826
+  },
+  "mksglu/context-mode": {
+    "date_shown": "2026-10-01",
+    "stars": 24516
+  },
+  "DietrichGebert/ponytail": {
+    "date_shown": "2026-10-01",
+    "stars": 149253
+  },
+  "harry0703/MoneyPrinterTurbo": {
+    "date_shown": "2026-10-01",
+    "stars": 127606
+  },
+  "openclaw/openclaw": {
+    "date_shown": "2026-10-01",
+    "stars": 391002
+  },
+  "ComposioHQ/awesome-claude-skills": {
+    "date_shown": "2026-10-01",
+    "stars": 76160
+  },
+  "heygen-com/hyperframes": {
+    "date_shown": "2026-10-01",
+    "stars": 54773
+  },
+  "firebase/firebase-ios-sdk": {
+    "date_shown": "2026-10-01",
+    "stars": 6774
+  },
+  "modelcontextprotocol/servers": {
+    "date_shown": "2026-10-01",
+    "stars": 90830
+  },
+  "colbymchenry/codegraph": {
+    "date_shown": "2026-10-01",
+    "stars": 72618
   }
 }
