@@ -372,8 +372,8 @@
     "stars": 94831
   },
   "earendil-works/pi": {
-    "date_shown": "2026-09-16",
-    "stars": 105757
+    "date_shown": "2026-10-02",
+    "stars": 111272
   },
   "cloudflare/security-audit-skill": {
     "date_shown": "2026-09-19",
@@ -912,8 +912,8 @@
     "stars": 831
   },
   "cdyforever/how-to-live-better": {
-    "date_shown": "2026-09-29",
-    "stars": 4027
+    "date_shown": "2026-10-02",
+    "stars": 6082
   },
   "Contrastive-LM/CLM": {
     "date_shown": "2026-09-28",
@@ -988,8 +988,8 @@
     "stars": 3307
   },
   "Niko1221/Strata": {
-    "date_shown": "2026-09-30",
-    "stars": 1826
+    "date_shown": "2026-10-02",
+    "stars": 4822
   },
   "mksglu/context-mode": {
     "date_shown": "2026-10-01",
@@ -1026,5 +1026,61 @@
   "colbymchenry/codegraph": {
     "date_shown": "2026-10-01",
     "stars": 72618
+  },
+  "cursor/plugins": {
+    "date_shown": "2026-10-02",
+    "stars": 9334
+  },
+  "tile-ai/tilelang": {
+    "date_shown": "2026-10-02",
+    "stars": 8131
+  },
+  "pablostanley/yoinks": {
+    "date_shown": "2026-10-02",
+    "stars": 2983
+  },
+  "HunxByts/GhostTrack": {
+    "date_shown": "2026-10-02",
+    "stars": 16441
+  },
+  "Friedrich-M/UniMate": {
+    "date_shown": "2026-10-02",
+    "stars": 1094
+  },
+  "Louis-CFM/coucou": {
+    "date_shown": "2026-10-02",
+    "stars": 2500
+  },
+  "feder-cr/dots": {
+    "date_shown": "2026-10-02",
+    "stars": 2389
+  },
+  "shihabal3amri/DiPlay": {
+    "date_shown": "2026-10-02",
+    "stars": 2044
+  },
+  "RubinLabs26/ISpotify": {
+    "date_shown": "2026-10-02",
+    "stars": 1902
+  },
+  "rehan-remade/universal-modder": {
+    "date_shown": "2026-10-02",
+    "stars": 1598
+  },
+  "kaankiziltug/logo-design-skill": {
+    "date_shown": "2026-10-02",
+    "stars": 1361
+  },
+  "852wa/JIZURA": {
+    "date_shown": "2026-10-02",
+    "stars": 1283
+  },
+  "firelex/jeff": {
+    "date_shown": "2026-10-02",
+    "stars": 1269
+  },
+  "yihui-dev/awesome-opus5-5-videos": {
+    "date_shown": "2026-10-02",
+    "stars": 1259
   }
 }
