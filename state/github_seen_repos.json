@@ -312,8 +312,8 @@
     "stars": 73194
   },
   "Panniantong/Agent-Reach": {
-    "date_shown": "2026-09-15",
-    "stars": 81324
+    "date_shown": "2026-10-03",
+    "stars": 88732
   },
   "rlaope/oh-my-hermes": {
     "date_shown": "2026-09-15",
@@ -984,8 +984,8 @@
     "stars": 20502
   },
   "KKKKhazix/AIHOT": {
-    "date_shown": "2026-09-30",
-    "stars": 3307
+    "date_shown": "2026-10-03",
+    "stars": 4984
   },
   "Niko1221/Strata": {
     "date_shown": "2026-10-02",
@@ -1082,5 +1082,37 @@
   "yihui-dev/awesome-opus5-5-videos": {
     "date_shown": "2026-10-02",
     "stars": 1259
+  },
+  "JuliusBrussee/caveman": {
+    "date_shown": "2026-10-03",
+    "stars": 109125
+  },
+  "coreyhaines31/marketingskills": {
+    "date_shown": "2026-10-03",
+    "stars": 52433
+  },
+  "google/skills": {
+    "date_shown": "2026-10-03",
+    "stars": 20765
+  },
+  "getsentry/sentry": {
+    "date_shown": "2026-10-03",
+    "stars": 45042
+  },
+  "Effect-TS/effect": {
+    "date_shown": "2026-10-03",
+    "stars": 16568
+  },
+  "CopilotKit/OpenDots": {
+    "date_shown": "2026-10-03",
+    "stars": 1519
+  },
+  "feitangyuan/onetake": {
+    "date_shown": "2026-10-03",
+    "stars": 1341
+  },
+  "wy51ai/floorplan-3d": {
+    "date_shown": "2026-10-03",
+    "stars": 1318
   }
 }
