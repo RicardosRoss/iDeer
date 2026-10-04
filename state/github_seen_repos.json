@@ -48,8 +48,8 @@
     "stars": 2318
   },
   "affaan-m/ECC": {
-    "date_shown": "2026-09-09",
-    "stars": 254836
+    "date_shown": "2026-10-04",
+    "stars": 272311
   },
   "sapientinc/PRAXIST": {
     "date_shown": "2026-09-10",
@@ -368,8 +368,8 @@
     "stars": 1200
   },
   "addyosmani/agent-skills": {
-    "date_shown": "2026-09-16",
-    "stars": 94831
+    "date_shown": "2026-10-04",
+    "stars": 100875
   },
   "earendil-works/pi": {
     "date_shown": "2026-10-02",
@@ -400,8 +400,8 @@
     "stars": 30888
   },
   "anthropics/claude-code": {
-    "date_shown": "2026-09-17",
-    "stars": 145539
+    "date_shown": "2026-10-04",
+    "stars": 149241
   },
   "roboflow/supervision": {
     "date_shown": "2026-09-17",
@@ -1114,5 +1114,29 @@
   "wy51ai/floorplan-3d": {
     "date_shown": "2026-10-03",
     "stars": 1318
+  },
+  "pingdotgg/t3code": {
+    "date_shown": "2026-10-04",
+    "stars": 24724
+  },
+  "thedotmack/claude-mem": {
+    "date_shown": "2026-10-04",
+    "stars": 95631
+  },
+  "cloudflare/cloudflare-os": {
+    "date_shown": "2026-10-04",
+    "stars": 10592
+  },
+  "jamwithai/production-agentic-rag-course": {
+    "date_shown": "2026-10-04",
+    "stars": 9417
+  },
+  "meituan-longcat/LongCat-Video": {
+    "date_shown": "2026-10-04",
+    "stars": 8775
+  },
+  "OpenCut-app/OpenCut": {
+    "date_shown": "2026-10-04",
+    "stars": 91653
   }
 }
