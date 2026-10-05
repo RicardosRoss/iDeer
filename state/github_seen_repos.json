@@ -16,8 +16,8 @@
     "stars": 22737
   },
   "earthtojake/text-to-cad": {
-    "date_shown": "2026-09-09",
-    "stars": 14889
+    "date_shown": "2026-10-05",
+    "stars": 16900
   },
   "cathrynlavery/diagram-design": {
     "date_shown": "2026-09-09",
@@ -280,8 +280,8 @@
     "stars": 5679
   },
   "calesthio/OpenMontage": {
-    "date_shown": "2026-09-14",
-    "stars": 58484
+    "date_shown": "2026-10-05",
+    "stars": 63265
   },
   "debpalash/VoiceStudio": {
     "date_shown": "2026-09-28",
@@ -1138,5 +1138,25 @@
   "OpenCut-app/OpenCut": {
     "date_shown": "2026-10-04",
     "stars": 91653
+  },
+  "tester-army/e2e": {
+    "date_shown": "2026-10-05",
+    "stars": 3219
+  },
+  "caddyserver/caddy": {
+    "date_shown": "2026-10-05",
+    "stars": 76598
+  },
+  "michael-denyer/pstack-claude": {
+    "date_shown": "2026-10-05",
+    "stars": 1165
+  },
+  "garrytan/gstack": {
+    "date_shown": "2026-10-05",
+    "stars": 135183
+  },
+  "antirez/ds4": {
+    "date_shown": "2026-10-05",
+    "stars": 23462
   }
 }
