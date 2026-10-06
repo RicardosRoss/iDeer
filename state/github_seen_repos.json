@@ -928,8 +928,8 @@
     "stars": 1484
   },
   "yetone/magpie": {
-    "date_shown": "2026-09-30",
-    "stars": 2888
+    "date_shown": "2026-10-06",
+    "stars": 5191
   },
   "JohnHeibel/PDoomVideo": {
     "date_shown": "2026-09-28",
@@ -956,8 +956,8 @@
     "stars": 1789
   },
   "dzhng/jevgrep": {
-    "date_shown": "2026-09-29",
-    "stars": 1470
+    "date_shown": "2026-10-06",
+    "stars": 2314
   },
   "NVIDIA/OpenShell": {
     "date_shown": "2026-09-30",
@@ -988,8 +988,8 @@
     "stars": 4984
   },
   "Niko1221/Strata": {
-    "date_shown": "2026-10-02",
-    "stars": 4822
+    "date_shown": "2026-10-06",
+    "stars": 14138
   },
   "mksglu/context-mode": {
     "date_shown": "2026-10-01",
@@ -1056,16 +1056,16 @@
     "stars": 2389
   },
   "shihabal3amri/DiPlay": {
-    "date_shown": "2026-10-02",
-    "stars": 2044
+    "date_shown": "2026-10-06",
+    "stars": 4793
   },
   "RubinLabs26/ISpotify": {
     "date_shown": "2026-10-02",
     "stars": 1902
   },
   "rehan-remade/universal-modder": {
-    "date_shown": "2026-10-02",
-    "stars": 1598
+    "date_shown": "2026-10-06",
+    "stars": 3884
   },
   "kaankiziltug/logo-design-skill": {
     "date_shown": "2026-10-02",
@@ -1080,8 +1080,8 @@
     "stars": 1269
   },
   "yihui-dev/awesome-opus5-5-videos": {
-    "date_shown": "2026-10-02",
-    "stars": 1259
+    "date_shown": "2026-10-06",
+    "stars": 2142
   },
   "JuliusBrussee/caveman": {
     "date_shown": "2026-10-03",
@@ -1104,8 +1104,8 @@
     "stars": 16568
   },
   "CopilotKit/OpenDots": {
-    "date_shown": "2026-10-03",
-    "stars": 1519
+    "date_shown": "2026-10-06",
+    "stars": 3707
   },
   "feitangyuan/onetake": {
     "date_shown": "2026-10-03",
@@ -1140,8 +1140,8 @@
     "stars": 91653
   },
   "tester-army/e2e": {
-    "date_shown": "2026-10-05",
-    "stars": 3219
+    "date_shown": "2026-10-06",
+    "stars": 4947
   },
   "caddyserver/caddy": {
     "date_shown": "2026-10-05",
@@ -1158,5 +1158,69 @@
   "antirez/ds4": {
     "date_shown": "2026-10-05",
     "stars": 23462
+  },
+  "boykopovar/AnyPS5": {
+    "date_shown": "2026-10-06",
+    "stars": 5031
+  },
+  "DuarteSantos8/openGym": {
+    "date_shown": "2026-10-06",
+    "stars": 4339
+  },
+  "Stremio/stremio-web": {
+    "date_shown": "2026-10-06",
+    "stars": 14327
+  },
+  "msitarzewski/agency-agents": {
+    "date_shown": "2026-10-06",
+    "stars": 157332
+  },
+  "M-Abozaid/esp32-c3-adblock": {
+    "date_shown": "2026-10-06",
+    "stars": 1409
+  },
+  "storytold/photocraft": {
+    "date_shown": "2026-10-06",
+    "stars": 2184
+  },
+  "omlahore/RemoveMacAI": {
+    "date_shown": "2026-10-06",
+    "stars": 2169
+  },
+  "Droid-Deck/DroidDeck": {
+    "date_shown": "2026-10-06",
+    "stars": 2040
+  },
+  "Avenuezensport/efjvysuz": {
+    "date_shown": "2026-10-06",
+    "stars": 1902
+  },
+  "nykooi1/vibe-wise": {
+    "date_shown": "2026-10-06",
+    "stars": 1846
+  },
+  "Ebony-Vinyl/dsh-our-free-model": {
+    "date_shown": "2026-10-06",
+    "stars": 1722
+  },
+  "nanaism/yomiyasu": {
+    "date_shown": "2026-10-06",
+    "stars": 1527
+  },
+  "QingYunA/answer-me-with-html": {
+    "date_shown": "2026-10-06",
+    "stars": 1508
+  },
+  "kargulstudio/sales-crm": {
+    "date_shown": "2026-10-06",
+    "stars": 1475
+  },
+  "facebookincubator/muse-gadget-sdk": {
+    "date_shown": "2026-10-06",
+    "stars": 1447
+  },
+  "edenfunf/reelmimic": {
+    "date_shown": "2026-10-06",
+    "stars": 1424
   }
 }
