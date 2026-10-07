@@ -1,7 +1,7 @@
 {
   "ayghri/i-have-adhd": {
-    "date_shown": "2026-09-09",
-    "stars": 33257
+    "date_shown": "2026-10-07",
+    "stars": 54462
   },
   "Tencent/teamai-cli": {
     "date_shown": "2026-09-09",
@@ -20,8 +20,8 @@
     "stars": 16900
   },
   "cathrynlavery/diagram-design": {
-    "date_shown": "2026-09-09",
-    "stars": 36151
+    "date_shown": "2026-10-07",
+    "stars": 44097
   },
   "TauricResearch/TradingAgents": {
     "date_shown": "2026-09-09",
@@ -1048,8 +1048,8 @@
     "stars": 1094
   },
   "Louis-CFM/coucou": {
-    "date_shown": "2026-10-02",
-    "stars": 2500
+    "date_shown": "2026-10-07",
+    "stars": 3850
   },
   "feder-cr/dots": {
     "date_shown": "2026-10-02",
@@ -1068,8 +1068,8 @@
     "stars": 3884
   },
   "kaankiziltug/logo-design-skill": {
-    "date_shown": "2026-10-02",
-    "stars": 1361
+    "date_shown": "2026-10-07",
+    "stars": 2174
   },
   "852wa/JIZURA": {
     "date_shown": "2026-10-02",
@@ -1180,8 +1180,8 @@
     "stars": 1409
   },
   "storytold/photocraft": {
-    "date_shown": "2026-10-06",
-    "stars": 2184
+    "date_shown": "2026-10-07",
+    "stars": 7580
   },
   "omlahore/RemoveMacAI": {
     "date_shown": "2026-10-06",
@@ -1222,5 +1222,21 @@
   "edenfunf/reelmimic": {
     "date_shown": "2026-10-06",
     "stars": 1424
+  },
+  "morluto/rea": {
+    "date_shown": "2026-10-07",
+    "stars": 9791
+  },
+  "deepseek-ai/DeepGEMM": {
+    "date_shown": "2026-10-07",
+    "stars": 8736
+  },
+  "openai/math": {
+    "date_shown": "2026-10-07",
+    "stars": 2979
+  },
+  "storytold/filmcraft": {
+    "date_shown": "2026-10-07",
+    "stars": 1754
   }
 }
