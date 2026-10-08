@@ -376,8 +376,8 @@
     "stars": 111272
   },
   "cloudflare/security-audit-skill": {
-    "date_shown": "2026-09-19",
-    "stars": 13783
+    "date_shown": "2026-10-08",
+    "stars": 26126
   },
   "abue-ammar/tinycast": {
     "date_shown": "2026-09-17",
@@ -560,8 +560,8 @@
     "stars": 4975
   },
   "trycua/cua": {
-    "date_shown": "2026-09-20",
-    "stars": 24450
+    "date_shown": "2026-10-08",
+    "stars": 28805
   },
   "Open-Dev-Society/OpenStock": {
     "date_shown": "2026-09-20",
@@ -1140,8 +1140,8 @@
     "stars": 91653
   },
   "tester-army/e2e": {
-    "date_shown": "2026-10-06",
-    "stars": 4947
+    "date_shown": "2026-10-08",
+    "stars": 7602
   },
   "caddyserver/caddy": {
     "date_shown": "2026-10-05",
@@ -1160,12 +1160,12 @@
     "stars": 23462
   },
   "boykopovar/AnyPS5": {
-    "date_shown": "2026-10-06",
-    "stars": 5031
+    "date_shown": "2026-10-08",
+    "stars": 10943
   },
   "DuarteSantos8/openGym": {
-    "date_shown": "2026-10-06",
-    "stars": 4339
+    "date_shown": "2026-10-08",
+    "stars": 7084
   },
   "Stremio/stremio-web": {
     "date_shown": "2026-10-06",
@@ -1224,8 +1224,8 @@
     "stars": 1424
   },
   "morluto/rea": {
-    "date_shown": "2026-10-07",
-    "stars": 9791
+    "date_shown": "2026-10-08",
+    "stars": 16076
   },
   "deepseek-ai/DeepGEMM": {
     "date_shown": "2026-10-07",
@@ -1238,5 +1238,13 @@
   "storytold/filmcraft": {
     "date_shown": "2026-10-07",
     "stars": 1754
+  },
+  "EpicGames/raddebugger": {
+    "date_shown": "2026-10-08",
+    "stars": 7899
+  },
+  "manaflow-ai/cmux": {
+    "date_shown": "2026-10-08",
+    "stars": 27887
   }
 }
