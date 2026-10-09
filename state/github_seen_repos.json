@@ -3,17 +3,9 @@
     "date_shown": "2026-10-07",
     "stars": 54462
   },
-  "Tencent/teamai-cli": {
-    "date_shown": "2026-09-09",
-    "stars": 2753
-  },
   "obra/superpowers": {
     "date_shown": "2026-09-24",
     "stars": 290698
-  },
-  "pascalorg/editor": {
-    "date_shown": "2026-09-09",
-    "stars": 22737
   },
   "earthtojake/text-to-cad": {
     "date_shown": "2026-10-05",
@@ -23,21 +15,9 @@
     "date_shown": "2026-10-07",
     "stars": 44097
   },
-  "TauricResearch/TradingAgents": {
-    "date_shown": "2026-09-09",
-    "stars": 103659
-  },
   "liquidslr/system-design-notes": {
-    "date_shown": "2026-09-09",
-    "stars": 17658
-  },
-  "openai/plugins": {
-    "date_shown": "2026-09-09",
-    "stars": 6083
-  },
-  "freestylefly/awesome-gpt-image-2": {
-    "date_shown": "2026-09-09",
-    "stars": 29759
+    "date_shown": "2026-10-09",
+    "stars": 24754
   },
   "rohitg00/ai-engineering-from-scratch": {
     "date_shown": "2026-09-25",
@@ -392,8 +372,8 @@
     "stars": 13368
   },
   "anthropics/knowledge-work-plugins": {
-    "date_shown": "2026-09-17",
-    "stars": 24307
+    "date_shown": "2026-10-09",
+    "stars": 27692
   },
   "ankitects/anki": {
     "date_shown": "2026-09-17",
@@ -1180,12 +1160,12 @@
     "stars": 1409
   },
   "storytold/photocraft": {
-    "date_shown": "2026-10-07",
-    "stars": 7580
+    "date_shown": "2026-10-09",
+    "stars": 27884
   },
   "omlahore/RemoveMacAI": {
-    "date_shown": "2026-10-06",
-    "stars": 2169
+    "date_shown": "2026-10-09",
+    "stars": 3805
   },
   "Droid-Deck/DroidDeck": {
     "date_shown": "2026-10-06",
@@ -1196,8 +1176,8 @@
     "stars": 1902
   },
   "nykooi1/vibe-wise": {
-    "date_shown": "2026-10-06",
-    "stars": 1846
+    "date_shown": "2026-10-09",
+    "stars": 3196
   },
   "Ebony-Vinyl/dsh-our-free-model": {
     "date_shown": "2026-10-06",
@@ -1208,8 +1188,8 @@
     "stars": 1527
   },
   "QingYunA/answer-me-with-html": {
-    "date_shown": "2026-10-06",
-    "stars": 1508
+    "date_shown": "2026-10-09",
+    "stars": 2358
   },
   "kargulstudio/sales-crm": {
     "date_shown": "2026-10-06",
@@ -1224,20 +1204,20 @@
     "stars": 1424
   },
   "morluto/rea": {
-    "date_shown": "2026-10-08",
-    "stars": 16076
+    "date_shown": "2026-10-09",
+    "stars": 28533
   },
   "deepseek-ai/DeepGEMM": {
     "date_shown": "2026-10-07",
     "stars": 8736
   },
   "openai/math": {
-    "date_shown": "2026-10-07",
-    "stars": 2979
+    "date_shown": "2026-10-09",
+    "stars": 12254
   },
   "storytold/filmcraft": {
-    "date_shown": "2026-10-07",
-    "stars": 1754
+    "date_shown": "2026-10-09",
+    "stars": 5490
   },
   "EpicGames/raddebugger": {
     "date_shown": "2026-10-08",
@@ -1246,5 +1226,49 @@
   "manaflow-ai/cmux": {
     "date_shown": "2026-10-08",
     "stars": 27887
+  },
+  "storytold/artcraft": {
+    "date_shown": "2026-10-09",
+    "stars": 8317
+  },
+  "storytold/lightcraft": {
+    "date_shown": "2026-10-09",
+    "stars": 5846
+  },
+  "storytold/pdfcraft": {
+    "date_shown": "2026-10-09",
+    "stars": 4726
+  },
+  "storytold/vectorcraft": {
+    "date_shown": "2026-10-09",
+    "stars": 3963
+  },
+  "shader-effects-inc/shaders": {
+    "date_shown": "2026-10-09",
+    "stars": 3499
+  },
+  "storytold/effectcraft": {
+    "date_shown": "2026-10-09",
+    "stars": 2885
+  },
+  "feder-cr/invisible_playwright_mcp": {
+    "date_shown": "2026-10-09",
+    "stars": 2685
+  },
+  "alchaincyf/huashu-art-motion": {
+    "date_shown": "2026-10-09",
+    "stars": 2523
+  },
+  "KingKongRobotics/jumper": {
+    "date_shown": "2026-10-09",
+    "stars": 2107
+  },
+  "deadinside28/bloodborne_pc": {
+    "date_shown": "2026-10-09",
+    "stars": 1980
+  },
+  "storytold/designcraft": {
+    "date_shown": "2026-10-09",
+    "stars": 1700
   }
 }
