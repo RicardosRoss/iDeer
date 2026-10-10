@@ -31,126 +31,6 @@
     "date_shown": "2026-10-04",
     "stars": 272311
   },
-  "sapientinc/PRAXIST": {
-    "date_shown": "2026-09-10",
-    "stars": 6249
-  },
-  "lnkiai/m3e-canvas": {
-    "date_shown": "2026-09-10",
-    "stars": 5555
-  },
-  "XiaoDuoYa/codex-with-chatgpt": {
-    "date_shown": "2026-09-10",
-    "stars": 3784
-  },
-  "crmne/fastpotify": {
-    "date_shown": "2026-09-10",
-    "stars": 3722
-  },
-  "rakanki911/DLSS5-Swapper": {
-    "date_shown": "2026-09-10",
-    "stars": 3271
-  },
-  "ashemag/human-atlas": {
-    "date_shown": "2026-09-10",
-    "stars": 2848
-  },
-  "anthropics/commerce-agents": {
-    "date_shown": "2026-09-10",
-    "stars": 2617
-  },
-  "Nanako0129/sepia": {
-    "date_shown": "2026-09-10",
-    "stars": 2502
-  },
-  "Player-YN/PawWork_ZhuaZhua": {
-    "date_shown": "2026-09-10",
-    "stars": 2420
-  },
-  "Albert-Weasker/niubigeo": {
-    "date_shown": "2026-09-10",
-    "stars": 2253
-  },
-  "Rion-Wu-tech/wechat-intelligence-hub": {
-    "date_shown": "2026-09-10",
-    "stars": 2023
-  },
-  "openai/NavierStokesAndEuler": {
-    "date_shown": "2026-09-10",
-    "stars": 1564
-  },
-  "shadcn-ui/cn": {
-    "date_shown": "2026-09-10",
-    "stars": 1362
-  },
-  "cbrock84/headcount": {
-    "date_shown": "2026-09-10",
-    "stars": 1337
-  },
-  "vinzdg/codenotch": {
-    "date_shown": "2026-09-10",
-    "stars": 1288
-  },
-  "sebbbi/NoGraphicsAPI": {
-    "date_shown": "2026-09-10",
-    "stars": 1272
-  },
-  "EverettFish/holo-card-studio": {
-    "date_shown": "2026-09-10",
-    "stars": 1240
-  },
-  "MetaMask-AI/metamask-desktop": {
-    "date_shown": "2026-09-10",
-    "stars": 1230
-  },
-  "GangTailorUpgrade/undress-service": {
-    "date_shown": "2026-09-10",
-    "stars": 1201
-  },
-  "jprx/darwin-vm": {
-    "date_shown": "2026-09-10",
-    "stars": 1076
-  },
-  "2akouwu/reverify": {
-    "date_shown": "2026-09-10",
-    "stars": 1069
-  },
-  "brayonpi/hexstellar": {
-    "date_shown": "2026-09-10",
-    "stars": 1045
-  },
-  "anthropics/fermats-last-theorem": {
-    "date_shown": "2026-09-10",
-    "stars": 1000
-  },
-  "danielblnc/DLSS-NR-on-AMD": {
-    "date_shown": "2026-09-10",
-    "stars": 979
-  },
-  "Git-Agni/prod-FARM-IOS-Core": {
-    "date_shown": "2026-09-10",
-    "stars": 924
-  },
-  "Human-Agent-Society/reef": {
-    "date_shown": "2026-09-10",
-    "stars": 897
-  },
-  "kajisho5/ffmpeg-skill": {
-    "date_shown": "2026-09-10",
-    "stars": 882
-  },
-  "jlrouzies-fr/DLSS5-Feeder": {
-    "date_shown": "2026-09-10",
-    "stars": 873
-  },
-  "tradecatlabs/shulihuazixuecongshu": {
-    "date_shown": "2026-09-10",
-    "stars": 872
-  },
-  "yczz/oc-english": {
-    "date_shown": "2026-09-10",
-    "stars": 832
-  },
   "bilawalsidhu/gods-eye-view": {
     "date_shown": "2026-09-11",
     "stars": 24394
@@ -268,8 +148,8 @@
     "stars": 40306
   },
   "alibaba/open-code-review": {
-    "date_shown": "2026-09-19",
-    "stars": 36706
+    "date_shown": "2026-10-10",
+    "stars": 45335
   },
   "tonhowtf/omniget": {
     "date_shown": "2026-09-14",
@@ -812,8 +692,8 @@
     "stars": 36950
   },
   "mattpocock/skills": {
-    "date_shown": "2026-09-26",
-    "stars": 269754
+    "date_shown": "2026-10-10",
+    "stars": 282878
   },
   "anthropics/skills": {
     "date_shown": "2026-09-26",
@@ -1044,8 +924,8 @@
     "stars": 1902
   },
   "rehan-remade/universal-modder": {
-    "date_shown": "2026-10-06",
-    "stars": 3884
+    "date_shown": "2026-10-10",
+    "stars": 6074
   },
   "kaankiziltug/logo-design-skill": {
     "date_shown": "2026-10-07",
@@ -1060,8 +940,8 @@
     "stars": 1269
   },
   "yihui-dev/awesome-opus5-5-videos": {
-    "date_shown": "2026-10-06",
-    "stars": 2142
+    "date_shown": "2026-10-10",
+    "stars": 3564
   },
   "JuliusBrussee/caveman": {
     "date_shown": "2026-10-03",
@@ -1088,12 +968,12 @@
     "stars": 3707
   },
   "feitangyuan/onetake": {
-    "date_shown": "2026-10-03",
-    "stars": 1341
+    "date_shown": "2026-10-10",
+    "stars": 2037
   },
   "wy51ai/floorplan-3d": {
-    "date_shown": "2026-10-03",
-    "stars": 1318
+    "date_shown": "2026-10-10",
+    "stars": 2017
   },
   "pingdotgg/t3code": {
     "date_shown": "2026-10-04",
@@ -1140,8 +1020,8 @@
     "stars": 23462
   },
   "boykopovar/AnyPS5": {
-    "date_shown": "2026-10-08",
-    "stars": 10943
+    "date_shown": "2026-10-10",
+    "stars": 22728
   },
   "DuarteSantos8/openGym": {
     "date_shown": "2026-10-08",
@@ -1204,8 +1084,8 @@
     "stars": 1424
   },
   "morluto/rea": {
-    "date_shown": "2026-10-09",
-    "stars": 28533
+    "date_shown": "2026-10-10",
+    "stars": 49102
   },
   "deepseek-ai/DeepGEMM": {
     "date_shown": "2026-10-07",
@@ -1270,5 +1150,33 @@
   "storytold/designcraft": {
     "date_shown": "2026-10-09",
     "stars": 1700
+  },
+  "BerriAI/litellm": {
+    "date_shown": "2026-10-10",
+    "stars": 60707
+  },
+  "Robbyant/lingbot-map": {
+    "date_shown": "2026-10-10",
+    "stars": 17746
+  },
+  "twostraws/SwiftUI-Agent-Skill": {
+    "date_shown": "2026-10-10",
+    "stars": 5493
+  },
+  "mhtsec/ARTEX": {
+    "date_shown": "2026-10-10",
+    "stars": 2300
+  },
+  "storytold/wordcraft": {
+    "date_shown": "2026-10-10",
+    "stars": 1962
+  },
+  "nullmoth/nvidia-macos-driver": {
+    "date_shown": "2026-10-10",
+    "stars": 1924
+  },
+  "zhongerxin/iPhone-use": {
+    "date_shown": "2026-10-10",
+    "stars": 1913
   }
 }
