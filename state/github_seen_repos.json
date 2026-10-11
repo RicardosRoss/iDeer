@@ -23,49 +23,9 @@
     "date_shown": "2026-09-25",
     "stars": 56610
   },
-  "vastsa/PI-Desktop": {
-    "date_shown": "2026-09-11",
-    "stars": 2318
-  },
   "affaan-m/ECC": {
     "date_shown": "2026-10-04",
     "stars": 272311
-  },
-  "bilawalsidhu/gods-eye-view": {
-    "date_shown": "2026-09-11",
-    "stars": 24394
-  },
-  "alsk1992/CloddsBot": {
-    "date_shown": "2026-09-11",
-    "stars": 1678
-  },
-  "AlexsJones/llmfit": {
-    "date_shown": "2026-09-11",
-    "stars": 35751
-  },
-  "armory3d/armorpaint": {
-    "date_shown": "2026-09-11",
-    "stars": 4429
-  },
-  "diegosouzapw/OmniRoute": {
-    "date_shown": "2026-09-11",
-    "stars": 64258
-  },
-  "JustVugg/colibri": {
-    "date_shown": "2026-09-11",
-    "stars": 27477
-  },
-  "THU-MAIC/OpenMAIC": {
-    "date_shown": "2026-09-11",
-    "stars": 35345
-  },
-  "nashsu/llm_wiki": {
-    "date_shown": "2026-09-11",
-    "stars": 18136
-  },
-  "vercel-labs/skills": {
-    "date_shown": "2026-09-11",
-    "stars": 31162
   },
   "nab138/iloader": {
     "date_shown": "2026-09-12",
@@ -164,8 +124,8 @@
     "stars": 26235
   },
   "huggingface/transformers": {
-    "date_shown": "2026-09-14",
-    "stars": 165548
+    "date_shown": "2026-10-11",
+    "stars": 167288
   },
   "666ghj/MiroFish": {
     "date_shown": "2026-09-15",
@@ -720,8 +680,8 @@
     "stars": 7741
   },
   "tensorflow/tensorflow": {
-    "date_shown": "2026-09-27",
-    "stars": 200467
+    "date_shown": "2026-10-11",
+    "stars": 200740
   },
   "block/buzz": {
     "date_shown": "2026-09-27",
@@ -1084,8 +1044,8 @@
     "stars": 1424
   },
   "morluto/rea": {
-    "date_shown": "2026-10-10",
-    "stars": 49102
+    "date_shown": "2026-10-11",
+    "stars": 74427
   },
   "deepseek-ai/DeepGEMM": {
     "date_shown": "2026-10-07",
@@ -1108,8 +1068,8 @@
     "stars": 27887
   },
   "storytold/artcraft": {
-    "date_shown": "2026-10-09",
-    "stars": 8317
+    "date_shown": "2026-10-11",
+    "stars": 14661
   },
   "storytold/lightcraft": {
     "date_shown": "2026-10-09",
@@ -1178,5 +1138,21 @@
   "zhongerxin/iPhone-use": {
     "date_shown": "2026-10-10",
     "stars": 1913
+  },
+  "flutter/flutter": {
+    "date_shown": "2026-10-11",
+    "stars": 179549
+  },
+  "hugohe3/ppt-master": {
+    "date_shown": "2026-10-11",
+    "stars": 59534
+  },
+  "pytorch/pytorch": {
+    "date_shown": "2026-10-11",
+    "stars": 104156
+  },
+  "multica-ai/andrej-karpathy-skills": {
+    "date_shown": "2026-10-11",
+    "stars": 218328
   }
 }
