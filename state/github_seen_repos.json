@@ -27,37 +27,13 @@
     "date_shown": "2026-10-04",
     "stars": 272311
   },
-  "nab138/iloader": {
-    "date_shown": "2026-09-12",
-    "stars": 2917
-  },
   "melgarafael/DeskcommCRM": {
     "date_shown": "2026-09-14",
     "stars": 2215
   },
-  "Sonarr/Sonarr": {
-    "date_shown": "2026-09-12",
-    "stars": 15742
-  },
-  "jihe520/MathModelAgent": {
-    "date_shown": "2026-09-12",
-    "stars": 4866
-  },
-  "p1neappleXpress/OpenFlux": {
-    "date_shown": "2026-09-12",
-    "stars": 1159
-  },
-  "jordan-gibbs/hyperresearch": {
-    "date_shown": "2026-09-12",
-    "stars": 2635
-  },
   "alphaXiv/OpenResearch": {
     "date_shown": "2026-09-16",
     "stars": 3399
-  },
-  "github/spec-kit": {
-    "date_shown": "2026-09-12",
-    "stars": 135776
   },
   "asgeirtj/system_prompts_leaks": {
     "date_shown": "2026-09-13",
@@ -1000,8 +976,8 @@
     "stars": 1409
   },
   "storytold/photocraft": {
-    "date_shown": "2026-10-09",
-    "stars": 27884
+    "date_shown": "2026-10-12",
+    "stars": 48236
   },
   "omlahore/RemoveMacAI": {
     "date_shown": "2026-10-09",
@@ -1040,8 +1016,8 @@
     "stars": 1447
   },
   "edenfunf/reelmimic": {
-    "date_shown": "2026-10-06",
-    "stars": 1424
+    "date_shown": "2026-10-12",
+    "stars": 2313
   },
   "morluto/rea": {
     "date_shown": "2026-10-11",
@@ -1056,8 +1032,8 @@
     "stars": 12254
   },
   "storytold/filmcraft": {
-    "date_shown": "2026-10-09",
-    "stars": 5490
+    "date_shown": "2026-10-12",
+    "stars": 10250
   },
   "EpicGames/raddebugger": {
     "date_shown": "2026-10-08",
@@ -1072,24 +1048,24 @@
     "stars": 14661
   },
   "storytold/lightcraft": {
-    "date_shown": "2026-10-09",
-    "stars": 5846
+    "date_shown": "2026-10-12",
+    "stars": 10278
   },
   "storytold/pdfcraft": {
-    "date_shown": "2026-10-09",
-    "stars": 4726
+    "date_shown": "2026-10-12",
+    "stars": 9762
   },
   "storytold/vectorcraft": {
-    "date_shown": "2026-10-09",
-    "stars": 3963
+    "date_shown": "2026-10-12",
+    "stars": 7165
   },
   "shader-effects-inc/shaders": {
     "date_shown": "2026-10-09",
     "stars": 3499
   },
   "storytold/effectcraft": {
-    "date_shown": "2026-10-09",
-    "stars": 2885
+    "date_shown": "2026-10-12",
+    "stars": 5229
   },
   "feder-cr/invisible_playwright_mcp": {
     "date_shown": "2026-10-09",
@@ -1108,8 +1084,8 @@
     "stars": 1980
   },
   "storytold/designcraft": {
-    "date_shown": "2026-10-09",
-    "stars": 1700
+    "date_shown": "2026-10-12",
+    "stars": 3041
   },
   "BerriAI/litellm": {
     "date_shown": "2026-10-10",
@@ -1128,16 +1104,16 @@
     "stars": 2300
   },
   "storytold/wordcraft": {
-    "date_shown": "2026-10-10",
-    "stars": 1962
+    "date_shown": "2026-10-12",
+    "stars": 6195
   },
   "nullmoth/nvidia-macos-driver": {
     "date_shown": "2026-10-10",
     "stars": 1924
   },
   "zhongerxin/iPhone-use": {
-    "date_shown": "2026-10-10",
-    "stars": 1913
+    "date_shown": "2026-10-12",
+    "stars": 3113
   },
   "flutter/flutter": {
     "date_shown": "2026-10-11",
@@ -1154,5 +1130,37 @@
   "multica-ai/andrej-karpathy-skills": {
     "date_shown": "2026-10-11",
     "stars": 218328
+  },
+  "bilawalsidhu/gods-eye-view": {
+    "date_shown": "2026-10-12",
+    "stars": 51855
+  },
+  "lyogavin/airllm": {
+    "date_shown": "2026-10-12",
+    "stars": 36583
+  },
+  "chrislgarry/Apollo-11": {
+    "date_shown": "2026-10-12",
+    "stars": 74301
+  },
+  "wheresryan22/anatomy": {
+    "date_shown": "2026-10-12",
+    "stars": 3574
+  },
+  "storytold/gridcraft": {
+    "date_shown": "2026-10-12",
+    "stars": 3002
+  },
+  "storytold/cadcraft": {
+    "date_shown": "2026-10-12",
+    "stars": 2744
+  },
+  "LosaLosSantos/aurelio-finance": {
+    "date_shown": "2026-10-12",
+    "stars": 2306
+  },
+  "BlueHeisenberg/SCSKiller": {
+    "date_shown": "2026-10-12",
+    "stars": 2156
   }
 }
