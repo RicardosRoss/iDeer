@@ -35,37 +35,9 @@
     "date_shown": "2026-09-16",
     "stars": 3399
   },
-  "asgeirtj/system_prompts_leaks": {
-    "date_shown": "2026-09-13",
-    "stars": 65432
-  },
-  "Flowseal/zapret-discord-youtube": {
-    "date_shown": "2026-09-13",
-    "stars": 33211
-  },
-  "yuliskov/SmartTube": {
-    "date_shown": "2026-09-13",
-    "stars": 33221
-  },
-  "Shubhamsaboo/awesome-llm-apps": {
-    "date_shown": "2026-09-13",
-    "stars": 137642
-  },
   "SnailSploit/Claude-Red": {
     "date_shown": "2026-09-17",
     "stars": 5786
-  },
-  "multimodal-art-projection/YuE": {
-    "date_shown": "2026-09-13",
-    "stars": 7305
-  },
-  "max-sixty/worktrunk": {
-    "date_shown": "2026-09-13",
-    "stars": 7243
-  },
-  "vxcontrol/pentagi": {
-    "date_shown": "2026-09-13",
-    "stars": 23460
   },
   "ever-co/ever-gauzy": {
     "date_shown": "2026-09-14",
@@ -1020,8 +992,8 @@
     "stars": 2313
   },
   "morluto/rea": {
-    "date_shown": "2026-10-11",
-    "stars": 74427
+    "date_shown": "2026-10-13",
+    "stars": 166956
   },
   "deepseek-ai/DeepGEMM": {
     "date_shown": "2026-10-07",
@@ -1044,8 +1016,8 @@
     "stars": 27887
   },
   "storytold/artcraft": {
-    "date_shown": "2026-10-11",
-    "stars": 14661
+    "date_shown": "2026-10-13",
+    "stars": 22624
   },
   "storytold/lightcraft": {
     "date_shown": "2026-10-12",
@@ -1100,12 +1072,12 @@
     "stars": 5493
   },
   "mhtsec/ARTEX": {
-    "date_shown": "2026-10-10",
-    "stars": 2300
+    "date_shown": "2026-10-13",
+    "stars": 3647
   },
   "storytold/wordcraft": {
-    "date_shown": "2026-10-12",
-    "stars": 6195
+    "date_shown": "2026-10-13",
+    "stars": 9449
   },
   "nullmoth/nvidia-macos-driver": {
     "date_shown": "2026-10-10",
@@ -1144,8 +1116,8 @@
     "stars": 74301
   },
   "wheresryan22/anatomy": {
-    "date_shown": "2026-10-12",
-    "stars": 3574
+    "date_shown": "2026-10-13",
+    "stars": 6569
   },
   "storytold/gridcraft": {
     "date_shown": "2026-10-12",
@@ -1162,5 +1134,29 @@
   "BlueHeisenberg/SCSKiller": {
     "date_shown": "2026-10-12",
     "stars": 2156
+  },
+  "open-webui/open-webui": {
+    "date_shown": "2026-10-13",
+    "stars": 155188
+  },
+  "microsoft/BitNet": {
+    "date_shown": "2026-10-13",
+    "stars": 40965
+  },
+  "Alishahryar1/free-claude-code": {
+    "date_shown": "2026-10-13",
+    "stars": 59330
+  },
+  "storytold/deckcraft": {
+    "date_shown": "2026-10-13",
+    "stars": 2651
+  },
+  "t4t5/omdrop-owl": {
+    "date_shown": "2026-10-13",
+    "stars": 2463
+  },
+  "storytold/soundcraft": {
+    "date_shown": "2026-10-13",
+    "stars": 2297
   }
 }
