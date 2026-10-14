@@ -27,10 +27,6 @@
     "date_shown": "2026-10-04",
     "stars": 272311
   },
-  "melgarafael/DeskcommCRM": {
-    "date_shown": "2026-09-14",
-    "stars": 2215
-  },
   "alphaXiv/OpenResearch": {
     "date_shown": "2026-09-16",
     "stars": 3399
@@ -39,37 +35,17 @@
     "date_shown": "2026-09-17",
     "stars": 5786
   },
-  "ever-co/ever-gauzy": {
-    "date_shown": "2026-09-14",
-    "stars": 5133
-  },
-  "tech-leads-club/agent-skills": {
-    "date_shown": "2026-09-14",
-    "stars": 5679
-  },
   "calesthio/OpenMontage": {
     "date_shown": "2026-10-05",
     "stars": 63265
   },
   "debpalash/VoiceStudio": {
-    "date_shown": "2026-09-28",
-    "stars": 40306
+    "date_shown": "2026-10-14",
+    "stars": 63538
   },
   "alibaba/open-code-review": {
     "date_shown": "2026-10-10",
     "stars": 45335
-  },
-  "tonhowtf/omniget": {
-    "date_shown": "2026-09-14",
-    "stars": 11709
-  },
-  "jiji262/douyin-downloader": {
-    "date_shown": "2026-09-14",
-    "stars": 11391
-  },
-  "Swordfish90/cool-retro-term": {
-    "date_shown": "2026-09-14",
-    "stars": 26235
   },
   "huggingface/transformers": {
     "date_shown": "2026-10-11",
@@ -1044,8 +1020,8 @@
     "stars": 2685
   },
   "alchaincyf/huashu-art-motion": {
-    "date_shown": "2026-10-09",
-    "stars": 2523
+    "date_shown": "2026-10-14",
+    "stars": 3865
   },
   "KingKongRobotics/jumper": {
     "date_shown": "2026-10-09",
@@ -1080,8 +1056,8 @@
     "stars": 9449
   },
   "nullmoth/nvidia-macos-driver": {
-    "date_shown": "2026-10-10",
-    "stars": 1924
+    "date_shown": "2026-10-14",
+    "stars": 2914
   },
   "zhongerxin/iPhone-use": {
     "date_shown": "2026-10-12",
@@ -1124,8 +1100,8 @@
     "stars": 3002
   },
   "storytold/cadcraft": {
-    "date_shown": "2026-10-12",
-    "stars": 2744
+    "date_shown": "2026-10-14",
+    "stars": 4254
   },
   "LosaLosSantos/aurelio-finance": {
     "date_shown": "2026-10-12",
@@ -1158,5 +1134,37 @@
   "storytold/soundcraft": {
     "date_shown": "2026-10-13",
     "stars": 2297
+  },
+  "vercel-labs/skills": {
+    "date_shown": "2026-10-14",
+    "stars": 34561
+  },
+  "xtool-org/xtool": {
+    "date_shown": "2026-10-14",
+    "stars": 9482
+  },
+  "ARahim3/DigUp": {
+    "date_shown": "2026-10-14",
+    "stars": 2502
+  },
+  "Jakeschincariol/replica-skill": {
+    "date_shown": "2026-10-14",
+    "stars": 2417
+  },
+  "storytold/craft-launcher": {
+    "date_shown": "2026-10-14",
+    "stars": 2329
+  },
+  "alejandrobujan/tendedero": {
+    "date_shown": "2026-10-14",
+    "stars": 2102
+  },
+  "liseami/CCBaga": {
+    "date_shown": "2026-10-14",
+    "stars": 2070
+  },
+  "noahdunnagan/fsearch": {
+    "date_shown": "2026-10-14",
+    "stars": 2031
   }
 }
